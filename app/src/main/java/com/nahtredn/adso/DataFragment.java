@@ -70,8 +70,13 @@ public class DataFragment extends Fragment {
                     case 1:
                         intent = new Intent(getActivity(),GeneralActivity.class);
                         break;
+                    case 2:
+                        intent = new Intent(getActivity(),DocumentationActivity.class);
+                        break;
                 }
-                getActivity().startActivity(intent);
+                if (intent != null) {
+                    getActivity().startActivity(intent);
+                }
                 /*Client client = mVacancyAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
                 intent.putExtra("client_id", client.getId());

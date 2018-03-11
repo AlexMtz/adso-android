@@ -60,7 +60,10 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".GeneralActivity"
-            android:label="@string/title_activity_general"></activity>
+            android:label="@string/title_activity_general" />
+        <activity
+            android:name=".DocumentationActivity"
+            android:label="@string/title_activity_documentation"></activity>
     </application>
 
 </manifest>
