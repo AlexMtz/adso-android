@@ -49,6 +49,8 @@ public class PhotoActivity extends AppCompatActivity {
 
         // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
         Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
+
+        showInterstitial();
     }
 
 

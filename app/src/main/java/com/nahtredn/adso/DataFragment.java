@@ -1,5 +1,6 @@
 package com.nahtredn.adso;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -61,7 +62,13 @@ public class DataFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 DataItem dataItem = mDataAdapter.getItem(position);
-                Toast.makeText(getActivity().getApplicationContext(),"data " + dataItem.getTitle() +  " pressed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(),dataItem.getTitle() +  " pressed in position " + position,Toast.LENGTH_SHORT).show();
+                switch (position){
+                    case 0:
+                        Intent intent = new Intent(getActivity(),PhotoActivity.class);
+                        getActivity().startActivity(intent);
+                        break;
+                }
                 /*Client client = mVacancyAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
                 intent.putExtra("client_id", client.getId());
