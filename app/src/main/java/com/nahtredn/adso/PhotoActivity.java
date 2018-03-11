@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,12 +23,18 @@ public class PhotoActivity extends AppCompatActivity {
     private int mLevel;
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
-    private TextView mLevelTextView;
+    // private TextView mLevelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
 
         // Create the next level button, which tries to show an interstitial when clicked.
         mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
@@ -40,8 +47,8 @@ public class PhotoActivity extends AppCompatActivity {
         });
 
         // Create the text view to show the level number.
-        mLevelTextView = (TextView) findViewById(R.id.level);
-        mLevel = START_LEVEL;
+        // mLevelTextView = (TextView) findViewById(R.id.level);
+        // mLevel = START_LEVEL;
 
         // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
         mInterstitialAd = newInterstitialAd();
@@ -69,6 +76,11 @@ public class PhotoActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        if (id == android.R.id.home){
+            this.finish();
             return true;
         }
 
@@ -118,7 +130,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     private void goToNextLevel() {
         // Show the next level and reload the ad to prepare for the level after.
-        mLevelTextView.setText("Level " + (++mLevel));
+        // mLevelTextView.setText("Level " + (++mLevel));
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
     }
