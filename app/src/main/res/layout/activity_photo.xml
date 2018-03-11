@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:text="Tomar foto"
         android:layout_below="@id/image_photo"
-        android:id="@+id/next_level_button"
+        android:id="@+id/btn_take_picture_photo"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"/>
 
@@ -45,8 +45,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Seleccionar imagen"
-        android:layout_below="@id/next_level_button"
-        android:id="@+id/select_picture_photo"
+        android:layout_below="@id/btn_take_picture_photo"
+        android:id="@+id/btn_select_picture_photo"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"/>
 

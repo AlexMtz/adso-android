@@ -25,12 +25,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class PhotoActivity extends AppCompatActivity {
-    private Button mNextLevelButton;
+    private Button btnTakePhoto;
+    private Button btnSelectPhoto;
     private InterstitialAd mInterstitialAd;
     private ImageView photo;
 
     private static final int TAKE_PHOTO_REQUEST_CODE = 1;
-    private static final int CROP_PHOTO = 2;
+    private static final int SELECT_PHOTO_REQUEST_CODE = 2;
+    private static final int CROP_PHOTO_REQUEST_CODE = 3;
+    private boolean isCameraLaunched;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +46,22 @@ public class PhotoActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        mNextLevelButton = findViewById(R.id.next_level_button);
-        mNextLevelButton.setEnabled(false);
-        mNextLevelButton.setOnClickListener(new View.OnClickListener() {
+        btnTakePhoto = findViewById(R.id.btn_take_picture_photo);
+        btnTakePhoto.setEnabled(false);
+        btnTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                isCameraLaunched = true;
+                showInterstitial();
+            }
+        });
+
+        btnSelectPhoto = findViewById(R.id.btn_select_picture_photo);
+        btnSelectPhoto.setEnabled(false);
+        btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isCameraLaunched = false;
                 showInterstitial();
             }
         });
@@ -56,7 +70,6 @@ public class PhotoActivity extends AppCompatActivity {
         loadInterstitial();
 
         photo = findViewById(R.id.image_photo);
-
         loadImage();
     }
 
@@ -94,18 +107,21 @@ public class PhotoActivity extends AppCompatActivity {
         interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                mNextLevelButton.setEnabled(true);
+                btnTakePhoto.setEnabled(true);
+                btnSelectPhoto.setEnabled(true);
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                mNextLevelButton.setEnabled(true);
+                btnTakePhoto.setEnabled(true);
+                btnSelectPhoto.setEnabled(true);
+                launchActivityForUpdatePictureProfile();
             }
 
             @Override
             public void onAdClosed() {
                 goToNextLevel();
-                dispatchTakePictureIntent();
+                launchActivityForUpdatePictureProfile();
             }
         });
         return interstitialAd;
@@ -121,7 +137,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void loadInterstitial() {
-        mNextLevelButton.setEnabled(false);
+        btnTakePhoto.setEnabled(false);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         mInterstitialAd.loadAd(adRequest);
@@ -132,10 +148,16 @@ public class PhotoActivity extends AppCompatActivity {
         loadInterstitial();
     }
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST_CODE);
+    private void launchActivityForUpdatePictureProfile() {
+        if (isCameraLaunched) {
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST_CODE);
+            }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            intent.setType("image/*");
+            startActivityForResult(intent, SELECT_PHOTO_REQUEST_CODE);
         }
     }
 
@@ -145,18 +167,22 @@ public class PhotoActivity extends AppCompatActivity {
         switch (requestCode) {
             case (TAKE_PHOTO_REQUEST_CODE):
                 if (resultCode != RESULT_OK) {
-                    Toast.makeText(this, "Acción cancelada", Toast.LENGTH_LONG).show();
                     return;
                 }
                 startCrop(data.getData());
                 break;
-            case (CROP_PHOTO):
+            case (SELECT_PHOTO_REQUEST_CODE):
+                if (resultCode != RESULT_OK) {
+                    return;
+                }
+                startCrop(data.getData());
+                break;
+            case (CROP_PHOTO_REQUEST_CODE):
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 photo.setImageBitmap(imageBitmap);
                 String fileName = saveImageFile(imageBitmap);
                 saveImageUrl(fileName);
-                Toast.makeText(this, "Foto guardada: " + fileName, Toast.LENGTH_LONG).show();
                 break;
             default:
                 break;
@@ -177,7 +203,7 @@ public class PhotoActivity extends AppCompatActivity {
         intent.putExtra("scale", "true");
         intent.putExtra("return-data", true);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-        startActivityForResult(intent, CROP_PHOTO);
+        startActivityForResult(intent, CROP_PHOTO_REQUEST_CODE);
     }
 
     public String saveImageFile(Bitmap bitmap) {
