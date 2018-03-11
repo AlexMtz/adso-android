@@ -1,53 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.PhotoActivity"
-    android:padding="@dimen/fab_margin">
+    tools:context="com.nahtredn.adso.PhotoActivity">
 
-    <!-- view for AdMob Interstitial Ad
-    <TextView
-        android:id="@+id/app_title"
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/fab_margin"
+        android:paddingRight="@dimen/fab_margin"
+        android:layout_above="@+id/adViewPhoto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:id="@+id/image_photo"
+                android:src="@drawable/ic_profile"
+                android:contentDescription="Imagen de perfil"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tomar foto"
+                android:id="@+id/btn_take_picture_photo"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar imagen"
+                android:id="@+id/btn_select_picture_photo"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewPhoto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="@string/interstitial_ad_sample"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/level"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/app_title"
-        android:layout_centerHorizontal="true"
-        android:text="@string/start_level"
-        android:textAppearance="?android:attr/textAppearanceLarge" /> -->
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/image_photo"
-        android:src="@drawable/ic_profile"
-        android:contentDescription="Imagen de perfil" />
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tomar foto"
-        android:layout_below="@id/image_photo"
-        android:id="@+id/btn_take_picture_photo"
-        android:background="@color/colorAccent"
-        android:textColor="@android:color/white"/>
-
-    <Button
-        android:layout_marginTop="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Seleccionar imagen"
-        android:layout_below="@id/btn_take_picture_photo"
-        android:id="@+id/btn_select_picture_photo"
-        android:background="@color/colorAccent"
-        android:textColor="@android:color/white"/>
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>

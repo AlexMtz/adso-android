@@ -2,6 +2,7 @@ package com.nahtredn.adso;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
 import android.content.Context;
@@ -35,6 +36,8 @@ public class PhotoActivity extends AppCompatActivity {
     private static final int CROP_PHOTO_REQUEST_CODE = 3;
     private boolean isCameraLaunched;
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +68,10 @@ public class PhotoActivity extends AppCompatActivity {
                 showInterstitial();
             }
         });
+
+        mAdView = findViewById(R.id.adViewPhoto);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
