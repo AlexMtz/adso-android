@@ -49,6 +49,16 @@ public class MainActivity extends AppCompatActivity
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        VacancyFragment vacancyFragment = (VacancyFragment)
+                getSupportFragmentManager().findFragmentById(R.id.vacancies_main_container);
+
+        if (vacancyFragment == null) {
+            vacancyFragment = VacancyFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.vacancies_main_container, vacancyFragment)
+                    .commit();
+        }
     }
 
     @Override

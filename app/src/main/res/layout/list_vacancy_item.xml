@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin">
+
+    <TextView
+        android:id="@+id/name_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="Empleado de mostrador" />
+
+    <TextView
+        android:id="@+id/company_name_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name_vacancy"
+        android:layout_below="@+id/name_vacancy"
+        tools:text="OXXO" />
+
+    <TextView
+        android:id="@+id/place_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name_vacancy"
+        android:layout_below="@+id/company_name_vacancy"
+        tools:text="Guadalupe, Zacatecas" />
+
+    <TextView
+        android:id="@+id/salary_vacancy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/name_vacancy"
+        tools:text="$$$$"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>
