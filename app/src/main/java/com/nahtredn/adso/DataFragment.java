@@ -73,6 +73,9 @@ public class DataFragment extends Fragment {
                     case 2:
                         intent = new Intent(getActivity(),DocumentationActivity.class);
                         break;
+                    case 3:
+                        intent = new Intent(getActivity(),StudiesDoneActivity.class);
+                        break;
                 }
                 if (intent != null) {
                     getActivity().startActivity(intent);
