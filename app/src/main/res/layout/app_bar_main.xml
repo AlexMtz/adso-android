@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.MainActivity">
+    tools:context="com.nahtredn.adso.MainActivity"
+    android:background="@color/background_activity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/design_toolbar"
