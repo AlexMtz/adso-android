@@ -1,6 +1,7 @@
 package com.nahtredn.adso;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,17 @@ public class DataActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adViewData);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+
+        DataFragment dataFragment = (DataFragment)
+                getSupportFragmentManager().findFragmentById(R.id.data_items_data_container);
+
+        if (dataFragment == null) {
+            dataFragment = DataFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.data_items_data_container, dataFragment)
+                    .commit();
+        }
     }
 
     @Override
