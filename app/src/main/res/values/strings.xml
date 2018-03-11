@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">ADSO</string>
 
+    <!-- Main activity -->
+    <string name="title_main_activity">Vacantes</string>
+    <string name="search_menu_main_activity">Buscar</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
