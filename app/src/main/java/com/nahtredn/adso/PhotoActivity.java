@@ -4,26 +4,33 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-public class PhotoActivity extends AppCompatActivity {
-    // Remove the below line after defining your own ad unit ID.
-    private static final String TOAST_TEXT = "Test ads are being shown. "
-            + "To show live ads, replace the ad unit ID in res/values/strings.xml with your own ad unit ID.";
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
-    private static final int START_LEVEL = 1;
-    private int mLevel;
+public class PhotoActivity extends AppCompatActivity {
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
-    // private TextView mLevelTextView;
+    private ImageView photo;
+
+    private static final int TAKE_PHOTO_REQUEST_CODE = 1;
+    private static final int CROP_PHOTO = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +43,7 @@ public class PhotoActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        // Create the next level button, which tries to show an interstitial when clicked.
-        mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
+        mNextLevelButton = findViewById(R.id.next_level_button);
         mNextLevelButton.setEnabled(false);
         mNextLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,38 +52,33 @@ public class PhotoActivity extends AppCompatActivity {
             }
         });
 
-        // Create the text view to show the level number.
-        // mLevelTextView = (TextView) findViewById(R.id.level);
-        // mLevel = START_LEVEL;
-
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
 
-        // Toasts the test ad message on the screen. Remove this after defining your own ad unit ID.
-        Toast.makeText(this, TOAST_TEXT, Toast.LENGTH_LONG).show();
+        photo = findViewById(R.id.image_photo);
 
-        showInterstitial();
+        loadImage();
     }
 
+    private void loadImage(){
+        SharedPreferences prefs =
+                getSharedPreferences("ProfilePreferences",Context.MODE_PRIVATE);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_photo, menu);
-        return true;
+        String pathPhoto = prefs.getString("photo", null);
+        if (pathPhoto != null){
+            File imgFile = new  File(pathPhoto);
+            if(imgFile.exists()){
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                photo.setImageBitmap(myBitmap);
+            }
+        } else {
+            photo.setImageDrawable(getDrawable(R.drawable.ic_profile));
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         if (id == android.R.id.home){
             this.finish();
@@ -103,15 +104,14 @@ public class PhotoActivity extends AppCompatActivity {
 
             @Override
             public void onAdClosed() {
-                // Proceed to the next level.
                 goToNextLevel();
+                dispatchTakePictureIntent();
             }
         });
         return interstitialAd;
     }
 
     private void showInterstitial() {
-        // Show the ad if it's ready. Otherwise toast and reload the ad.
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
@@ -121,7 +121,6 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void loadInterstitial() {
-        // Disable the next level button and load the ad.
         mNextLevelButton.setEnabled(false);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
@@ -129,9 +128,85 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void goToNextLevel() {
-        // Show the next level and reload the ad to prepare for the level after.
-        // mLevelTextView.setText("Level " + (++mLevel));
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case (TAKE_PHOTO_REQUEST_CODE):
+                if (resultCode != RESULT_OK) {
+                    Toast.makeText(this, "Acción cancelada", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                startCrop(data.getData());
+                break;
+            case (CROP_PHOTO):
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                photo.setImageBitmap(imageBitmap);
+                String fileName = saveImageFile(imageBitmap);
+                saveImageUrl(fileName);
+                Toast.makeText(this, "Foto guardada: " + fileName, Toast.LENGTH_LONG).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * start Crop
+     *
+     * @param uri image uri
+     */
+    private void startCrop(Uri uri){
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("aspectX", 4);
+        intent.putExtra("aspectY", 4);
+        intent.putExtra("scaleUpIfNeeded", true);
+        intent.putExtra("scale", "true");
+        intent.putExtra("return-data", true);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        startActivityForResult(intent, CROP_PHOTO);
+    }
+
+    public String saveImageFile(Bitmap bitmap) {
+        FileOutputStream out = null;
+        String filename = getFilename();
+        try {
+            out = new FileOutputStream(filename);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+
+    private String getFilename() {
+        File file = new File(getFilesDir()
+                .getPath(), "content");
+        file.mkdirs();
+        String uriSting = (file.getAbsolutePath() + "/"
+                + "photo_profile.jpg");
+        return uriSting;
+    }
+
+    private void saveImageUrl(String pathPhoto){
+        SharedPreferences prefs =
+                getSharedPreferences("ProfilePreferences", Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("photo", pathPhoto);
+        editor.apply();
     }
 }

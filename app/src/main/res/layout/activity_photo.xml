@@ -29,14 +29,24 @@
         android:layout_height="300dp"
         android:id="@+id/image_photo"
         android:src="@drawable/ic_profile"
-        android:contentDescription="Imagen de perfil"/>
+        android:contentDescription="Imagen de perfil" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cambiar foto"
+        android:text="Tomar foto"
         android:layout_below="@id/image_photo"
         android:id="@+id/next_level_button"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Seleccionar imagen"
+        android:layout_below="@id/next_level_button"
+        android:id="@+id/select_picture_photo"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"/>
 
