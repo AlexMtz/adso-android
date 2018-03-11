@@ -62,13 +62,16 @@ public class DataFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 DataItem dataItem = mDataAdapter.getItem(position);
-                Toast.makeText(getActivity().getApplicationContext(),dataItem.getTitle() +  " pressed in position " + position,Toast.LENGTH_SHORT).show();
+                Intent intent = null;
                 switch (position){
                     case 0:
-                        Intent intent = new Intent(getActivity(),PhotoActivity.class);
-                        getActivity().startActivity(intent);
+                        intent = new Intent(getActivity(),PhotoActivity.class);
+                        break;
+                    case 1:
+                        intent = new Intent(getActivity(),GeneralActivity.class);
                         break;
                 }
+                getActivity().startActivity(intent);
                 /*Client client = mVacancyAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
                 intent.putExtra("client_id", client.getId());

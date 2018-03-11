@@ -12,6 +12,9 @@
     <!-- Photo Activity -->
     <string name="title_activity_photo">Foto de Perfil</string>
 
+    <!-- General Activity -->
+    <string name="title_activity_general">Generales</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
