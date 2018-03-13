@@ -1,10 +1,13 @@
 package com.nahtredn.adso;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
@@ -27,12 +30,46 @@ public class StudiesDoneActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adViewStudiesDone);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        StudyDoneFragment studyDoneFragment = (StudyDoneFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container_studies_done);
+
+        if (studyDoneFragment == null) {
+            studyDoneFragment = StudyDoneFragment.newInstance();
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container_studies_done, studyDoneFragment)
+                    .commit();
+        }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_studies_done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_add) {
+            Intent intent = new Intent(getApplicationContext(), StudyDoneActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

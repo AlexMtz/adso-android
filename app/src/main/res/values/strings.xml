@@ -20,6 +20,8 @@
 
     <!-- Studies Done Activity -->
     <string name="title_activity_studies_done">Estudios Realizados</string>
+    <string name="action_add">Agregar nuevo</string>
+    <string name="title_activity_study_done">Estudio Realizado</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

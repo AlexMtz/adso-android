@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin">
+
+    <TextView
+        android:id="@+id/academic_level_study_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="Ingeniero de Software" />
+
+    <TextView
+        android:id="@+id/institute_study_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/academic_level_study_done"
+        android:layout_below="@+id/academic_level_study_done"
+        tools:text="Universidad Autónoma de Zacatecas" />
+
+    <TextView
+        android:id="@+id/end_date_study_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@id/institute_study_done"
+        tools:text="10/06/2016"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

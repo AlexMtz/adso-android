@@ -67,7 +67,10 @@
         <activity
             android:name=".StudiesDoneActivity"
             android:label="@string/title_activity_studies_done"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".StudyDoneActivity"
+            android:label="@string/title_activity_study_done"></activity>
     </application>
 
 </manifest>
