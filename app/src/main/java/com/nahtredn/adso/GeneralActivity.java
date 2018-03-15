@@ -97,7 +97,7 @@ public class GeneralActivity extends AppCompatActivity {
 
         if (id == R.id.action_help){
             AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.commonAlertDialog));
-            builder.setMessage(getString(R.string.help_photo_activity))
+            builder.setMessage(getString(R.string.help_general_activity))
                     .setTitle(getString(R.string.help_title));
             AlertDialog dialog = builder.create();
             dialog.show();

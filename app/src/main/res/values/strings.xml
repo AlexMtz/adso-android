@@ -76,6 +76,9 @@
     <string name="help_photo_activity">La foto de perfil es sumamente importante al generar tu
         solicitud, sin ella tu solicitud no tendría una identidad. No se podrá crear una solicitud
         sin una foto, selecciona o toma una.</string>
+    <string name="help_general_activity">Tus datos básicos son importantes para poder organizar una
+        entrevista con la empresa en la que te gustaría laborar. No olvides que los campos marcados
+        con un * son obligatorios.</string>
 
     <!-- Common text -->
     <string name="save_action">Guardar</string>
