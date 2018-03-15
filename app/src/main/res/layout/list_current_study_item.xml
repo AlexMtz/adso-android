@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin">
+
+    <TextView
+        android:id="@+id/course_name_current_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="Ingles" />
+
+    <TextView
+        android:id="@+id/schedule_current_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/course_name_current_study"
+        android:layout_below="@+id/course_name_current_study"
+        tools:text="Lun - Vie 10:00-12:00" />
+
+    <TextView
+        android:id="@+id/institute_current_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/course_name_current_study"
+        android:layout_below="@+id/schedule_current_study"
+        tools:text="Universidad Autónoma de Zacateacas" />
+
+</RelativeLayout>

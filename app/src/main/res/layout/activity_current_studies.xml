@@ -5,33 +5,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.StudiesDoneActivity"
+    tools:context="com.nahtredn.adso.CurrentStudiesActivity"
     android:background="@color/background_activity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:id="@+id/app_bar_layout_studies_done"
         android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout_current_studies"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            android:id="@+id/toolbar"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_studies_done"
+    <include layout="@layout/content_current_studies"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/adViewStudiesDone"
-        android:layout_below="@+id/app_bar_layout_studies_done"/>
+        android:layout_above="@+id/adViewCurrentStudies"
+        android:layout_below="@+id/app_bar_layout_current_studies"/>
 
     <com.google.android.gms.ads.AdView
         xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/adViewStudiesDone"
+        android:id="@+id/adViewCurrentStudies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

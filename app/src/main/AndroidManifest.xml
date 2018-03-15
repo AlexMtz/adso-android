@@ -70,7 +70,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".StudyDoneActivity"
-            android:label="@string/title_activity_study_done"></activity>
+            android:label="@string/title_activity_study_done" />
+        <activity
+            android:name=".CurrentStudiesActivity"
+            android:label="@string/title_activity_current_studies"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".CurrentStudyActivity"
+            android:label="@string/title_activity_current_study"></activity>
     </application>
 
 </manifest>

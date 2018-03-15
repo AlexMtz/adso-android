@@ -5,41 +5,41 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class StudiesDoneActivity extends AppCompatActivity {
+public class CurrentStudiesActivity extends AppCompatActivity {
 
     private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_studies_done);
+        setContentView(R.layout.activity_current_studies);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null){
             toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
             setSupportActionBar(toolbar);
         }
 
-        mAdView = findViewById(R.id.adViewStudiesDone);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        CurrentStudyFragment currentStudyFragment = (CurrentStudyFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container_current_studies);
 
-        StudyDoneFragment studyDoneFragment = (StudyDoneFragment)
-                getSupportFragmentManager().findFragmentById(R.id.container_studies_done);
-
-        if (studyDoneFragment == null) {
-            studyDoneFragment = StudyDoneFragment.newInstance();
+        if (currentStudyFragment == null) {
+            currentStudyFragment = CurrentStudyFragment.newInstance();
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container_studies_done, studyDoneFragment)
+                    .add(R.id.container_current_studies, currentStudyFragment)
                     .commit();
         }
+
+        mAdView = findViewById(R.id.adViewCurrentStudies);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class StudiesDoneActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_studies_done, menu);
+        getMenuInflater().inflate(R.menu.menu_current_studies, menu);
         return true;
     }
 
@@ -64,7 +64,7 @@ public class StudiesDoneActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
-            Intent intent = new Intent(getApplicationContext(), StudyDoneActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CurrentStudyActivity.class);
             startActivity(intent);
             return true;
         }

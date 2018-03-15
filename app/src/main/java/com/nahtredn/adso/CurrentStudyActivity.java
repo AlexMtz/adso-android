@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StudyDoneActivity extends AppCompatActivity {
+public class CurrentStudyActivity extends AppCompatActivity {
 
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
@@ -24,7 +24,7 @@ public class StudyDoneActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_study_done);
+        setContentView(R.layout.activity_current_study);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null){
@@ -42,11 +42,12 @@ public class StudyDoneActivity extends AppCompatActivity {
             }
         });
 
+
         // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
 
-        mAdView = findViewById(R.id.adViewStudyDone);
+        mAdView = findViewById(R.id.adViewCurrentStudy);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
     }

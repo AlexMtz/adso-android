@@ -1,0 +1,219 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nahtredn.adso.CurrentStudyActivity"
+    android:background="@color/background_activity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/fab_margin"
+        android:layout_above="@id/adViewCurrentStudy">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_institute_current_study">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Institución"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:maxLength="5"
+                    android:id="@+id/input_institute_current_study"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <CheckBox android:id="@+id/checkbox_monday_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="L" />
+
+                <CheckBox android:id="@+id/checkbox_tuesday_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M" />
+
+                <CheckBox android:id="@+id/checkbox_wenesday_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="M" />
+
+                <CheckBox android:id="@+id/checkbox_thursday_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="J" />
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <CheckBox android:id="@+id/checkbox_friday_current_study"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="V" />
+
+            <CheckBox android:id="@+id/checkbox_saturday_current_study"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S" />
+
+            <CheckBox android:id="@+id/checkbox_sunday_current_study"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="D" />
+
+        </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_date_start_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="Datepicker"
+                    android:background="@drawable/custom_image_button"
+                    android:src="@drawable/ic_date_range" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layout_input_date_start_current_study"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_toStartOf="@+id/btn_date_start_current_study">
+
+                    <EditText
+                        android:id="@+id/input_date_start_current_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="Horario de inicio"
+                        android:inputType="date" />
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_date_end_current_study"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="Datepicker"
+                    android:background="@drawable/custom_image_button"
+                    android:src="@drawable/ic_date_range" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layout_input_date_end_current_study"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_toStartOf="@+id/btn_date_end_current_study">
+
+                    <EditText
+                        android:id="@+id/input_date_end_current_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:hint="Horario de fin"
+                        android:inputType="date" />
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin">
+
+            </Spinner>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_name_course_current_study">
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Curso o especialidad"
+                    android:inputType="text"
+                    android:ems="10"
+                    android:maxLength="5"
+                    android:id="@+id/input_name_course_current_study"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin">
+
+            </Spinner>
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_marginBottom="@dimen/fab_margin">
+
+            </Spinner>
+
+            <Button
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar Información"
+                android:id="@+id/next_level_button"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewCurrentStudy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>
