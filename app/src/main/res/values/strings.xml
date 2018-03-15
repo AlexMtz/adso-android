@@ -20,6 +20,35 @@
 
     <!-- General Activity -->
     <string name="title_activity_general">Generales</string>
+    <string name="header_basic_data_activity_general">Datos básicos</string>
+    <string name="header_contact_data_activity_general">Datos de contacto</string>
+    <string name="header_address_data_activity_general">Datos de domicilio</string>
+    <string name="subheader_genre_activity_general">Género*</string>
+    <string name="subheader_living_with">Vives con*</string>
+    <string name="subheader_civil_status_activity_general">Estado civil*</string>
+    <string name="subheader_state_activity_general">Estado*</string>
+    <string name="subheader_municipality_activity_general">Municipio*</string>
+    <string name="name_activity_general">Nombre(s)*</string>
+    <string name="last_name_activity_general">Apellido paterno*</string>
+    <string name="middle_name_activity_general">Apellido materno</string>
+    <string name="birth_date_activity_general">Fecha de nacimiento*</string>
+    <string name="age_activity_general">Edad</string>
+    <string name="man_activity_general">Hombre</string>
+    <string name="woman_activity_general">Mujer</string>
+    <string name="father_activity_general">Padres</string>
+    <string name="family_activity_general">Familiares</string>
+    <string name="parents_activity_general">Parientes</string>
+    <string name="alone_activity_general">Solo(a)</string>
+    <string name="single_activity_general">Soltero(a)</string>
+    <string name="married_activity_general">Casado(a)</string>
+    <string name="divorced_activity_general">Divorciado(a)</string>
+    <string name="widower_activity_general">Viudo(a)</string>
+    <string name="free_union_activity_general">Unión libre</string>
+    <string name="phone_activity_general">Teléfono*</string>
+    <string name="email_activity_general">Correo electrónico*</string>
+    <string name="street_activity_general">Calle y número</string>
+    <string name="colony_activity_general">Colonia</string>
+    <string name="zip_code_activity_general">Código postal</string>
 
     <!-- Documentation Activity -->
     <string name="title_activity_documentation">Documentación</string>
@@ -47,6 +76,9 @@
     <string name="help_photo_activity">La foto de perfil es sumamente importante al generar tu
         solicitud, sin ella tu solicitud no tendría una identidad. No se podrá crear una solicitud
         sin una foto, selecciona o toma una.</string>
+
+    <!-- Common text -->
+    <string name="save_action">Guardar</string>
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
     <string name="start_level">Level 1</string>

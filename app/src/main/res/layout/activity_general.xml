@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
+        android:padding="@dimen/common_padding"
         android:layout_above="@id/adViewGeneral">
 
         <LinearLayout
@@ -17,17 +17,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:text="@string/header_basic_data_activity_general"
+                style="@style/textHeader"/>
+
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_input_name_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nombre(s)"
+                    style="@style/commonInput"
+                    android:hint="@string/name_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:id="@+id/input_name_general"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -38,11 +40,9 @@
                 android:id="@+id/layout_input_last_name_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Apellido Paterno"
+                    style="@style/commonInput"
+                    android:hint="@string/last_name_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:id="@+id/input_last_name_general"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -53,11 +53,9 @@
                 android:id="@+id/layout_input_middle_name_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Apellido Materno"
+                    style="@style/commonInput"
+                    android:hint="@string/middle_name_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:id="@+id/input_middle_name_general"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -69,14 +67,9 @@
 
                 <ImageButton
                     android:id="@+id/btn_date_picker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="Datepicker"
-                    android:background="@drawable/custom_image_button"
-                    android:src="@drawable/ic_date_range" />
-
+                    style="@style/datePickerButton"
+                    android:contentDescription="@string/birth_date_activity_general"
+                    android:onClick="onClicBirthDate"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -87,11 +80,9 @@
 
                     <EditText
                         android:id="@+id/input_date_order"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="10"
+                        style="@style/commonInput"
                         android:enabled="false"
-                        android:hint="Fecha de nacimiento"
+                        android:hint="@string/birth_date_activity_general"
                         android:inputType="date" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -103,15 +94,98 @@
                 android:id="@+id/layout_input_age_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Edad"
+                    style="@style/commonInput"
+                    android:hint="@string/age_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:enabled="false"
                     android:id="@+id/input_age_general"/>
 
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_genre_activity_general"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/radio_pirates"
+                    style="@style/commonRadioButton"
+                    android:text="@string/man_activity_general"/>
+
+                <RadioButton
+                    android:id="@+id/radio_ninjas"
+                    style="@style/commonRadioButton"
+                    android:text="@string/woman_activity_general"/>
+            </RadioGroup>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_living_with"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/father_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/family_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/parents_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/alone_activity_general"/>
+
+            </RadioGroup>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_civil_status_activity_general"/>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/single_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/married_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/divorced_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/widower_activity_general"/>
+
+                <RadioButton
+                    style="@style/commonRadioButton"
+                    android:text="@string/free_union_activity_general"/>
+
+            </RadioGroup>
+
+            <TextView
+                style="@style/textHeader"
+                android:text="@string/header_contact_data_activity_general"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -119,11 +193,9 @@
                 android:id="@+id/layout_input_phone_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Teléfono"
+                    style="@style/commonInput"
+                    android:hint="@string/phone_activity_general"
                     android:inputType="phone"
-                    android:ems="10"
                     android:maxLength="10"
                     android:id="@+id/input_phone_general"/>
 
@@ -135,123 +207,16 @@
                 android:id="@+id/layout_input_email_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Email"
+                    style="@style/commonInput"
+                    android:hint="@string/email_activity_general"
                     android:inputType="textEmailAddress"
-                    android:ems="10"
                     android:id="@+id/input_email_general"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Género"
-                android:layout_margin="5dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <RadioButton android:id="@+id/radio_pirates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hombre"
-                    android:layout_marginEnd="5dp"/>
-
-                <RadioButton android:id="@+id/radio_ninjas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mujer"/>
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Vives con"
-                android:layout_margin="5dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Padres"
-                    android:layout_marginEnd="5dp"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Familiares"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Parientes"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Solo(a)"/>
-
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Estado civil"
-                android:layout_margin="5dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Soltero(a)"
-                    android:layout_marginEnd="5dp"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Casado(a)"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Divorciado(a)"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Viudo(a)"/>
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Unión Libre"/>
-
-            </RadioGroup>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Domicilio"
-                android:layout_margin="5dp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+                style="@style/textHeader"
+                android:text="@string/header_address_data_activity_general"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -259,11 +224,9 @@
                 android:id="@+id/layout_input_street_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Calle y número"
+                    style="@style/commonInput"
+                    android:hint="@string/street_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:id="@+id/input_street_general"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -274,11 +237,9 @@
                 android:id="@+id/layout_input_colony_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Colonia"
+                    style="@style/commonInput"
+                    android:hint="@string/colony_activity_general"
                     android:inputType="textCapWords"
-                    android:ems="10"
                     android:id="@+id/input_colony_general"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -289,15 +250,17 @@
                 android:id="@+id/layout_input_zip_code_general">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Código postal"
+                    style="@style/commonInput"
+                    android:hint="@string/zip_code_activity_general"
                     android:inputType="number"
-                    android:ems="10"
                     android:maxLength="5"
                     android:id="@+id/input_zip_code_general"/>
 
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_state_activity_general"/>
 
             <Spinner
                 android:layout_width="match_parent"
@@ -306,6 +269,10 @@
                 android:layout_marginBottom="@dimen/fab_margin">
 
             </Spinner>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_municipality_activity_general"/>
 
             <Spinner
                 android:layout_width="match_parent"
@@ -316,13 +283,9 @@
             </Spinner>
 
             <Button
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guardar Información"
-                android:id="@+id/next_level_button"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/white"/>
+                style="@style/commonButton"
+                android:text="@string/save_action"
+                android:id="@+id/next_level_button"/>
 
         </LinearLayout>
     </ScrollView>

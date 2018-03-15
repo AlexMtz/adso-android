@@ -5,21 +5,30 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 public class GeneralActivity extends AppCompatActivity {
 
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
+
+    private Calendar calendar = Calendar.getInstance();
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +58,29 @@ public class GeneralActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adViewGeneral);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                // setDateSelected();
+            }
+        };
     }
 
+    public void onClicBirthDate(View view){
+        calendar = Calendar.getInstance();
+        new DatePickerDialog(GeneralActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.common, menu);
+        return true;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -58,6 +88,19 @@ public class GeneralActivity extends AppCompatActivity {
 
         if (id == android.R.id.home){
             this.finish();
+            return true;
+        }
+
+        if (id == R.id.action_delete){
+            return true;
+        }
+
+        if (id == R.id.action_help){
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.commonAlertDialog));
+            builder.setMessage(getString(R.string.help_photo_activity))
+                    .setTitle(getString(R.string.help_title));
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return true;
         }
 
