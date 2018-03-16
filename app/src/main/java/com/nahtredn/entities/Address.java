@@ -14,6 +14,9 @@ public class Address {
     private String lat;
     private String lon;
 
+    public Address() {
+    }
+
     public Address(String municipality, String state) {
         this.municipality = municipality;
         this.state = state;

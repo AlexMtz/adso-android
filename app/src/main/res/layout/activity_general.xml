@@ -74,12 +74,12 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/input_layout_date_order"
+                    android:id="@+id/layout_input_birth_date_general"
                     android:layout_marginEnd="@dimen/fab_margin"
                     android:layout_toStartOf="@+id/btn_date_picker">
 
                     <EditText
-                        android:id="@+id/input_date_order"
+                        android:id="@+id/input_birth_date_general"
                         style="@style/commonInput"
                         android:enabled="false"
                         android:hint="@string/birth_date_activity_general"
@@ -107,20 +107,23 @@
                 android:text="@string/subheader_genre_activity_general"/>
 
             <RadioGroup
+                android:id="@+id/radio_group_genre_general"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
 
                 <RadioButton
-                    android:id="@+id/radio_pirates"
+                    android:id="@+id/radio_man_general"
                     style="@style/commonRadioButton"
-                    android:text="@string/man_activity_general"/>
+                    android:text="@string/man_activity_general"
+                    android:onClick="onClicRadioButtonGenreGeneral"/>
 
                 <RadioButton
-                    android:id="@+id/radio_ninjas"
+                    android:id="@+id/radio_woman_general"
                     style="@style/commonRadioButton"
-                    android:text="@string/woman_activity_general"/>
+                    android:text="@string/woman_activity_general"
+                    android:onClick="onClicRadioButtonGenreGeneral"/>
             </RadioGroup>
 
             <TextView
@@ -128,6 +131,7 @@
                 android:text="@string/subheader_living_with"/>
 
             <RadioGroup
+                android:id="@+id/radio_group_living_with_general"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -135,19 +139,23 @@
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/father_activity_general"/>
+                    android:text="@string/father_activity_general"
+                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/family_activity_general"/>
+                    android:text="@string/family_activity_general"
+                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/parents_activity_general"/>
+                    android:text="@string/parents_activity_general"
+                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/alone_activity_general"/>
+                    android:text="@string/alone_activity_general"
+                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
 
             </RadioGroup>
 
@@ -156,6 +164,7 @@
                 android:text="@string/subheader_civil_status_activity_general"/>
 
             <RadioGroup
+                android:id="@+id/radio_group_civil_status_general"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -163,23 +172,28 @@
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/single_activity_general"/>
+                    android:text="@string/single_activity_general"
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/married_activity_general"/>
+                    android:text="@string/married_activity_general"
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/divorced_activity_general"/>
+                    android:text="@string/divorced_activity_general"
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/widower_activity_general"/>
+                    android:text="@string/widower_activity_general"
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
-                    android:text="@string/free_union_activity_general"/>
+                    android:text="@string/free_union_activity_general"
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
 
             </RadioGroup>
 
@@ -281,6 +295,7 @@
             </Spinner>
 
             <Button
+                android:onClick="onClicSaveGeneralActivity"
                 style="@style/commonButton"
                 android:text="@string/save_action"
                 android:id="@+id/next_level_button"/>

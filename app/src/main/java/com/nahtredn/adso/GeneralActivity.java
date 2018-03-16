@@ -4,36 +4,53 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.nahtredn.entities.Address;
+import com.nahtredn.entities.General;
 import com.nahtredn.helpers.ArrayStates;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
-public class GeneralActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class GeneralActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
-    private Button mNextLevelButton;
+    private EditText inputName, inputLastName, inputMiddleName, inputBirthDate, inputAge, inputPhone,
+            inputEmail, inputStreet, inputColony, inputZipCode;
+    private TextInputLayout layoutInputName, layoutInputLastName, layoutInputMiddleName,
+            layoutInputBirthDate, layoutInputAge, layoutInputPhone, layoutInputEmail,
+            layoutInputStreet, layoutInputColony, layoutInputZipCode;
+
+    private RadioGroup radioGroupGenre, radioGroupLivinWith, radioGroupCivilStatus;
+
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
     private Spinner spnStates, spnMunicipality;
 
     private Calendar calendar = Calendar.getInstance();
-    private DatePickerDialog.OnDateSetListener dateSetListener;
+
+    private General general;
+    private Address address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,45 +63,134 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        // Create the next level button, which tries to show an interstitial when clicked.
-        mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
-        mNextLevelButton.setEnabled(false);
-        mNextLevelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showInterstitial();
-            }
-        });
+        inputName = findViewById(R.id.input_name_general);
+        inputLastName = findViewById(R.id.input_last_name_general);
+        inputMiddleName = findViewById(R.id.input_middle_name_general);
+        inputBirthDate = findViewById(R.id.input_birth_date_general);
+        inputAge = findViewById(R.id.input_age_general);
+        inputPhone = findViewById(R.id.input_phone_general);
+        inputEmail = findViewById(R.id.input_email_general);
+        inputStreet = findViewById(R.id.input_street_general);
+        inputColony = findViewById(R.id.input_colony_general);
+        inputZipCode = findViewById(R.id.input_zip_code_general);
 
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
-        mInterstitialAd = newInterstitialAd();
-        loadInterstitial();
+        layoutInputName = findViewById(R.id.layout_input_name_general);
+        layoutInputLastName = findViewById(R.id.layout_input_last_name_general);
+        layoutInputMiddleName = findViewById(R.id.layout_input_middle_name_general);
+        layoutInputBirthDate = findViewById(R.id.layout_input_birth_date_general);
+        layoutInputAge = findViewById(R.id.layout_input_age_general);
+        layoutInputPhone = findViewById(R.id.layout_input_phone_general);
+        layoutInputEmail = findViewById(R.id.layout_input_email_general);
+        layoutInputStreet = findViewById(R.id.layout_input_street_general);
+        layoutInputColony = findViewById(R.id.layout_input_colony_general);
+        layoutInputZipCode = findViewById(R.id.layout_input_zip_code_general);
+
+        radioGroupGenre = findViewById(R.id.radio_group_genre_general);
+        radioGroupLivinWith = findViewById(R.id.radio_group_living_with_general);
+        radioGroupCivilStatus = findViewById(R.id.radio_group_civil_status_general);
+
+        reloadInterstitial();
 
         mAdView = findViewById(R.id.adViewGeneral);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, monthOfYear);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                // setDateSelected();
-            }
-        };
-
-        spnStates = (Spinner) findViewById(R.id.spinner_states_activity_general);
+        spnStates = findViewById(R.id.spinner_states_activity_general);
         spnStates.setOnItemSelectedListener(this);
-        spnMunicipality = (Spinner) findViewById(R.id.spinner_municipality_activity_general);
+        spnMunicipality = findViewById(R.id.spinner_municipality_activity_general);
         spnMunicipality.setOnItemSelectedListener(this);
+
+        general = new General();
+        address = new Address();
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     public void onClicBirthDate(View view){
         calendar = Calendar.getInstance();
-        new DatePickerDialog(GeneralActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(GeneralActivity.this,
+                this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        DatePicker datePicker = datePickerDialog.getDatePicker();
+        datePicker.setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
+    public void onClicSaveGeneralActivity(View view){
+        showInterstitial();
+
+        if (!validateText(inputName, layoutInputName)) {
+            return;
+        }
+
+        if (!validateText(inputLastName, layoutInputLastName)) {
+            return;
+        }
+
+        if (!validateText(inputBirthDate, layoutInputBirthDate)) {
+            return;
+        }
+
+        if (!validateText(inputPhone, layoutInputPhone)) {
+            return;
+        }
+
+        if (!validateEmail()) {
+            return;
+        }
+
+        if (radioGroupGenre.getCheckedRadioButtonId() == -1){
+            showMessage(getString(R.string.error_genre_field));
+            return;
+        }
+
+        if (radioGroupLivinWith.getCheckedRadioButtonId() == -1){
+            showMessage(getString(R.string.error_livin_with));
+            return;
+        }
+
+        if (radioGroupCivilStatus.getCheckedRadioButtonId() == -1){
+            showMessage(getString(R.string.error_civil_status));
+            return;
+        }
+
+        if (spnStates.getSelectedItemPosition() == 0){
+            showMessage(getString(R.string.error_state_general));
+            return;
+        }
+
+        if (spnMunicipality.getSelectedItemPosition() == 0){
+            showMessage(getString(R.string.error_municipality_general));
+            return;
+        }
+
+        general.setName(inputName.getText().toString());
+        general.setLastName(inputLastName.getText().toString());
+        general.setMiddleName(inputMiddleName.getText().toString());
+        general.setPhone(inputPhone.getText().toString());
+        general.setEmail(inputEmail.getText().toString());
+        address.setStreet(inputStreet.getText().toString());
+        address.setColony(inputColony.getText().toString());
+        address.setZipCode(inputZipCode.getText().toString());
+        general.setAddress(address);
+
+        /**saveClient(client);*/
+    }
+
+    public void onClicRadioButtonGenreGeneral(View view){
+        RadioButton radioButton = (RadioButton) view;
+        general.setGenre(radioButton.getText().toString());
+    }
+
+    public void onClicRadioButtonLivingWithGeneral(View view){
+        RadioButton radioButton = (RadioButton) view;
+        general.setLivingWith(radioButton.getText().toString());
+    }
+
+    public void onClicRadioButtonCivilStatusGeneral(View view){
+        RadioButton radioButton = (RadioButton) view;
+        general.setCivilStatus(radioButton.getText().toString());
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,18 +224,14 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
         interstitialAd.setAdListener(new AdListener() {
             @Override
-            public void onAdLoaded() {
-                mNextLevelButton.setEnabled(true);
-            }
+            public void onAdLoaded() {}
 
             @Override
-            public void onAdFailedToLoad(int errorCode) {
-                mNextLevelButton.setEnabled(true);
-            }
+            public void onAdFailedToLoad(int errorCode) {}
 
             @Override
             public void onAdClosed() {
-                goToNextLevel();
+                reloadInterstitial();
             }
         });
         return interstitialAd;
@@ -139,27 +241,23 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
-            Toast.makeText(this, "Ad did not load", Toast.LENGTH_SHORT).show();
-            goToNextLevel();
+            reloadInterstitial();
         }
     }
 
     private void loadInterstitial() {
-        mNextLevelButton.setEnabled(false);
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         mInterstitialAd.loadAd(adRequest);
     }
 
-    private void goToNextLevel() {
+    private void reloadInterstitial() {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        // An item was selected. You can retrieve the selected item using
-        // parent.getItemAtPosition(pos)
         if (pos == 0){
             return;
         }
@@ -169,11 +267,12 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
                     new ArrayStates().getArray(pos), android.R.layout.simple_spinner_item);
             adapterMunicipality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spnMunicipality.setAdapter(adapterMunicipality);
+            address.setState(state);
         }
 
         if (adapterView.getId() == R.id.spinner_municipality_activity_general){
             String municipality = (String) adapterView.getItemAtPosition(pos);
-            showMessage("municipio seleccionado " + municipality);
+            address.setMunicipality(municipality);
         }
     }
 
@@ -184,5 +283,60 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
     private void showMessage(String message){
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private boolean validateText(EditText editText, TextInputLayout textInputLayout) {
+        if (editText.getText().toString().trim().isEmpty()) {
+            textInputLayout.setError(getString(R.string.error_field_required));
+            requestFocus(editText);
+            return false;
+        } else {
+            textInputLayout.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateEmail() {
+        String email = inputEmail.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            layoutInputEmail.setError(getString(R.string.error_email_activity_general));
+            requestFocus(inputEmail);
+            return false;
+        } else {
+            layoutInputEmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        //set birth date
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        inputBirthDate.setText(dateFormat.format(calendar.getTime()));
+        general.setBirthDate(calendar.getTime());
+
+        //set age
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
+        if (today.get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+        inputAge.setText(age + "");
+        general.setAge(age);
     }
 }
