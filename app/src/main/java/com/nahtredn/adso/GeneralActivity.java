@@ -7,6 +7,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import com.nahtredn.entities.Address;
 import com.nahtredn.entities.General;
 import com.nahtredn.helpers.ArrayStates;
+import com.nahtredn.helpers.RadioButtons;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +33,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class GeneralActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
@@ -49,6 +57,7 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
     private Calendar calendar = Calendar.getInstance();
 
+    private General tmpGeneral;
     private General general;
     private Address address;
 
@@ -62,6 +71,8 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
+
+        Realm.init(this);
 
         inputName = findViewById(R.id.input_name_general);
         inputLastName = findViewById(R.id.input_last_name_general);
@@ -100,10 +111,40 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         spnMunicipality = findViewById(R.id.spinner_municipality_activity_general);
         spnMunicipality.setOnItemSelectedListener(this);
 
+        loadGeneral();
         general = new General();
         address = new Address();
+        if (tmpGeneral != null){
+            loadData(tmpGeneral);
+            general.setId(tmpGeneral.getId());
+            general.setBirthDate(tmpGeneral.getBirthDate());
+            general.setGenre(tmpGeneral.getGenre());
+            general.setLivingWith(tmpGeneral.getLivingWith());
+            general.setCivilStatus(tmpGeneral.getCivilStatus());
+        }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    private void loadData(General general){
+        inputName.setText(general.getName());
+        inputLastName.setText(general.getLastName());
+        inputMiddleName.setText(general.getMiddleName());
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        inputBirthDate.setText(dateFormat.format(general.getBirthDate()));
+        inputAge.setText("" + general.getAge());
+        inputPhone.setText(general.getPhone());
+        inputEmail.setText(general.getEmail());
+        inputStreet.setText(general.getAddress().getStreet());
+        inputColony.setText(general.getAddress().getColony());
+        inputZipCode.setText(general.getAddress().getZipCode());
+        RadioButtons radioButtons = new RadioButtons();
+        RadioButton genre = findViewById(radioButtons.getIdRadioButtonBy(general.getGenre()));
+        genre.setChecked(true);
+        RadioButton livingWith = findViewById(radioButtons.getIdRadioButtonBy(general.getLivingWith()));
+        livingWith.setChecked(true);
+        RadioButton civilStatus = findViewById(radioButtons.getIdRadioButtonBy(general.getCivilStatus()));
+        civilStatus.setChecked(true);
     }
 
     public void onClicBirthDate(View view){
@@ -173,8 +214,49 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         address.setColony(inputColony.getText().toString());
         address.setZipCode(inputZipCode.getText().toString());
         general.setAddress(address);
+        saveGeneral(general);
+    }
 
-        /**saveClient(client);*/
+    private void saveGeneral(final General tmpGeneral) {
+        Realm.init(getApplicationContext());
+        final Realm realm = Realm.getDefaultInstance();
+
+        try {
+            realm.beginTransaction();
+            Number currentIdNum = realm.where(General.class).max("id");
+            int nextId;
+            if (currentIdNum == null) {
+                nextId = 1;
+            } else {
+                nextId = currentIdNum.intValue() + 1;
+            }
+            tmpGeneral.setId(nextId);
+            realm.copyToRealmOrUpdate(tmpGeneral);
+            realm.commitTransaction();
+            showMessage(getString(R.string.success_save));
+            // this.finish();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            showMessage(getString(R.string.error_save));
+            Log.w("GeneralActivity", "Error: " + e.getMessage());
+        } finally {
+            realm.close();
+        }
+    }
+
+    private void loadGeneral(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                tmpGeneral = realm.where(General.class).findFirst();;
+            }
+        });
+        /*try{
+            general = realm.where(General.class).findFirst();
+        }finally {
+            realm.close();
+        }*/
     }
 
     public void onClicRadioButtonGenreGeneral(View view){

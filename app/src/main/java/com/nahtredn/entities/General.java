@@ -2,25 +2,47 @@ package com.nahtredn.entities;
 
 import java.util.Date;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * Created by Me on 15/03/2018.
  */
 
-public class General {
+public class General extends RealmObject {
+    @PrimaryKey
+    private int id;
+    @Required
     private String name;
+    @Required
     private String lastName;
     private String middleName;
+    @Required
     private Date birthDate;
     private int age;
+    @Required
     private String genre;
+    @Required
     private String livingWith;
+    @Required
     private String civilStatus;
+    @Required
     private String phone;
+    @Required
     private String email;
     private Address address;
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setName(String name) {

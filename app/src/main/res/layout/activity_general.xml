@@ -140,22 +140,26 @@
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/father_activity_general"
-                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
+                    android:onClick="onClicRadioButtonLivingWithGeneral"
+                    android:id="@+id/radio_button_fhater_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/family_activity_general"
-                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
+                    android:onClick="onClicRadioButtonLivingWithGeneral"
+                    android:id="@+id/radio_button_family_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/parents_activity_general"
-                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
+                    android:onClick="onClicRadioButtonLivingWithGeneral"
+                    android:id="@+id/radio_button_parents_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/alone_activity_general"
-                    android:onClick="onClicRadioButtonLivingWithGeneral"/>
+                    android:onClick="onClicRadioButtonLivingWithGeneral"
+                    android:id="@+id/radio_button_alone_general"/>
 
             </RadioGroup>
 
@@ -173,27 +177,32 @@
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/single_activity_general"
-                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"
+                    android:id="@+id/radio_button_single_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/married_activity_general"
-                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"
+                    android:id="@+id/radio_button_married_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/divorced_activity_general"
-                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"
+                    android:id="@+id/radio_button_divorced_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/widower_activity_general"
-                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"
+                    android:id="@+id/radio_button_widower_general"/>
 
                 <RadioButton
                     style="@style/commonRadioButton"
                     android:text="@string/free_union_activity_general"
-                    android:onClick="onClicRadioButtonCivilStatusGeneral"/>
+                    android:onClick="onClicRadioButtonCivilStatusGeneral"
+                    android:id="@+id/radio_button_free_union_general"/>
 
             </RadioGroup>
 

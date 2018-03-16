@@ -1,15 +1,22 @@
 package com.nahtredn.entities;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 /**
  * Created by Me on 10/03/2018.
  */
 
-public class Address {
+public class Address extends RealmObject {
+    @PrimaryKey
+    private int id;
     private String street;
     private String numExt;
     private String colony;
     private String zipCode;
+    @Required
     private String municipality;
+    @Required
     private String state;
     private String lat;
     private String lon;
@@ -20,6 +27,14 @@ public class Address {
     public Address(String municipality, String state) {
         this.municipality = municipality;
         this.state = state;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStreet() {
