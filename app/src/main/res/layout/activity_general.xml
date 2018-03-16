@@ -263,10 +263,9 @@
                 android:text="@string/subheader_state_activity_general"/>
 
             <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin">
+                android:entries="@array/states"
+                style="@style/commonSpinner"
+                android:id="@+id/spinner_states_activity_general">
 
             </Spinner>
 
@@ -275,10 +274,9 @@
                 android:text="@string/subheader_municipality_activity_general"/>
 
             <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin">
+                style="@style/commonSpinner"
+                android:id="@+id/spinner_municipality_activity_general"
+                android:entries="@array/common_municipality">
 
             </Spinner>
 

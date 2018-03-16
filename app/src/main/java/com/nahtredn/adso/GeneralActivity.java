@@ -4,6 +4,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.nahtredn.helpers.ArrayStates;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -14,18 +15,22 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class GeneralActivity extends AppCompatActivity {
+public class GeneralActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
+    private Spinner spnStates, spnMunicipality;
 
     private Calendar calendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener dateSetListener;
@@ -68,6 +73,11 @@ public class GeneralActivity extends AppCompatActivity {
                 // setDateSelected();
             }
         };
+
+        spnStates = (Spinner) findViewById(R.id.spinner_states_activity_general);
+        spnStates.setOnItemSelectedListener(this);
+        spnMunicipality = (Spinner) findViewById(R.id.spinner_municipality_activity_general);
+        spnMunicipality.setOnItemSelectedListener(this);
     }
 
     public void onClicBirthDate(View view){
@@ -78,7 +88,7 @@ public class GeneralActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common, menu);
+        getMenuInflater().inflate(R.menu.help, menu);
         return true;
     }
 
@@ -88,10 +98,6 @@ public class GeneralActivity extends AppCompatActivity {
 
         if (id == android.R.id.home){
             this.finish();
-            return true;
-        }
-
-        if (id == R.id.action_delete){
             return true;
         }
 
@@ -148,5 +154,35 @@ public class GeneralActivity extends AppCompatActivity {
     private void goToNextLevel() {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+        // An item was selected. You can retrieve the selected item using
+        // parent.getItemAtPosition(pos)
+        if (pos == 0){
+            return;
+        }
+        if (adapterView.getId() == R.id.spinner_states_activity_general) {
+            String state = (String) adapterView.getItemAtPosition(pos);
+            ArrayAdapter<CharSequence> adapterMunicipality = ArrayAdapter.createFromResource(this,
+                    new ArrayStates().getArray(pos), android.R.layout.simple_spinner_item);
+            adapterMunicipality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spnMunicipality.setAdapter(adapterMunicipality);
+        }
+
+        if (adapterView.getId() == R.id.spinner_municipality_activity_general){
+            String municipality = (String) adapterView.getItemAtPosition(pos);
+            showMessage("municipio seleccionado " + municipality);
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    private void showMessage(String message){
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }
