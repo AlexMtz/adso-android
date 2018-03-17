@@ -121,8 +121,9 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
             general.setGenre(tmpGeneral.getGenre());
             general.setLivingWith(tmpGeneral.getLivingWith());
             general.setCivilStatus(tmpGeneral.getCivilStatus());
+            address.setState(tmpGeneral.getAddress().getState());
+            address.setMunicipality(tmpGeneral.getAddress().getMunicipality());
         }
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
@@ -195,12 +196,12 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
             return;
         }
 
-        if (spnStates.getSelectedItemPosition() == 0){
+        if (address.getState() == null){
             showMessage(getString(R.string.error_state_general));
             return;
         }
 
-        if (spnMunicipality.getSelectedItemPosition() == 0){
+        if (address.getMunicipality() == null){
             showMessage(getString(R.string.error_municipality_general));
             return;
         }
