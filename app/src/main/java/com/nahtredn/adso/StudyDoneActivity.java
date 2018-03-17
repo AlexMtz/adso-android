@@ -8,11 +8,9 @@ import com.google.android.gms.ads.InterstitialAd;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class StudyDoneActivity extends AppCompatActivity {
@@ -33,7 +31,7 @@ public class StudyDoneActivity extends AppCompatActivity {
         }
 
         // Create the next level button, which tries to show an interstitial when clicked.
-        mNextLevelButton = ((Button) findViewById(R.id.next_level_button));
+        mNextLevelButton = ((Button) findViewById(R.id.btn_save_documentation));
         mNextLevelButton.setEnabled(false);
         mNextLevelButton.setOnClickListener(new View.OnClickListener() {
             @Override

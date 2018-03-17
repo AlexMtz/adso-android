@@ -1,78 +1,69 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background_activity"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_activity"
     tools:context="com.nahtredn.adso.DocumentationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/fab_margin"
-        android:layout_above="@id/adViewDocumentation">
+        android:layout_above="@id/adViewDocumentation"
+        android:padding="@dimen/fab_margin">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_input_drive_license_documentation">
+            android:orientation="vertical">
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_input_drive_license_documentation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Licencia de conducir"
-                android:inputType="text"
-                android:ems="10"
-                android:maxLength="5"
-                android:id="@+id/input_drive_license_documentation"/>
+                android:layout_height="wrap_content">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/input_drive_license_documentation"
+                    style="@style/commonInput"
+                    android:hint="@string/driver_license_documentation"
+                    android:inputType="textCapCharacters" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_input_curp_documentation">
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_input_curp_documentation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="C.U.R.P."
-                android:inputType="text"
-                android:ems="10"
-                android:maxLength="5"
-                android:id="@+id/input_curp_documentation"/>
+                android:layout_height="wrap_content">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/input_curp_documentation"
+                    style="@style/commonInput"
+                    android:hint="@string/curp_documentation"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="18" />
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/layout_input_rfc_documentation">
+            </android.support.design.widget.TextInputLayout>
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/layout_input_rfc_documentation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="R.F.C."
-                android:inputType="text"
-                android:ems="10"
-                android:maxLength="5"
-                android:id="@+id/input_rfc_documentation"/>
+                android:layout_height="wrap_content">
 
-        </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/input_rfc_documentation"
+                    style="@style/commonInput"
+                    android:hint="@string/rfc_documentation"
+                    android:inputType="textCapCharacters"
+                    android:maxLength="13" />
 
-        <Button
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Guardar Información"
-            android:id="@+id/next_level_button"
-            android:background="@color/colorAccent"
-            android:textColor="@android:color/white"/>
-    </LinearLayout>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_save_documentation"
+                style="@style/commonButton"
+                android:onClick="onClicSaveDocumentationActivity"
+                android:text="@string/save_action" />
+        </LinearLayout>
     </ScrollView>
 
     <com.google.android.gms.ads.AdView
@@ -80,10 +71,9 @@
         android:id="@+id/adViewDocumentation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         ads:adSize="SMART_BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
-    </com.google.android.gms.ads.AdView>
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
 
 </RelativeLayout>

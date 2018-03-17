@@ -58,6 +58,11 @@
 
     <!-- Documentation Activity -->
     <string name="title_activity_documentation">Documentación</string>
+    <string name="driver_license_documentation">Licencia de conducir</string>
+    <string name="curp_documentation">C.U.R.P.*</string>
+    <string name="rfc_documentation">R.F.C.</string>
+    <string name="error_curp_documentation">Curp no válida</string>
+
 
     <!-- Studies Done Activity -->
     <string name="title_activity_studies_done">Estudios Realizados</string>
@@ -85,6 +90,9 @@
     <string name="help_general_activity">Tus datos básicos son importantes para poder organizar una
         entrevista con la empresa en la que te gustaría laborar. No olvides que los campos marcados
         con un * son obligatorios.</string>
+    <string name="help_documentation_activity">Los siguientes datos son importantes para un reclutador,
+         con ellos podrá darte de alta las prestaciones ofrecidas. No olvides que los campos marcados
+        con un * son obligatorios.</string>
 
     <!-- Common text -->
     <string name="save_action">Guardar</string>
@@ -92,6 +100,7 @@
     <string name="success_save">Datos guardados exitosamente</string>
     <string name="error_save">Error al guardar los datos</string>
     <string name="error_load_data">Error al cargar los datos</string>
+
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>
     <string name="start_level">Level 1</string>
