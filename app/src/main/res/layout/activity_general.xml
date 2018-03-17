@@ -307,7 +307,7 @@
                 android:onClick="onClicSaveGeneralActivity"
                 style="@style/commonButton"
                 android:text="@string/save_action"
-                android:id="@+id/next_level_button"/>
+                android:id="@+id/btn_save_documentation"/>
 
         </LinearLayout>
     </ScrollView>

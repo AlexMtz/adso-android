@@ -225,13 +225,10 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         try {
             realm.beginTransaction();
             Number currentIdNum = realm.where(General.class).max("id");
-            int nextId;
             if (currentIdNum == null) {
-                nextId = 1;
-            } else {
-                nextId = currentIdNum.intValue() + 1;
+                int nextId = 1;
+                tmpGeneral.setId(nextId);
             }
-            tmpGeneral.setId(nextId);
             realm.copyToRealmOrUpdate(tmpGeneral);
             realm.commitTransaction();
             showMessage(getString(R.string.success_save));
@@ -253,11 +250,6 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
                 tmpGeneral = realm.where(General.class).findFirst();;
             }
         });
-        /*try{
-            general = realm.where(General.class).findFirst();
-        }finally {
-            realm.close();
-        }*/
     }
 
     public void onClicRadioButtonGenreGeneral(View view){
