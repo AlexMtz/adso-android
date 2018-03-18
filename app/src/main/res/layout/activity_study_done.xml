@@ -16,13 +16,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin">
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/level_academic_studies_done"/>
 
-            </Spinner>
+            <Spinner
+                android:entries="@array/array_academic"
+                style="@style/commonSpinner" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -30,11 +30,9 @@
                 android:id="@+id/layout_name_course_study_done">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Curso o especialidad"
+                    style="@style/commonInput"
+                    android:hint="@string/course_studies_done"
                     android:inputType="text"
-                    android:ems="10"
                     android:id="@+id/input_name_course_study_done"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -45,22 +43,20 @@
                 android:id="@+id/layout_institute_study_done">
 
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Institución"
+                    style="@style/commonInput"
+                    android:hint="@string/institute_studies_done"
                     android:inputType="text"
-                    android:ems="10"
                     android:id="@+id/input_institute_study_done"/>
 
             </android.support.design.widget.TextInputLayout>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin">
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/subheader_state_activity_general"/>
 
-            </Spinner>
+            <Spinner
+                style="@style/commonSpinner"
+                android:entries="@array/states"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -69,30 +65,22 @@
 
                 <ImageButton
                     android:id="@+id/btn_date_start_study_done"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="Datepicker"
-                    android:background="@drawable/custom_image_button"
-                    android:src="@drawable/ic_date_range" />
+                    style="@style/datePickerButton"
+                    android:contentDescription="@string/start_date_studies_done"
+                    android:onClick="onClicDateStudyDone"/>
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/layout_input_date_start_study_done"
                     android:layout_marginEnd="@dimen/fab_margin"
                     android:layout_toStartOf="@+id/btn_date_start_study_done">
 
                     <EditText
                         android:id="@+id/input_date_start_study_done"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="10"
+                        style="@style/commonInput"
                         android:enabled="false"
-                        android:hint="Fecha de inicio"
-                        android:inputType="date" />
+                        android:hint="@string/start_date_studies_done"/>
 
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
@@ -104,50 +92,38 @@
 
                 <ImageButton
                     android:id="@+id/btn_date_end_study_done"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="Datepicker"
-                    android:background="@drawable/custom_image_button"
-                    android:src="@drawable/ic_date_range" />
+                    style="@style/datePickerButton"
+                    android:contentDescription="@string/end_date_studies_done"
+                    android:onClick="onClicDateStudyDone"/>
 
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/layout_input_date_end_study_done"
                     android:layout_marginEnd="@dimen/fab_margin"
                     android:layout_toStartOf="@+id/btn_date_end_study_done">
 
                     <EditText
                         android:id="@+id/input_date_end_study_done"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:ems="10"
+                        style="@style/commonInput"
                         android:enabled="false"
-                        android:hint="Fecha de fin"
-                        android:inputType="date" />
+                        android:hint="@string/end_date_studies_done"/>
 
                 </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fab_margin"
-                android:layout_marginBottom="@dimen/fab_margin">
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/title_recived_studies_done"/>
 
-            </Spinner>
+            <Spinner
+                android:entries="@array/array_title_recived"
+                style="@style/commonSpinner"/>
 
             <Button
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guardar Información"
-                android:id="@+id/btn_save_documentation"
-                android:background="@color/colorAccent"
-                android:textColor="@android:color/white"/>
+                style="@style/commonButton"
+                android:text="@string/save_action"
+                android:id="@+id/btn_save_documentation"/>
         </LinearLayout>
     </ScrollView>
 

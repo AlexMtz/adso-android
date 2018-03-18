@@ -5,19 +5,30 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
-public class StudyDoneActivity extends AppCompatActivity {
+import java.util.Calendar;
+
+public class StudyDoneActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     private Button mNextLevelButton;
     private InterstitialAd mInterstitialAd;
     private AdView mAdView;
+
+    private Calendar calendar = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +58,24 @@ public class StudyDoneActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adViewStudyDone);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    public void onClicDateStudyDone(View view){
+        calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(StudyDoneActivity.this,
+                this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        DatePicker datePicker = datePickerDialog.getDatePicker();
+        datePicker.setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.common, menu);
+        return true;
     }
 
     @Override
@@ -55,6 +84,19 @@ public class StudyDoneActivity extends AppCompatActivity {
 
         if (id == android.R.id.home){
             this.finish();
+            return true;
+        }
+
+        if (id == R.id.action_delete){
+            return true;
+        }
+
+        if (id == R.id.action_help){
+            AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.commonAlertDialog));
+            builder.setMessage(getString(R.string.help_study_done_activity))
+                    .setTitle(getString(R.string.help_title));
+            AlertDialog dialog = builder.create();
+            dialog.show();
             return true;
         }
 
@@ -105,5 +147,20 @@ public class StudyDoneActivity extends AppCompatActivity {
     private void goToNextLevel() {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
+    }
+
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
