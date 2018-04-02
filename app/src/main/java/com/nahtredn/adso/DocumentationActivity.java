@@ -35,6 +35,7 @@ public class DocumentationActivity extends AppCompatActivity {
     private EditText inputDriverLicense, inputCURP, inputRFC;
     private TextInputLayout layoutInputCURP;
 
+    private Documentation tmpDocument;
     private int id;
 
     @Override
@@ -64,10 +65,10 @@ public class DocumentationActivity extends AppCompatActivity {
         inputCURP = findViewById(R.id.input_curp_documentation);
         inputRFC = findViewById(R.id.input_rfc_documentation);
 
-        Documentation documentation = findDocumentation();
-        if (documentation != null){
-            loadDocumentation(documentation);
-            id = documentation.getId();
+        findDocumentation();
+        if (tmpDocument != null){
+            loadDocumentation(tmpDocument);
+            id = tmpDocument.getId();
         }else {
             id = -1;
         }
@@ -81,15 +82,14 @@ public class DocumentationActivity extends AppCompatActivity {
         inputRFC.setText(documentation.getRfc());
     }
 
-    private Documentation findDocumentation(){
-        Documentation documentation = null;
+    private void findDocumentation(){
         Realm realm = Realm.getDefaultInstance();
-        try{
-            documentation = realm.where(Documentation.class).findFirst();
-        }finally {
-            realm.close();
-        }
-        return documentation;
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                tmpDocument = realm.where(Documentation.class).findFirst();;
+            }
+        });
     }
 
     @Override
