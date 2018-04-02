@@ -102,6 +102,41 @@
     <!-- Current Studies Activity -->
     <string name="title_activity_current_studies">Estudios Actuales</string>
     <string name="title_activity_current_study">Estudio Actual</string>
+    <string name="title_schedule">Horario</string>
+    <string name="schedule_days">Días</string>
+    <string name="schedule_hour_start">Hora de inicio</string>
+    <string name="schedule_hour_end">Hora de fin</string>
+    <string name="monday">L</string>
+    <string name="tuesday">M</string>
+    <string name="wednesday">M</string>
+    <string name="thursday">J</string>
+    <string name="friday">V</string>
+    <string name="saturday">S</string>
+    <string name="sunday">D</string>
+    <string name="grade_modality">Modalidad*</string>
+    <array name="array_modality">
+        <item>Selecciona una modalidad</item>
+        <item>Bimestre</item>
+        <item>Trimestre</item>
+        <item>Cuatrimestre</item>
+        <item>Semestre</item>
+        <item>Año</item>
+    </array>
+    <string name="grade">Grado*</string>
+    <array name="array_grade">
+        <item>Selecciona un grado</item>
+        <item>1er</item>
+        <item>2do</item>
+        <item>3er</item>
+        <item>4to</item>
+        <item>5to</item>
+        <item>6to</item>
+        <item>7mo</item>
+        <item>8vo</item>
+        <item>9no</item>
+        <item>10mo</item>
+    </array>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

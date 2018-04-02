@@ -65,6 +65,15 @@
         <item name="android:src">@drawable/ic_date_range</item>
     </style>
 
+    <style name="timePickerButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">@drawable/custom_image_button</item>
+        <item name="android:src">@drawable/ic_time</item>
+    </style>
+
     <style name="commonSpinner">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
