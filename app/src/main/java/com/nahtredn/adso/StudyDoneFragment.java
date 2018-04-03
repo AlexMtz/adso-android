@@ -17,6 +17,10 @@ import com.nahtredn.helpers.StudyDoneAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 /**
  * Created by Me on 13/03/2018.
  */
@@ -64,6 +68,7 @@ public class StudyDoneFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 StudiesDone studiesDone = mStudyDoneAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), StudyDoneActivity.class);
+                intent.putExtra("study_done_id", studiesDone.getId());
                 getActivity().startActivity(intent);
             }
         });
@@ -77,25 +82,17 @@ public class StudyDoneFragment extends Fragment {
         super.onResume();
         mStudyDoneAdapter = new StudyDoneAdapter(getActivity(),
                 getStudiesDone());
+        mStudyDoneAdapter.notifyDataSetChanged();
         mStudyDoneList.setAdapter(mStudyDoneAdapter);
     }
 
     private List<StudiesDone> getStudiesDone(){
-        ArrayList<StudiesDone> studiesDones = new ArrayList<>();
-        StudiesDone studyDone = new StudiesDone();
-        studyDone.setAcademicLevel("Preparatoria");
-        studyDone.setInstitute("Colegio de Bachilleres");
-        studyDone.setEndDate("06/06/2017");
-        studiesDones.add(studyDone);
-        studiesDones.add(studyDone);
-        studiesDones.add(studyDone);
-        studiesDones.add(studyDone);
-        /*Realm.init(getContext());
+        Realm.init(getContext());
+
         final Realm realm = Realm.getDefaultInstance();
-        RealmQuery<Client> query = realm.where(Client.class);
+        RealmQuery<StudiesDone> query = realm.where(StudiesDone.class);
         // Execute the query:
-        RealmResults<Client> result = query.findAll();
-        return result;*/
-        return studiesDones;
+        RealmResults<StudiesDone> result = query.findAll();
+        return result;
     }
 }

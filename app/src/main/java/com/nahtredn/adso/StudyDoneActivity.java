@@ -83,8 +83,49 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         Realm.init(this);
 
         studyDone = new StudiesDone();
+        StudiesDone studyDoneTmp = findStudy();
+        if (studyDoneTmp != null){
+            studyDone.setId(studyDoneTmp.getId());
+            loadStudy(studyDoneTmp);
+        }
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    private StudiesDone findStudy(){
+        int studyId = getIntent().getIntExtra("study_done_id",-1);
+        if (studyId == -1){
+            return null;
+        }
+        StudiesDone result = null;
+        Realm realm = Realm.getDefaultInstance();
+        try{
+            result = realm.where(StudiesDone.class).equalTo("id", studyId).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    private void deleteStudy(int id){
+        Realm realm = Realm.getDefaultInstance();
+        try{
+            StudiesDone result = realm.where(StudiesDone.class).equalTo("id", id).findFirst();
+            result.deleteFromRealm();
+        }finally {
+            realm.close();
+        }
+    }
+
+    private void loadStudy(StudiesDone studyDone){
+        inputCourse.setText(studyDone.getCourseName());
+        inputInstitute.setText(studyDone.getInstitute());
+        inputStartCourse.setText(studyDone.getStartDate());
+        inputEndCourse.setText(studyDone.getEndDate());
+        spinnerAcademicLevel.setSelection(studyDone.getAcademicLevelPos());
+        spinnerState.setSelection(studyDone.getStatePos());
+        spinnerTitle.setSelection(studyDone.getTitlePos());
     }
 
     public void onClicSaveStudyDone(View view){
@@ -194,6 +235,12 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         }
 
         if (id == R.id.action_delete){
+            if (studyDone.getId() == 0){
+                this.finish();
+            } else {
+                deleteStudy(studyDone.getId());
+                this.finish();
+            }
             return true;
         }
 
