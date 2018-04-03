@@ -98,6 +98,8 @@
         <item>Título</item>
         <item>Otro</item>
     </array>
+    <string name="error_academic_level">Por favor selecciona un nivel académico</string>
+    <string name="error_title">Por favor selecciona el título recibido</string>
 
     <!-- Current Studies Activity -->
     <string name="title_activity_current_studies">Estudios Actuales</string>

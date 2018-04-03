@@ -21,7 +21,7 @@ public class StudiesDoneActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studies_done);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null){
             toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
             setSupportActionBar(toolbar);
