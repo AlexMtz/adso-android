@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.util.Calendar;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class StudyDoneActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
@@ -109,10 +110,12 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void deleteStudy(int id){
+        Log.w("StudyDoneActivity", "Id " + studyDone.getId());
         Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
         try{
-            StudiesDone result = realm.where(StudiesDone.class).equalTo("id", id).findFirst();
-            result.deleteFromRealm();
+            StudiesDone studyDoneTmp = studyDone;
+            RealmResults result = realm.where(StudiesDone.class).findAll();
         }finally {
             realm.close();
         }
@@ -230,11 +233,13 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         int id = item.getItemId();
 
         if (id == android.R.id.home){
+            Log.w("StudyDoneActivity", "Id " + studyDone.getId());
             this.finish();
             return true;
         }
 
         if (id == R.id.action_delete){
+            Log.w("StudyDoneActivity", "Id " + studyDone.getId());
             if (studyDone.getId() == 0){
                 this.finish();
             } else {

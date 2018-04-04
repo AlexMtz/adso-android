@@ -62,6 +62,11 @@ public class StudiesDoneActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if (id == android.R.id.home){
+            this.finish();
+            return true;
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
             Intent intent = new Intent(getApplicationContext(), StudyDoneActivity.class);
