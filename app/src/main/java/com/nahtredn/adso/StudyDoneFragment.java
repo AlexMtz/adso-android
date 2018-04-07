@@ -73,6 +73,28 @@ public class StudyDoneFragment extends Fragment {
             }
         });
 
+        mStudyDoneList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Realm.init(getContext());
+                final Realm realm = Realm.getDefaultInstance();
+
+                StudiesDone study = mStudyDoneAdapter.getItem(position);
+                StudiesDone result = realm.where(StudiesDone.class).equalTo("id", study.getId()).findFirst();
+
+                // Get the study title to show it in toast message
+
+                // All changes to data must happen in a transaction
+                realm.beginTransaction();
+                // remove single match
+                result.deleteFromRealm();
+                realm.commitTransaction();
+
+                mStudyDoneAdapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
         setHasOptionsMenu(true);
         return root;
     }
