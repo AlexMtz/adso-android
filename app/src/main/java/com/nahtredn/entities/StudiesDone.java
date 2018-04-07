@@ -11,21 +11,14 @@ import io.realm.annotations.Required;
 public class StudiesDone extends RealmObject {
     @PrimaryKey
     private int id;
-    @Required
     private String academicLevel;
     private int academicLevelPos;
-    @Required
     private String courseName;
-    @Required
     private String institute;
-    @Required
     private String state;
     private int statePos;
-    @Required
     private String startDate;
-    @Required
     private String endDate;
-    @Required
     private String title;
     private int titlePos;
 
