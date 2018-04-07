@@ -224,7 +224,7 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.common, menu);
+        getMenuInflater().inflate(R.menu.help, menu);
         return true;
     }
 
@@ -235,17 +235,6 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         if (id == android.R.id.home){
             Log.w("StudyDoneActivity", "Id " + studyDone.getId());
             this.finish();
-            return true;
-        }
-
-        if (id == R.id.action_delete){
-            Log.w("StudyDoneActivity", "Id " + studyDone.getId());
-            if (studyDone.getId() == 0){
-                this.finish();
-            } else {
-                deleteStudy(studyDone.getId());
-                this.finish();
-            }
             return true;
         }
 
