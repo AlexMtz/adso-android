@@ -5,6 +5,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nahtredn.entities.Knowledge;
+import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.Validator;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -17,9 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import io.realm.Realm;
@@ -156,7 +156,7 @@ public class SkillDetailActivity extends AppCompatActivity {
 
     public void onClicSaveKnowledge(View view){
 
-        if (!validateText(inputKnowledge, layoutInputKnowledge)){
+        if (!Validator.with(this).validateText(inputKnowledge, layoutInputKnowledge)){
             return;
         }
 
@@ -171,7 +171,7 @@ public class SkillDetailActivity extends AppCompatActivity {
 
         try {
             realm.beginTransaction();
-            Number currentIdNum = realm.where(Knowledge.class).max("id");
+            Number currentIdNum = realm.where(tmpKnowledge.getClass()).max("id");
             if (currentIdNum == null) {
                 tmpKnowledge.setId(1);
             } else {
@@ -180,35 +180,14 @@ public class SkillDetailActivity extends AppCompatActivity {
             }
             realm.copyToRealmOrUpdate(tmpKnowledge);
             realm.commitTransaction();
-            showMessage(getString(R.string.success_save));
+            Messenger.with(this.getApplication()).showSuccessMessage();
             this.finish();
         } catch (Exception e) {
             realm.cancelTransaction();
-            showMessage(getString(R.string.error_save));
+            Messenger.with(this.getApplication()).showFailMessage();
             Log.w("KnowledgeActivity", "Error: " + e.getMessage());
         } finally {
             realm.close();
-        }
-    }
-
-    private void showMessage(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean validateText(EditText editText, TextInputLayout textInputLayout) {
-        if (editText.getText().toString().trim().isEmpty()) {
-            textInputLayout.setError(getString(R.string.error_field_required));
-            requestFocus(editText);
-            return false;
-        } else {
-            textInputLayout.setErrorEnabled(false);
-        }
-        return true;
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
 }
