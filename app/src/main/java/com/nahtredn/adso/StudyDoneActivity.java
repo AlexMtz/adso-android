@@ -109,18 +109,6 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         return result;
     }
 
-    private void deleteStudy(int id){
-        Log.w("StudyDoneActivity", "Id " + studyDone.getId());
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        try{
-            StudiesDone studyDoneTmp = studyDone;
-            RealmResults result = realm.where(StudiesDone.class).findAll();
-        }finally {
-            realm.close();
-        }
-    }
-
     private void loadStudy(StudiesDone studyDone){
         inputCourse.setText(studyDone.getCourseName());
         inputInstitute.setText(studyDone.getInstitute());
@@ -173,7 +161,9 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
             realm.beginTransaction();
             Number currentIdNum = realm.where(StudiesDone.class).max("id");
             if (currentIdNum == null) {
-                int nextId = 1;
+                studyDone.setId(1);
+            } else {
+                int nextId = currentIdNum.intValue() + 1;
                 studyDone.setId(nextId);
             }
             realm.copyToRealmOrUpdate(studyDone);

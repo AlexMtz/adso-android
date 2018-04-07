@@ -266,7 +266,9 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
             realm.beginTransaction();
             Number currentIdNum = realm.where(CurrentStudy.class).max("id");
             if (currentIdNum == null) {
-                int nextId = 1;
+                currentStudy.setId(1);
+            } else {
+                int nextId = currentIdNum.intValue() + 1;
                 currentStudy.setId(nextId);
             }
             realm.copyToRealmOrUpdate(currentStudy);
