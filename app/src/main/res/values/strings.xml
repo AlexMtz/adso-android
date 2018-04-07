@@ -138,6 +138,8 @@
         <item>9no</item>
         <item>10mo</item>
     </array>
+    <string name="error_grade">Por favor selecciona un grado</string>
+    <string name="error_modality">Por favor selecciona una modalidad</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -160,8 +162,11 @@
     <string name="help_documentation_activity">Los siguientes datos son importantes para un reclutador,
          con ellos podrá darte de alta las prestaciones ofrecidas. No olvides que los campos marcados
         con un * son obligatorios.</string>
-    <string name="help_study_done_activity">Los siguientes datos son importantes describir tu preparación,
+    <string name="help_study_done_activity">Los siguientes datos son importantes para describir tu preparación,
          con ellos podrás competir por una oportunidad de empleo. No olvides que los campos marcados
+        con un * son obligatorios.</string>
+    <string name="help_current_study_activity">Los siguientes datos son importantes para indicar tus cursos actuales,
+         con ellos los reclutadores podrán contemplar un mejor horario para ti. No olvides que los campos marcados
         con un * son obligatorios.</string>
 
     <!-- Common text -->

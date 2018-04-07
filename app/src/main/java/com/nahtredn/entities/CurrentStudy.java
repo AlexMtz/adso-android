@@ -1,25 +1,32 @@
 package com.nahtredn.entities;
 
-import java.util.Date;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Me on 14/03/2018.
  */
 
-public class CurrentStudy {
-    private String id;
+public class CurrentStudy extends RealmObject {
+    @PrimaryKey
+    private int id;
     private String institute;
-    private Date startDate;
-    private Date endDate;
+    private String startTime;
+    private String endTime;
+    private String days;
     private String academicLevel;
+    private int positionAcademicLevel;
     private String courseName;
     private String grade;
+    private int positionGrade;
+    private String modality;
+    private int positionModality;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -31,20 +38,28 @@ public class CurrentStudy {
         this.institute = institute;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
     }
 
     public String getAcademicLevel() {
@@ -53,6 +68,14 @@ public class CurrentStudy {
 
     public void setAcademicLevel(String academicLevel) {
         this.academicLevel = academicLevel;
+    }
+
+    public int getPositionAcademicLevel() {
+        return positionAcademicLevel;
+    }
+
+    public void setPositionAcademicLevel(int positionAcademicLevel) {
+        this.positionAcademicLevel = positionAcademicLevel;
     }
 
     public String getCourseName() {
@@ -71,7 +94,31 @@ public class CurrentStudy {
         this.grade = grade;
     }
 
+    public int getPositionGrade() {
+        return positionGrade;
+    }
+
+    public void setPositionGrade(int positionGrade) {
+        this.positionGrade = positionGrade;
+    }
+
+    public String getModality() {
+        return modality;
+    }
+
+    public void setModality(String modality) {
+        this.modality = modality;
+    }
+
+    public int getPositionModality() {
+        return positionModality;
+    }
+
+    public void setPositionModality(int positionModality) {
+        this.positionModality = positionModality;
+    }
+
     public String getSchedule(){
-        return startDate.toString() + " - " + endDate.toString();
+        return this.getStartTime() + " - " + this.getEndTime();
     }
 }

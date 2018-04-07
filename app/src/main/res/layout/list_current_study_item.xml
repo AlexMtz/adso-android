@@ -20,14 +20,22 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/course_name_current_study"
         android:layout_below="@+id/course_name_current_study"
-        tools:text="Lun - Vie 10:00-12:00" />
+        tools:text="Lun-Mar-Mie-Jue-Vie" />
+
+    <TextView
+        android:id="@+id/time_schedule_current_study"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/course_name_current_study"
+        android:layout_below="@+id/schedule_current_study"
+        tools:text="10:00-12:00" />
 
     <TextView
         android:id="@+id/institute_current_study"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/course_name_current_study"
-        android:layout_below="@+id/schedule_current_study"
+        android:layout_below="@+id/time_schedule_current_study"
         tools:text="Universidad Autónoma de Zacateacas" />
 
 </RelativeLayout>

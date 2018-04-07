@@ -40,6 +40,7 @@ public class CurrentStudyAdapter extends ArrayAdapter<CurrentStudy> {
         // Referencias UI.
         TextView courseName = convertView.findViewById(R.id.course_name_current_study);
         TextView schedule = convertView.findViewById(R.id.schedule_current_study);
+        TextView timeSchedule = convertView.findViewById(R.id.time_schedule_current_study);
         TextView institute = convertView.findViewById(R.id.institute_current_study);
 
         // Cliente actual.
@@ -47,7 +48,8 @@ public class CurrentStudyAdapter extends ArrayAdapter<CurrentStudy> {
 
         // Setup.
         courseName.setText(currentStudy.getCourseName());
-        schedule.setText(currentStudy.getSchedule());
+        schedule.setText(currentStudy.getDays());
+        timeSchedule.setText(currentStudy.getSchedule());
         institute.setText(currentStudy.getInstitute());
         return convertView;
     }

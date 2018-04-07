@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
+
 /**
  * Created by Me on 14/03/2018.
  */
@@ -63,7 +67,30 @@ public class CurrentStudyFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 CurrentStudy currentStudy = mCurrentStudyAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), CurrentStudyActivity.class);
+                intent.putExtra("current_study_id", currentStudy.getId());
                 getActivity().startActivity(intent);
+            }
+        });
+
+        mCurrentStudyList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Realm.init(getContext());
+                final Realm realm = Realm.getDefaultInstance();
+
+                CurrentStudy study = mCurrentStudyAdapter.getItem(position);
+                CurrentStudy result = realm.where(CurrentStudy.class).equalTo("id", study.getId()).findFirst();
+
+                // Get the study title to show it in toast message
+
+                // All changes to data must happen in a transaction
+                realm.beginTransaction();
+                // remove single match
+                result.deleteFromRealm();
+                realm.commitTransaction();
+
+                mCurrentStudyAdapter.notifyDataSetChanged();
+                return false;
             }
         });
 
@@ -80,21 +107,12 @@ public class CurrentStudyFragment extends Fragment {
     }
 
     private List<CurrentStudy> getCurrentStudies(){
-        ArrayList<CurrentStudy> currentStudies = new ArrayList<>();
-        CurrentStudy currentStudy = new CurrentStudy();
-        currentStudy.setCourseName("Ingles");
-        currentStudy.setInstitute("UTZAC");
-        currentStudy.setStartDate(Calendar.getInstance().getTime());
-        currentStudy.setEndDate(Calendar.getInstance().getTime());
-        currentStudies.add(currentStudy);
-        currentStudies.add(currentStudy);
-        currentStudies.add(currentStudy);
-        /*Realm.init(getContext());
+
+        Realm.init(getContext());
         final Realm realm = Realm.getDefaultInstance();
-        RealmQuery<Client> query = realm.where(Client.class);
+        RealmQuery<CurrentStudy> query = realm.where(CurrentStudy.class);
         // Execute the query:
-        RealmResults<Client> result = query.findAll();
-        return result;*/
-        return currentStudies;
+        RealmResults<CurrentStudy> result = query.findAll();
+        return result;
     }
 }

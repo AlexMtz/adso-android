@@ -48,7 +48,8 @@
 
             <Spinner
                 style="@style/commonSpinner"
-                android:entries="@array/array_academic">
+                android:entries="@array/array_academic"
+                android:id="@+id/spinner_academic_level_current_study">
             </Spinner>
 
             <TextView
@@ -57,12 +58,14 @@
 
             <Spinner
                 style="@style/commonSpinner"
-                android:entries="@array/array_grade">
+                android:entries="@array/array_grade"
+                android:id="@+id/spinner_grade_current_study">
             </Spinner>
 
             <Spinner
                 style="@style/commonSpinner"
-                android:entries="@array/array_modality">
+                android:entries="@array/array_modality"
+                android:id="@+id/spinner_modality_current_study">
             </Spinner>
 
             <TextView
@@ -185,7 +188,8 @@
             <Button
                 android:id="@+id/btn_save_documentation"
                 style="@style/commonButton"
-                android:text="@string/save_action" />
+                android:text="@string/save_action"
+                android:onClick="saveCurrentStudy"/>
 
         </LinearLayout>
     </ScrollView>
