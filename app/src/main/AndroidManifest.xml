@@ -81,7 +81,10 @@
         <activity
             android:name=".KnowledgeActivity"
             android:label="@string/title_activity_knowledge"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SkillDetailActivity"
+            android:label="@string/title_activity_skill_detail"></activity>
     </application>
 
 </manifest>

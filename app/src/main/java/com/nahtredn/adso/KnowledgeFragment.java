@@ -1,5 +1,6 @@
 package com.nahtredn.adso;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -63,9 +64,9 @@ public class KnowledgeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 Knowledge knowledge = mKnowledgeAdapter.getItem(position);
-                // Intent intent = new Intent(getActivity(), StudyDoneActivity.class);
-                // intent.putExtra("study_done_id", studiesDone.getId());
-                // getActivity().startActivity(intent);
+                Intent intent = new Intent(getActivity(), SkillDetailActivity.class);
+                intent.putExtra("knowledge_id", knowledge.getId());
+                getActivity().startActivity(intent);
             }
         });
 

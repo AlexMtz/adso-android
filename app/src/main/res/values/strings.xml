@@ -143,8 +143,11 @@
 
     <!-- Knowledges and skills activity -->
     <string name="title_activity_knowledge">Conocimientos</string>
+    <string name="title_activity_skill_detail">Conocimientos</string>
     <string name="subtitle_activity_knowledge">y habilidades</string>
-    <string name="title_knowledge_activity">Conocimiento/Habilidad:*</string>
+    <string name="title_activity_knowledge_detail">Conocimiento</string>
+    <string name="subtitle_activity_knowledge_detail">o habilidad</string>
+    <string name="title_knowledge">Conocimiento o Habilidad:*</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -173,6 +176,9 @@
     <string name="help_current_study_activity">Los siguientes datos son importantes para indicar tus cursos actuales,
          con ellos los reclutadores podrán contemplar un mejor horario para ti. No olvides que los campos marcados
         con un * son obligatorios.</string>
+    <string name="help_skills_activity">Agrega tus habilidades y conocimientos para destacar entre los solicitantes, entre más
+        tengas, mayor oportunidad tendrás. Ser honesto y claro es muy importante. No olvides que los campos marcados
+        con un * son obligatorios.</string>
 
     <!-- Common text -->
     <string name="save_action">Guardar</string>
@@ -195,5 +201,4 @@
     <array name="common_municipality">
         <item>Selecciona un estado antes</item>
     </array>
-
 </resources>

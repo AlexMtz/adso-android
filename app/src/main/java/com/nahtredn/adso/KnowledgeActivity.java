@@ -1,5 +1,6 @@
 package com.nahtredn.adso;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,6 +66,8 @@ public class KnowledgeActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_add) {
+            Intent intent = new Intent(getApplicationContext(), SkillDetailActivity.class);
+            startActivity(intent);
             return true;
         }
 

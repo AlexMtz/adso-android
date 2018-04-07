@@ -1,0 +1,52 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nahtredn.adso.SkillDetailActivity"
+    android:background="@color/background_activity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/common_padding"
+        android:layout_above="@id/adViewGeneral">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_knowledge">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/title_knowledge"
+                    android:inputType="textCapWords"
+                    android:id="@+id/input_knowledge"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:onClick="onClicSaveKnowledge"
+                style="@style/commonButton"
+                android:text="@string/save_action"
+                android:id="@+id/btn_save_documentation"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewSkillsDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>
