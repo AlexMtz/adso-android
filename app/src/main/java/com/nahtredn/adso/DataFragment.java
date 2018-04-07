@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.nahtredn.entities.DataItem;
+import com.nahtredn.entities.Knowledge;
 import com.nahtredn.helpers.DataAdapter;
 
 import java.util.ArrayList;
@@ -78,6 +79,9 @@ public class DataFragment extends Fragment {
                         break;
                     case 4:
                         intent = new Intent(getActivity(), CurrentStudiesActivity.class);
+                        break;
+                    case 5:
+                        intent = new Intent(getActivity(), KnowledgeActivity.class);
                         break;
                 }
                 if (intent != null) {

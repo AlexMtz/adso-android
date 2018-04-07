@@ -141,6 +141,11 @@
     <string name="error_grade">Por favor selecciona un grado</string>
     <string name="error_modality">Por favor selecciona una modalidad</string>
 
+    <!-- Knowledges and skills activity -->
+    <string name="title_activity_knowledge">Conocimientos</string>
+    <string name="subtitle_activity_knowledge">y habilidades</string>
+    <string name="title_knowledge_activity">Conocimiento/Habilidad:*</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -190,4 +195,5 @@
     <array name="common_municipality">
         <item>Selecciona un estado antes</item>
     </array>
+
 </resources>
