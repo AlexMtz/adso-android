@@ -142,7 +142,6 @@ public class DocumentationActivity extends AppCompatActivity {
     }
 
     public void onClicSaveDocumentationActivity(View view){
-        showInterstitial();
 
         if (!validateCURP()) {
             return;
@@ -156,6 +155,8 @@ public class DocumentationActivity extends AppCompatActivity {
         documentation.setCurp(inputCURP.getText().toString());
         documentation.setRfc(inputRFC.getText().toString());
         saveDocumentation(documentation);
+
+        showInterstitial();
     }
 
     private void saveDocumentation(Documentation tmpDocumentation){

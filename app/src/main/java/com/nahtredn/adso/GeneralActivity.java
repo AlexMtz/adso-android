@@ -159,7 +159,6 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
     }
 
     public void onClicSaveGeneralActivity(View view){
-        showInterstitial();
 
         if (!validateText(inputName, layoutInputName)) {
             return;
@@ -216,6 +215,8 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         address.setZipCode(inputZipCode.getText().toString());
         general.setAddress(address);
         saveGeneral(general);
+
+        showInterstitial();
     }
 
     private void saveGeneral(final General tmpGeneral) {
