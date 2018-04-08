@@ -70,28 +70,6 @@ public class KnowledgeFragment extends Fragment {
             }
         });
 
-        mKnowledgeList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Realm.init(getContext());
-                final Realm realm = Realm.getDefaultInstance();
-
-                Knowledge knowledge = mKnowledgeAdapter.getItem(position);
-                Knowledge result = realm.where(Knowledge.class).equalTo("id", knowledge.getId()).findFirst();
-
-                // Get the study title to show it in toast message
-
-                // All changes to data must happen in a transaction
-                realm.beginTransaction();
-                // remove single match
-                result.deleteFromRealm();
-                realm.commitTransaction();
-
-                mKnowledgeAdapter.notifyDataSetChanged();
-                return false;
-            }
-        });
-
         setHasOptionsMenu(true);
         return root;
     }
