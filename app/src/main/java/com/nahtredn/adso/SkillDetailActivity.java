@@ -6,6 +6,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.RealmController;
 import com.nahtredn.utilities.Validator;
 
 import android.os.Bundle;
@@ -14,15 +15,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
-
-import io.realm.Realm;
 
 public class SkillDetailActivity extends AppCompatActivity {
 
@@ -50,7 +48,7 @@ public class SkillDetailActivity extends AppCompatActivity {
         layoutInputKnowledge = findViewById(R.id.layout_input_knowledge);
 
         knowledge = new Knowledge();
-        Knowledge knowledgeTmp = find();
+        Knowledge knowledgeTmp = RealmController.with().find(getIntent().getIntExtra("knowledge_id",-1));
         if (knowledgeTmp != null){
             knowledge.setId(knowledgeTmp.getId());
             loadData(knowledgeTmp);
@@ -70,7 +68,7 @@ public class SkillDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.help, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 
@@ -80,6 +78,16 @@ public class SkillDetailActivity extends AppCompatActivity {
 
         if (id == android.R.id.home){
             this.finish();
+            return true;
+        }
+
+        if (id == R.id.action_delete){
+            if (RealmController.with().delete(knowledge, knowledge.getId())){
+                Messenger.with(this).showMessage(R.string.success_delete);
+                this.finish();
+            } else {
+                Messenger.with(this).showMessage(R.string.error_delete);
+            }
             return true;
         }
 
@@ -139,21 +147,6 @@ public class SkillDetailActivity extends AppCompatActivity {
         inputKnowledge.setText(knowledge.getTitle());
     }
 
-    private Knowledge find(){
-        int knowledgeId = getIntent().getIntExtra("knowledge_id",-1);
-        if (knowledgeId == -1){
-            return null;
-        }
-        Knowledge result = null;
-        Realm realm = Realm.getDefaultInstance();
-        try{
-            result = realm.where(Knowledge.class).equalTo("id", knowledgeId).findFirst();
-        }finally {
-            realm.close();
-        }
-        return result;
-    }
-
     public void onClicSaveKnowledge(View view){
 
         if (!Validator.with(this).validateText(inputKnowledge, layoutInputKnowledge)){
@@ -161,33 +154,12 @@ public class SkillDetailActivity extends AppCompatActivity {
         }
 
         knowledge.setTitle(inputKnowledge.getText().toString().trim());
-        save(knowledge);
-        showInterstitial();
-    }
-
-    private void save(final Knowledge tmpKnowledge) {
-        Realm.init(getApplicationContext());
-        final Realm realm = Realm.getDefaultInstance();
-
-        try {
-            realm.beginTransaction();
-            Number currentIdNum = realm.where(tmpKnowledge.getClass()).max("id");
-            if (currentIdNum == null) {
-                tmpKnowledge.setId(1);
-            } else {
-                int nextId = currentIdNum.intValue() + 1;
-                tmpKnowledge.setId(nextId);
-            }
-            realm.copyToRealmOrUpdate(tmpKnowledge);
-            realm.commitTransaction();
+        if (RealmController.with().save(knowledge)){
             Messenger.with(this.getApplication()).showSuccessMessage();
             this.finish();
-        } catch (Exception e) {
-            realm.cancelTransaction();
+        } else {
             Messenger.with(this.getApplication()).showFailMessage();
-            Log.w("KnowledgeActivity", "Error: " + e.getMessage());
-        } finally {
-            realm.close();
         }
+        showInterstitial();
     }
 }
