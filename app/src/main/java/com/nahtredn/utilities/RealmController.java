@@ -85,17 +85,18 @@ public class RealmController {
 
     /**
      * Método que busca un registro de tipo Knowledge en la base de datos a partir de su identificador.
+     * @param knowledge corresponde a la clase en la cual se reliazará la búsqueda
      * @param id corresponde al valor identificador del registro a buscar
      * @return  un objeto de tipo Knowledge
      */
-    public Knowledge find(int id){
+    public Knowledge find(Knowledge knowledge, int id){
         if (id == -1){
             return null;
         }
         Knowledge result = null;
         Realm realm = io.realm.Realm.getDefaultInstance();
         try{
-            result = realm.where(Knowledge.class).equalTo("id", id).findFirst();
+            result = realm.where(knowledge.getClass()).equalTo("id", id).findFirst();
         }finally {
             realm.close();
         }
@@ -104,6 +105,7 @@ public class RealmController {
 
     /**
      * Método que busca un registro de tipo WorkExperience en la base de datos a partir de su identificador.
+     * @param workExperience corresponde a la clase en la cual se reliazará la búsqueda
      * @param id corresponde al valor identificador del registro a buscar
      * @return  un objeto de tipo WorkExperience
      */
@@ -123,8 +125,9 @@ public class RealmController {
 
     /**
      * Método que busca un registro de tipo Reference en la base de datos a partir de su identificador.
+     * @param reference corresponde a la clase en la cual se reliazará la búsqueda
      * @param id corresponde al valor identificador del registro a buscar
-     * @return  un objeto de tipo WorkExperience
+     * @return  un objeto de tipo Reference
      */
     public Reference find(Reference reference, int id){
         if (id == -1){
@@ -144,22 +147,24 @@ public class RealmController {
 
     /**
      * Método que guarda un objeto Knowledge en la base de datos.
-     * @param tmpKnowledge corresponde al objeto que se va a guardar.
+     * @param knowledge corresponde al objeto que se va a guardar.
      * @return un valor booleano que indica si se pudo guardar o no el objeto.
      */
-    public boolean save(Knowledge tmpKnowledge) {
+    public boolean save(Knowledge knowledge) {
         boolean result = true;
         Realm realm = Realm.getDefaultInstance();
         try {
             realm.beginTransaction();
-            Number currentIdNum = realm.where(tmpKnowledge.getClass()).max("id");
-            if (currentIdNum == null) {
-                tmpKnowledge.setId(1);
-            } else {
-                int nextId = currentIdNum.intValue() + 1;
-                tmpKnowledge.setId(nextId);
+            if (knowledge.getId() == -1) {
+                Number currentIdNum = realm.where(knowledge.getClass()).max("id");
+                if (currentIdNum == null) {
+                    knowledge.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    knowledge.setId(nextId);
+                }
             }
-            realm.copyToRealmOrUpdate(tmpKnowledge);
+            realm.copyToRealmOrUpdate(knowledge);
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -299,6 +304,18 @@ public class RealmController {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<Reference> query = realm.where(Reference.class);
         RealmResults<Reference> result = query.findAll();
+        return result;
+    }
+
+    /**
+     * Método que permite buscar todos los objetos de tipo Knowledge guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<Knowledge> findAllKnowledges(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<Knowledge> query = realm.where(Knowledge.class);
+        RealmResults<Knowledge> result = query.findAll();
         return result;
     }
 }

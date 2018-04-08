@@ -29,7 +29,7 @@ public class SkillDetailActivity extends AppCompatActivity {
     private EditText inputKnowledge;
     private TextInputLayout layoutInputKnowledge;
 
-    private Knowledge knowledge;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,10 @@ public class SkillDetailActivity extends AppCompatActivity {
         inputKnowledge = findViewById(R.id.input_knowledge);
         layoutInputKnowledge = findViewById(R.id.layout_input_knowledge);
 
-        knowledge = new Knowledge();
-        Knowledge knowledgeTmp = RealmController.with().find(getIntent().getIntExtra("knowledge_id",-1));
-        if (knowledgeTmp != null){
-            knowledge.setId(knowledgeTmp.getId());
-            loadData(knowledgeTmp);
+        // Se identifica si se creará un nuevo objeto o se modificará otro
+        this.id = getIntent().getIntExtra("knowledge_id",-1);
+        if (this.id != -1){
+            loadData(RealmController.with().find(new Knowledge(), id));
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -82,7 +81,7 @@ public class SkillDetailActivity extends AppCompatActivity {
         }
 
         if (id == R.id.action_delete){
-            if (RealmController.with().delete(knowledge, knowledge.getId())){
+            if (RealmController.with().delete(new Knowledge(), this.id)){
                 Messenger.with(this).showMessage(R.string.success_delete);
                 this.finish();
             } else {
@@ -153,6 +152,8 @@ public class SkillDetailActivity extends AppCompatActivity {
             return;
         }
 
+        Knowledge knowledge = new Knowledge();
+        knowledge.setId(this.id);
         knowledge.setTitle(inputKnowledge.getText().toString().trim());
         if (RealmController.with().save(knowledge)){
             Messenger.with(this.getApplication()).showSuccessMessage();
