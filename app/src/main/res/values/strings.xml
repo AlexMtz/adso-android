@@ -218,7 +218,7 @@
     <string name="success_save">Datos guardados exitosamente</string>
     <string name="error_save">Error al guardar los datos</string>
     <string name="error_load_data">Error al cargar los datos</string>
-    <string name="success_delete">Elemento eliminado</string>
+    <string name="success_delete">Eliminado correctamente</string>
     <string name="error_delete">Error al tratar de eliminar el elemento</string>
 
 

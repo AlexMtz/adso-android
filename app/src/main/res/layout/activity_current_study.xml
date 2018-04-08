@@ -25,7 +25,7 @@
                     android:id="@+id/input_name_course_current_study"
                     style="@style/commonInput"
                     android:hint="@string/course_studies_done"
-                    android:inputType="text" />
+                    android:inputType="textCapWords" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -38,7 +38,7 @@
                     android:id="@+id/input_institute_current_study"
                     style="@style/commonInput"
                     android:hint="@string/institute_studies_done"
-                    android:inputType="text"/>
+                    android:inputType="textCapWords"/>
 
             </android.support.design.widget.TextInputLayout>
 

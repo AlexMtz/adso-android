@@ -5,6 +5,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nahtredn.entities.CurrentStudy;
+import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.RealmController;
+import com.nahtredn.utilities.Validator;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -13,7 +16,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,19 +28,16 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import io.realm.Realm;
-
 public class CurrentStudyActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
     private EditText inputCourseName, inputInstitute, startScheduleTime, endScheduleTime;
-    private TextInputLayout layoutInputCourseName, layoutInputInstitute, inputLayoutStartScheduleTime, inputLayoutEndScheduleTime;
+    private TextInputLayout layoutInputCourseName, layoutInputInstitute;
     private CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     private Spinner spinnerAcademicLevel, spinnerGrade, spinnerModalityGrade;
 
-    private CurrentStudy currentStudy;
+    private int id;
 
     private InterstitialAd mInterstitialAd;
-    private AdView mAdView;
 
     private boolean isStartTime;
 
@@ -53,11 +52,10 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
 
-        mAdView = findViewById(R.id.adViewCurrentStudy);
+        AdView mAdView = findViewById(R.id.adViewCurrentStudy);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -66,9 +64,7 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
         inputInstitute = findViewById(R.id.input_institute_current_study);
         layoutInputInstitute = findViewById(R.id.layout_input_institute_current_study);
         startScheduleTime = findViewById(R.id.input_time_start_current_study);
-        inputLayoutStartScheduleTime = findViewById(R.id.layout_input_date_start_current_study);
         endScheduleTime = findViewById(R.id.input_time_end_current_study);
-        inputLayoutEndScheduleTime = findViewById(R.id.layout_input_date_end_current_study);
 
         spinnerAcademicLevel = findViewById(R.id.spinner_academic_level_current_study);
         spinnerGrade = findViewById(R.id.spinner_grade_current_study);
@@ -82,18 +78,16 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
         saturday = findViewById(R.id.checkbox_saturday_current_study);
         sunday = findViewById(R.id.checkbox_sunday_current_study);
 
-        currentStudy = new CurrentStudy();
-        CurrentStudy currentStudyTmp = findCurrentStudy();
-        if (currentStudyTmp != null){
-            currentStudy.setId(currentStudyTmp.getId());
-            loadStudy(currentStudyTmp);
+        this.id = getIntent().getIntExtra("current_study_id",-1);
+        if (this.id != -1){
+            loadData(RealmController.with().find(new CurrentStudy(), id));
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
     }
 
-    private void loadStudy(CurrentStudy currentStudy){
+    private void loadData(CurrentStudy currentStudy){
         inputCourseName.setText(currentStudy.getCourseName());
         inputInstitute.setText(currentStudy.getInstitute());
         spinnerAcademicLevel.setSelection(currentStudy.getPositionAcademicLevel());
@@ -104,24 +98,9 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
         endScheduleTime.setText(currentStudy.getEndTime());
     }
 
-    private CurrentStudy findCurrentStudy(){
-        int studyId = getIntent().getIntExtra("current_study_id",-1);
-        if (studyId == -1){
-            return null;
-        }
-        CurrentStudy result = null;
-        Realm realm = Realm.getDefaultInstance();
-        try{
-            result = realm.where(CurrentStudy.class).equalTo("id", studyId).findFirst();
-        }finally {
-            realm.close();
-        }
-        return result;
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.help, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 
@@ -131,6 +110,16 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
 
         if (id == android.R.id.home){
             this.finish();
+            return true;
+        }
+
+        if (id == R.id.action_delete){
+            if (RealmController.with().delete(new CurrentStudy(), this.id)){
+                Messenger.with(this).showMessage(R.string.success_delete);
+                this.finish();
+            } else {
+                Messenger.with(this).showMessage(R.string.error_delete);
+            }
             return true;
         }
 
@@ -158,7 +147,6 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
 
             @Override
             public void onAdClosed() {
-                // Proceed to the next level.
                 goToNextLevel();
             }
         });
@@ -166,7 +154,6 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
     }
 
     private void showInterstitial() {
-        // Show the ad if it's ready. Otherwise toast and reload the ad.
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
@@ -176,7 +163,6 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
     }
 
     private void loadInterstitial() {
-        // Disable the next level button and load the ad.
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         mInterstitialAd.loadAd(adRequest);
@@ -216,33 +202,31 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
     }
 
     public void saveCurrentStudy(View view){
-        if (!validateText(inputCourseName, layoutInputCourseName)){
+        if (!Validator.with(this).validateText(inputCourseName, layoutInputCourseName)){
             return;
         }
 
-        if (!validateText(inputInstitute, layoutInputInstitute)){
+        if (!Validator.with(this).validateText(inputInstitute, layoutInputInstitute)){
             return;
         }
 
         if (spinnerAcademicLevel.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_academic_level));
+            Messenger.with(this).showMessage(getString(R.string.error_academic_level));
             return;
         }
 
         if (spinnerGrade.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_grade));
+            Messenger.with(this).showMessage(getString(R.string.error_grade));
             return;
         }
 
         if (spinnerModalityGrade.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_modality));
+            Messenger.with(this).showMessage(getString(R.string.error_modality));
             return;
         }
 
-        if (currentStudy == null){
-            currentStudy = new CurrentStudy();
-        }
-
+        CurrentStudy currentStudy = new CurrentStudy();
+        currentStudy.setId(this.id);
         currentStudy.setCourseName(inputCourseName.getText().toString().trim());
         currentStudy.setInstitute(inputInstitute.getText().toString().trim());
         currentStudy.setAcademicLevel((String) spinnerAcademicLevel.getSelectedItem());
@@ -254,35 +238,13 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
         currentStudy.setDays(getDays());
         currentStudy.setStartTime(startScheduleTime.getText().toString());
         currentStudy.setEndTime(endScheduleTime.getText().toString());
-        save(currentStudy);
-        showInterstitial();
-    }
-
-    private void save(CurrentStudy currentStudy){
-        Realm.init(getApplicationContext());
-        final Realm realm = Realm.getDefaultInstance();
-
-        try {
-            realm.beginTransaction();
-            Number currentIdNum = realm.where(CurrentStudy.class).max("id");
-            if (currentIdNum == null) {
-                currentStudy.setId(1);
-            } else {
-                int nextId = currentIdNum.intValue() + 1;
-                currentStudy.setId(nextId);
-            }
-            realm.copyToRealmOrUpdate(currentStudy);
-            realm.commitTransaction();
-            showMessage(getString(R.string.success_save));
-            Log.w("StudyDoneActivity", "Succesfully current study saved");
+        if (RealmController.with().save(currentStudy)){
+            Messenger.with(this.getApplication()).showSuccessMessage();
             this.finish();
-        } catch (Exception e) {
-            realm.cancelTransaction();
-            showMessage(getString(R.string.error_save));
-            Log.w("StudyDoneActivity", "Error: " + e.getMessage());
-        } finally {
-            realm.close();
+        } else {
+            Messenger.with(this.getApplication()).showFailMessage();
         }
+        showInterstitial();
     }
 
     private String getDays(){
@@ -332,27 +294,6 @@ public class CurrentStudyActivity extends AppCompatActivity implements TimePicke
         }
         if (days.contains("Dom")){
             sunday.setChecked(true);
-        }
-    }
-
-    private void showMessage(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean validateText(EditText editText, TextInputLayout textInputLayout) {
-        if (editText.getText().toString().trim().isEmpty()) {
-            textInputLayout.setError(getString(R.string.error_field_required));
-            requestFocus(editText);
-            return false;
-        } else {
-            textInputLayout.setErrorEnabled(false);
-        }
-        return true;
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
 }

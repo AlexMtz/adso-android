@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.nahtredn.entities.CurrentStudy;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
 import com.nahtredn.entities.WorkExperience;
@@ -90,9 +91,6 @@ public class RealmController {
      * @return  un objeto de tipo Knowledge
      */
     public Knowledge find(Knowledge knowledge, int id){
-        if (id == -1){
-            return null;
-        }
         Knowledge result = null;
         Realm realm = io.realm.Realm.getDefaultInstance();
         try{
@@ -110,9 +108,6 @@ public class RealmController {
      * @return  un objeto de tipo WorkExperience
      */
     public WorkExperience find(WorkExperience workExperience ,int id){
-        if (id == -1){
-            return null;
-        }
         WorkExperience result = null;
         Realm realm = io.realm.Realm.getDefaultInstance();
         try{
@@ -130,13 +125,27 @@ public class RealmController {
      * @return  un objeto de tipo Reference
      */
     public Reference find(Reference reference, int id){
-        if (id == -1){
-            return null;
-        }
         Reference result = null;
         Realm realm = io.realm.Realm.getDefaultInstance();
         try{
             result = realm.where(reference.getClass()).equalTo("id", id).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    /**
+     * Método que busca un registro de tipo CurrentStudy en la base de datos a partir de su identificador.
+     * @param currentStudy corresponde a la clase en la cual se reliazará la búsqueda
+     * @param id corresponde al valor identificador del registro a buscar
+     * @return  un objeto de tipo CurrentStudy
+     */
+    public CurrentStudy find(CurrentStudy currentStudy, int id){
+        CurrentStudy result = null;
+        Realm realm = io.realm.Realm.getDefaultInstance();
+        try{
+            result = realm.where(currentStudy.getClass()).equalTo("id", id).findFirst();
         }finally {
             realm.close();
         }
@@ -235,6 +244,36 @@ public class RealmController {
         return result;
     }
 
+    /**
+     * Método que guarda un objeto CurrentStudy en la base de datos.
+     * @param currentStudy corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
+     */
+    public boolean save(CurrentStudy currentStudy) {
+        boolean result = true;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            if (currentStudy.getId() == -1) {
+                Number currentIdNum = realm.where(currentStudy.getClass()).max("id");
+                if (currentIdNum == null) {
+                    currentStudy.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    currentStudy.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(currentStudy);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
+        }
+        return result;
+    }
+
     // ********************* DELETE OPERATIONS ****************************
     /**
      * Método que permite eliminar un objeto de tipo Knowledge de la base de datos.
@@ -293,6 +332,25 @@ public class RealmController {
         }
     }
 
+    /**
+     * Método que permite eliminar un objeto de tipo CurrentStudy de la base de datos.
+     * @param currentStudy corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(CurrentStudy currentStudy, int id){
+        Realm realm = Realm.getDefaultInstance();
+        CurrentStudy result = realm.where(currentStudy.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
     //*********************** FIND ALL OPERATIONS *******************************
 
     /**
@@ -316,6 +374,18 @@ public class RealmController {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<Knowledge> query = realm.where(Knowledge.class);
         RealmResults<Knowledge> result = query.findAll();
+        return result;
+    }
+
+    /**
+     * Método que permite buscar todos los objetos de tipo Knowledge guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<CurrentStudy> findAllCurrentStudies(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<CurrentStudy> query = realm.where(CurrentStudy.class);
+        RealmResults<CurrentStudy> result = query.findAll();
         return result;
     }
 }
