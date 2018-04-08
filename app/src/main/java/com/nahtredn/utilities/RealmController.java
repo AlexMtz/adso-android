@@ -1,6 +1,9 @@
 package com.nahtredn.utilities;
 
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
@@ -35,6 +38,45 @@ public class RealmController {
     public static RealmController with(){
         if (instance == null){
             instance = new RealmController();
+        }
+        return instance;
+    }
+
+    /**
+     * Método que devuelve una instancia del Controller, si aún no existe, la crea.
+     * @param application párametro que permite inicializar el Context del Controller
+     * @return una instancia del Controller
+     */
+    public static RealmController with(Application application){
+        if (instance == null){
+            instance = new RealmController();
+            context = application.getApplicationContext();
+        }
+        return instance;
+    }
+
+    /**
+     * Método que devuelve una instancia del Controller, si aún no existe, la crea.
+     * @param activity párametro que permite inicializar el Context del Controller
+     * @return una instancia del Controller
+     */
+    public static RealmController with(Activity activity){
+        if (instance == null){
+            instance = new RealmController();
+            context = activity.getApplicationContext();
+        }
+        return instance;
+    }
+
+    /**
+     * Método que devuelve una instancia del Controller, si aún no existe, la crea.
+     * @param fragment párametro que permite inicializar el Context del Controller
+     * @return una instancia del Controller
+     */
+    public static RealmController with(Fragment fragment){
+        if (instance == null){
+            instance = new RealmController();
+            context = fragment.getActivity().getApplicationContext();
         }
         return instance;
     }
@@ -244,5 +286,19 @@ public class RealmController {
         } catch (NullPointerException npe){
             return false;
         }
+    }
+
+    //*********************** FIND ALL OPERATIONS *******************************
+
+    /**
+     * Método que permite buscar todos los objetos de tipo Reference guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<Reference> findAllReferences(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<Reference> query = realm.where(Reference.class);
+        RealmResults<Reference> result = query.findAll();
+        return result;
     }
 }

@@ -13,66 +13,48 @@ import com.nahtredn.adso.R;
 import com.nahtredn.adso.ReferenceActivity;
 import com.nahtredn.adso.adapters.ReferenceAdapter;
 import com.nahtredn.entities.Reference;
-
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
+import com.nahtredn.utilities.RealmController;
 
 /**
- * Created by Me on 08/04/2018.
+ * Clase Fragment que permite crear una lista de referencias y llenar un adapter para ser mostradas
+ * en la vista. Implementa el evento OnItemClicListener para manejar el clic de los elementos de
+ * la lista de referencias.
  */
-
-public class ReferenceFragment extends Fragment {
-
+public class ReferenceFragment extends Fragment implements AdapterView.OnItemClickListener{
+    // Lista de referencias
     private ListView list;
+    // Datos utilizados en la lista de referencias
     private ReferenceAdapter adapter;
 
+    /**
+     * Constructor de la clase
+     */
     public ReferenceFragment() {
-        // Required empty public constructor
     }
 
-    public static ReferenceFragment newInstance(/*parámetros*/) {
+    /**
+     * Método que devuelve una instancia del Fragment, si aún no existe, la crea.
+     * @return una instancia del Fragment.
+     */
+    public static ReferenceFragment newInstance() {
         ReferenceFragment fragment = new ReferenceFragment();
-        // Setup parámetros
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // if (getArguments() != null) {
-        // Gets parámetros
-        // }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_references, container, false);
-
-        // Instancia del ListView.
-        list = (ListView) root.findViewById(R.id.reference_list);
-
-        // Inicializar el adaptador con la fuente de datos.
+        list = root.findViewById(R.id.reference_list);
         adapter = new ReferenceAdapter(getActivity(),
-                getReferences());
-
-        //Relacionando la lista con el adaptador
+                RealmController.with(this).findAllReferences());
         list.setAdapter(adapter);
-
-        // Eventos
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Reference workExperience = adapter.getItem(position);
-                Intent intent = new Intent(getActivity(), ReferenceActivity.class);
-                intent.putExtra("reference_id", workExperience.getId());
-                getActivity().startActivity(intent);
-            }
-        });
-
+        list.setOnItemClickListener(this);
         setHasOptionsMenu(true);
         return root;
     }
@@ -81,18 +63,16 @@ public class ReferenceFragment extends Fragment {
     public void onResume() {
         super.onResume();
         adapter = new ReferenceAdapter(getActivity(),
-                getReferences());
+                RealmController.with(this).findAllReferences());
         adapter.notifyDataSetChanged();
         list.setAdapter(adapter);
     }
 
-    private List<Reference> getReferences(){
-        Realm.init(getContext());
-
-        final Realm realm = Realm.getDefaultInstance();
-        RealmQuery<Reference> query = realm.where(Reference.class);
-        // Execute the query:
-        RealmResults<Reference> result = query.findAll();
-        return result;
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        Reference workExperience = adapter.getItem(position);
+        Intent intent = new Intent(getActivity(), ReferenceActivity.class);
+        intent.putExtra("reference_id", workExperience.getId());
+        getActivity().startActivity(intent);
     }
 }
