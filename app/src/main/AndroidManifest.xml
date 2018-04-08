@@ -91,7 +91,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WorkExperienceActivity"
-            android:label="@string/title_activity_work_experience"></activity>
+            android:label="@string/title_activity_work_experience" />
+        <activity
+            android:name=".ReferencesActivity"
+            android:label="@string/title_activity_references"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ReferenceActivity"
+            android:label="@string/title_activity_reference"></activity>
     </application>
 
 </manifest>

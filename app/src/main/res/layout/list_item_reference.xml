@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="@dimen/fab_margin">
+
+    <TextView
+        android:id="@+id/name_reference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textAppearance="?attr/textAppearanceListItem"
+        tools:text="Pedro López" />
+
+    <TextView
+        android:id="@+id/job_title_reference"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name_reference"
+        android:layout_below="@+id/name_reference"
+        tools:text="Contador" />
+
+    <TextView
+        android:id="@+id/time_to_meet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/name_reference"
+        android:layout_below="@+id/job_title_reference"
+        tools:text="3 años" />
+
+</RelativeLayout>

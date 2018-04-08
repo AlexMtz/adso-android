@@ -165,6 +165,22 @@
     <string name="title_activity_work_experience">Experiencia</string>
     <string name="error_type_experience">Debe seleccionar un tipo de experiencia</string>
 
+    <!-- Reference Activity -->
+    <string name="title_activity_references">Referencias</string>
+    <string name="title_activity_reference">Referencia</string>
+    <string name="name_reference">Nombre completo:*</string>
+    <string name="job_title_reference">Ocupación:*</string>
+    <string name="time_of_meeting">Tiempo de conocerlo*</string>
+    <string name="helper_time_meeting">Escriba un número</string>
+    <array name="type_time_meeting_options">
+        <item>Selecciona alguna opción</item>
+        <item>Dia(s)</item>
+        <item>Semana(s)</item>
+        <item>Mes(es)</item>
+        <item>Año(s)</item>
+    </array>
+    <string name="error_type_meet">Selecciona una opción de tiempo</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
