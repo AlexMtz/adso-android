@@ -83,7 +83,11 @@ public class DataFragment extends Fragment {
                     case 5:
                         intent = new Intent(getActivity(), KnowledgeActivity.class);
                         break;
+                    case 6:
+                        intent = new Intent(getActivity(), WorkExperiencesActivity.class);
+                        break;
                 }
+
                 if (intent != null) {
                     getActivity().startActivity(intent);
                 }

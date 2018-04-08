@@ -1,0 +1,130 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background_activity"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nahtredn.adso.WorkExperienceActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_above="@id/adViewWorkExperience">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/type_experience"/>
+
+            <Spinner
+                android:entries="@array/type_experience_options"
+                style="@style/commonSpinner"
+                android:id="@+id/spinner_experience_option"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_institute_or_enterprise">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/institute_or_enterprise"
+                    android:inputType="textCapWords"
+                    android:id="@+id/input_institute_or_enterprise"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_job_title">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/job_title"
+                    android:inputType="textCapWords"
+                    android:id="@+id/input_job_title"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_date_start_work_experience"
+                    style="@style/datePickerButton"
+                    android:contentDescription="@string/start_date_studies_done"
+                    android:onClick="onClicDateWork"/>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_toStartOf="@+id/btn_date_start_work_experience"
+                    android:id="@+id/layout_input_start_date_work_experience">
+
+                    <EditText
+                        android:id="@+id/input_date_start_work_experience"
+                        style="@style/commonInput"
+                        android:enabled="false"
+                        android:inputType="date"
+                        android:hint="@string/start_date_studies_done"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/btn_date_end_work_experience"
+                    style="@style/datePickerButton"
+                    android:contentDescription="@string/end_date_studies_done"
+                    android:onClick="onClicDateWork"/>
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/fab_margin"
+                    android:layout_toStartOf="@+id/btn_date_end_work_experience"
+                    android:id="@+id/layout_input_end_date_work_experience">
+
+                    <EditText
+                        android:id="@+id/input_date_end_work_experience"
+                        style="@style/commonInput"
+                        android:enabled="false"
+                        android:inputType="date"
+                        android:hint="@string/end_date_studies_done"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+            <Button
+                style="@style/commonButton"
+                android:text="@string/save_action"
+                android:id="@+id/btn_save_documentation"
+                android:onClick="onClicSaveWorkExperience"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewWorkExperience"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+    </com.google.android.gms.ads.AdView>
+</RelativeLayout>

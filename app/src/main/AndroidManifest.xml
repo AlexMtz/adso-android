@@ -84,7 +84,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SkillDetailActivity"
-            android:label="@string/title_activity_skill_detail"></activity>
+            android:label="@string/title_activity_skill_detail" />
+        <activity
+            android:name=".WorkExperiencesActivity"
+            android:label="@string/title_activity_work_experiences"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WorkExperienceActivity"
+            android:label="@string/title_activity_work_experience"></activity>
     </application>
 
 </manifest>

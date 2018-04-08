@@ -1,6 +1,7 @@
 package com.nahtredn.utilities;
 
 import com.nahtredn.entities.Knowledge;
+import com.nahtredn.entities.WorkExperience;
 
 import io.realm.Realm;
 
@@ -28,6 +29,8 @@ public class RealmController {
         return instance;
     }
 
+    //******************************** FIND OPERATIONS ***********************************
+
     /**
      * Método que busca un registro de tipo Knowledge en la base de datos a partir de su identificador.
      * @param id corresponde al valor identificador del registro a buscar
@@ -46,6 +49,27 @@ public class RealmController {
         }
         return result;
     }
+
+    /**
+     * Método que busca un registro de tipo WorkExperience en la base de datos a partir de su identificador.
+     * @param id corresponde al valor identificador del registro a buscar
+     * @return  un objeto de tipo WorkExperience
+     */
+    public WorkExperience find(WorkExperience workExperience ,int id){
+        if (id == -1){
+            return null;
+        }
+        WorkExperience result = null;
+        Realm realm = io.realm.Realm.getDefaultInstance();
+        try{
+            result = realm.where(workExperience.getClass()).equalTo("id", id).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    // ********************* SAVE OPERATIONS ****************************
 
     /**
      * Método que guarda un objeto Knowledge en la base de datos.
@@ -76,6 +100,37 @@ public class RealmController {
     }
 
     /**
+     * Método que guarda un objeto WorkExperience en la base de datos.
+     * @param workExperience corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
+     */
+    public boolean save(WorkExperience workExperience) {
+        boolean result = true;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            if (workExperience.getId() == -1) {
+                Number currentIdNum = realm.where(workExperience.getClass()).max("id");
+                if (currentIdNum == null) {
+                    workExperience.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    workExperience.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(workExperience);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    // ********************* DELETE OPERATIONS ****************************
+    /**
      * Método que permite eliminar un objeto de tipo Knowledge de la base de datos.
      * @param knowledge corresponde a la tabla en la cual el objeto esta guardado
      * @param id corresponde al identificador del objeto a eliminar
@@ -84,6 +139,25 @@ public class RealmController {
     public boolean delete(Knowledge knowledge, int id){
         Realm realm = Realm.getDefaultInstance();
         Knowledge result = realm.where(knowledge.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
+    /**
+     * Método que permite eliminar un objeto de tipo WorkExperience de la base de datos.
+     * @param workExperience corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(WorkExperience workExperience, int id){
+        Realm realm = Realm.getDefaultInstance();
+        WorkExperience result = realm.where(workExperience.getClass()).equalTo("id", id).findFirst();
         realm.beginTransaction();
         try {
             result.deleteFromRealm();

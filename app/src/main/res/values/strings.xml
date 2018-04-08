@@ -149,6 +149,22 @@
     <string name="subtitle_activity_knowledge_detail">o habilidad</string>
     <string name="title_knowledge">Conocimiento o Habilidad:*</string>
 
+    <!-- Work Experiences activity -->
+    <string name="title_activity_work_experiences">Experiencias</string>
+    <string name="subtitle_activity_work_experiences">Laboral</string>
+    <string name="type_experience">Tipo de experiencia*</string>
+    <array name="type_experience_options">
+        <item>Selecciona un tipo</item>
+        <item>Experiencia laboral</item>
+        <item>Proyecto escolar</item>
+        <item>Practicas profesionales</item>
+        <item>Servicio social</item>
+    </array>
+    <string name="institute_or_enterprise">Empresa o institución:*</string>
+    <string name="job_title">Puesto:*</string>
+    <string name="title_activity_work_experience">Experiencia</string>
+    <string name="error_type_experience">Debe seleccionar un tipo de experiencia</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
