@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import com.nahtredn.entities.CurrentStudy;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
+import com.nahtredn.entities.StudyDone;
 import com.nahtredn.entities.WorkExperience;
 
 import java.util.List;
@@ -139,13 +140,30 @@ public class RealmController {
      * Método que busca un registro de tipo CurrentStudy en la base de datos a partir de su identificador.
      * @param currentStudy corresponde a la clase en la cual se reliazará la búsqueda
      * @param id corresponde al valor identificador del registro a buscar
-     * @return  un objeto de tipo CurrentStudy
+     * @return  un objeto de tipo StudyDone
      */
     public CurrentStudy find(CurrentStudy currentStudy, int id){
         CurrentStudy result = null;
         Realm realm = io.realm.Realm.getDefaultInstance();
         try{
             result = realm.where(currentStudy.getClass()).equalTo("id", id).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    /**
+     * Método que busca un registro de tipo StudyDone en la base de datos a partir de su identificador.
+     * @param studyDone corresponde a la clase en la cual se reliazará la búsqueda
+     * @param id corresponde al valor identificador del registro a buscar
+     * @return  un objeto de tipo CurrentStudy
+     */
+    public StudyDone find(StudyDone studyDone, int id){
+        StudyDone result = null;
+        Realm realm = io.realm.Realm.getDefaultInstance();
+        try{
+            result = realm.where(studyDone.getClass()).equalTo("id", id).findFirst();
         }finally {
             realm.close();
         }
@@ -274,26 +292,37 @@ public class RealmController {
         return result;
     }
 
-    // ********************* DELETE OPERATIONS ****************************
     /**
-     * Método que permite eliminar un objeto de tipo Knowledge de la base de datos.
-     * @param knowledge corresponde a la tabla en la cual el objeto esta guardado
-     * @param id corresponde al identificador del objeto a eliminar
-     * @return un valor booleano que indica si se pudo eliminar o no
+     * Método que guarda un objeto StudyDone en la base de datos.
+     * @param studyDone corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
      */
-    public boolean delete(Knowledge knowledge, int id){
+    public boolean save(StudyDone studyDone) {
+        boolean result = true;
         Realm realm = Realm.getDefaultInstance();
-        Knowledge result = realm.where(knowledge.getClass()).equalTo("id", id).findFirst();
-        realm.beginTransaction();
         try {
-            result.deleteFromRealm();
+            realm.beginTransaction();
+            if (studyDone.getId() == -1) {
+                Number currentIdNum = realm.where(studyDone.getClass()).max("id");
+                if (currentIdNum == null) {
+                    studyDone.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    studyDone.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(studyDone);
             realm.commitTransaction();
-            return true;
-        } catch (NullPointerException npe){
-            return false;
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
         }
+        return result;
     }
 
+    // ********************* DELETE OPERATIONS ****************************
     /**
      * Método que permite eliminar un objeto de tipo WorkExperience de la base de datos.
      * @param workExperience corresponde a la tabla en la cual el objeto esta guardado
@@ -333,6 +362,25 @@ public class RealmController {
     }
 
     /**
+     * Método que permite eliminar un objeto de tipo Knowledge de la base de datos.
+     * @param knowledge corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(Knowledge knowledge, int id){
+        Realm realm = Realm.getDefaultInstance();
+        Knowledge result = realm.where(knowledge.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
+    /**
      * Método que permite eliminar un objeto de tipo CurrentStudy de la base de datos.
      * @param currentStudy corresponde a la tabla en la cual el objeto esta guardado
      * @param id corresponde al identificador del objeto a eliminar
@@ -341,6 +389,25 @@ public class RealmController {
     public boolean delete(CurrentStudy currentStudy, int id){
         Realm realm = Realm.getDefaultInstance();
         CurrentStudy result = realm.where(currentStudy.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
+    /**
+     * Método que permite eliminar un objeto de tipo StudyDone de la base de datos.
+     * @param studyDone corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(StudyDone studyDone, int id){
+        Realm realm = Realm.getDefaultInstance();
+        StudyDone result = realm.where(studyDone.getClass()).equalTo("id", id).findFirst();
         realm.beginTransaction();
         try {
             result.deleteFromRealm();
@@ -386,6 +453,18 @@ public class RealmController {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<CurrentStudy> query = realm.where(CurrentStudy.class);
         RealmResults<CurrentStudy> result = query.findAll();
+        return result;
+    }
+
+    /**
+     * Método que permite buscar todos los objetos de tipo StudyDone guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<StudyDone> findAllStudiesDone(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<StudyDone> query = realm.where(StudyDone.class);
+        RealmResults<StudyDone> result = query.findAll();
         return result;
     }
 }

@@ -4,7 +4,10 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.nahtredn.entities.StudiesDone;
+import com.nahtredn.entities.StudyDone;
+import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.RealmController;
+import com.nahtredn.utilities.Validator;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -13,13 +16,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,10 +28,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.util.Calendar;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
-
-public class StudyDoneActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
+public class StudyDoneActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private EditText inputCourse, inputInstitute, inputStartCourse, inputEndCourse;
     private TextInputLayout layoutCourse, layoutInstitute, layoutStartCourse, layoutEndCourse;
@@ -44,7 +41,7 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
 
     private Calendar calendar = Calendar.getInstance();
 
-    private StudiesDone studyDone;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,48 +65,27 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         layoutEndCourse = findViewById(R.id.layout_input_end_date_study_done);
 
         spinnerState = findViewById(R.id.spinner_state_study_done);
-        spinnerState.setOnItemSelectedListener(this);
         spinnerAcademicLevel = findViewById(R.id.spinner_academic_level_study_done);
-        spinnerAcademicLevel.setOnItemSelectedListener(this);
         spinnerTitle = findViewById(R.id.spinner_title_study_done);
-        spinnerTitle.setOnItemSelectedListener(this);
 
-        // Create the InterstitialAd and set the adUnitId (defined in values/strings.xml).
         reloadInterstitial();
 
         AdView mAdView = findViewById(R.id.adViewStudyDone);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        Realm.init(this);
 
-        studyDone = new StudiesDone();
-        StudiesDone studyDoneTmp = findStudy();
-        if (studyDoneTmp != null){
-            studyDone.setId(studyDoneTmp.getId());
-            loadStudy(studyDoneTmp);
+        // Se identifica si se creará un nuevo objeto o se modificará otro
+        this.id = getIntent().getIntExtra("study_done_id",-1);
+        if (this.id != -1){
+            loadData(RealmController.with().find(new StudyDone(), id));
         }
-
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    private StudiesDone findStudy(){
-        int studyId = getIntent().getIntExtra("study_done_id",-1);
-        if (studyId == -1){
-            return null;
-        }
-        StudiesDone result = null;
-        Realm realm = Realm.getDefaultInstance();
-        try{
-            result = realm.where(StudiesDone.class).equalTo("id", studyId).findFirst();
-        }finally {
-            realm.close();
-        }
-        return result;
-    }
 
-    private void loadStudy(StudiesDone studyDone){
+    private void loadData(StudyDone studyDone){
         inputCourse.setText(studyDone.getCourseName());
         inputInstitute.setText(studyDone.getInstitute());
         inputStartCourse.setText(studyDone.getStartDate());
@@ -120,85 +96,55 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void onClicSaveStudyDone(View view){
-        if (!validateText(inputCourse, layoutCourse)){
-            return;
-        } else {
-            studyDone.setCourseName(inputCourse.getText().toString().trim());
-        }
-        if (!validateText(inputInstitute, layoutInstitute)){
-            return;
-        } else {
-            studyDone.setInstitute(inputInstitute.getText().toString().trim());
-        }
-        if (!validateText(inputStartCourse, layoutStartCourse)){
+        if (!Validator.with(this).validateText(inputCourse, layoutCourse)){
             return;
         }
-        if (!validateText(inputEndCourse, layoutEndCourse)){
+
+        if (!Validator.with(this).validateText(inputInstitute, layoutInstitute)){
+            return;
+        }
+
+        if (!Validator.with(this).validateText(inputStartCourse, layoutStartCourse)){
+            return;
+        }
+
+        if (!Validator.with(this).validateText(inputEndCourse, layoutEndCourse)){
             return;
         }
         if (spinnerAcademicLevel.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_academic_level));
+            Messenger.with(this.getApplication()).showMessage(getString(R.string.error_academic_level));
             return;
         }
         if (spinnerState.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_state_general));
+            Messenger.with(this.getApplication()).showMessage(getString(R.string.error_state_general));
             return;
         }
         if (spinnerTitle.getSelectedItemPosition() == 0){
-            showMessage(getString(R.string.error_title));
+            Messenger.with(this.getApplication()).showMessage(getString(R.string.error_title));
             return;
         }
 
-        showInterstitial();
-        saveStudyDone();
-    }
+        StudyDone studyDone = new StudyDone();
+        studyDone.setId(this.id);
+        studyDone.setCourseName(inputCourse.getText().toString().trim());
+        studyDone.setInstitute(inputInstitute.getText().toString().trim());
+        studyDone.setStartDate(inputStartCourse.getText().toString());
+        studyDone.setEndDate(inputEndCourse.getText().toString().trim());
+        studyDone.setAcademicLevel((String) spinnerAcademicLevel.getSelectedItem());
+        studyDone.setAcademicLevelPos(spinnerAcademicLevel.getSelectedItemPosition());
+        studyDone.setState((String) spinnerState.getSelectedItem());
+        studyDone.setStatePos(spinnerState.getSelectedItemPosition());
+        studyDone.setTitle((String) spinnerTitle.getSelectedItem());
+        studyDone.setTitlePos(spinnerTitle.getSelectedItemPosition());
 
-    private void saveStudyDone() {
-        Realm.init(getApplicationContext());
-        final Realm realm = Realm.getDefaultInstance();
-
-        try {
-            realm.beginTransaction();
-            Number currentIdNum = realm.where(StudiesDone.class).max("id");
-            if (currentIdNum == null) {
-                studyDone.setId(1);
-            } else {
-                int nextId = currentIdNum.intValue() + 1;
-                studyDone.setId(nextId);
-            }
-            realm.copyToRealmOrUpdate(studyDone);
-            realm.commitTransaction();
-            showMessage(getString(R.string.success_save));
-            Log.w("StudyDoneActivity", "Succesfully study saved");
+        if (RealmController.with().save(studyDone)){
+            Messenger.with(this.getApplication()).showSuccessMessage();
             this.finish();
-        } catch (Exception e) {
-            realm.cancelTransaction();
-            showMessage(getString(R.string.error_save));
-            Log.w("StudyDoneActivity", "Error: " + e.getMessage());
-        } finally {
-            realm.close();
-        }
-    }
-
-    private void showMessage(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean validateText(EditText editText, TextInputLayout textInputLayout) {
-        if (editText.getText().toString().trim().isEmpty()) {
-            textInputLayout.setError(getString(R.string.error_field_required));
-            requestFocus(editText);
-            return false;
         } else {
-            textInputLayout.setErrorEnabled(false);
+            Messenger.with(this.getApplication()).showFailMessage();
         }
-        return true;
-    }
 
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
+        showInterstitial();
     }
 
     public void onClicDateStudyDone(View view){
@@ -214,7 +160,7 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.help, menu);
+        getMenuInflater().inflate(R.menu.common, menu);
         return true;
     }
 
@@ -223,8 +169,17 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         int id = item.getItemId();
 
         if (id == android.R.id.home){
-            Log.w("StudyDoneActivity", "Id " + studyDone.getId());
             this.finish();
+            return true;
+        }
+
+        if (id == R.id.action_delete){
+            if (RealmController.with().delete(new StudyDone(), this.id)){
+                Messenger.with(this).showMessage(R.string.success_delete);
+                this.finish();
+            } else {
+                Messenger.with(this).showMessage(R.string.error_delete);
+            }
             return true;
         }
 
@@ -254,7 +209,6 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
 
             @Override
             public void onAdClosed() {
-                // Proceed to the next level.
                 reloadInterstitial();
             }
         });
@@ -262,7 +216,6 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void showInterstitial() {
-        // Show the ad if it's ready. Otherwise toast and reload the ad.
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
@@ -272,7 +225,6 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
     }
 
     private void loadInterstitial() {
-        // Disable the next level button and load the ad.
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         mInterstitialAd.loadAd(adRequest);
@@ -289,39 +241,12 @@ public class StudyDoneActivity extends AppCompatActivity implements AdapterView.
         calendar.set(Calendar.MONTH, monthOfYear);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-        //set birth date
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 
         if (isStartDate){
             inputStartCourse.setText(dateFormat.format(calendar.getTime()));
-            studyDone.setStartDate(dateFormat.format(calendar.getTime()));
         } else {
             inputEndCourse.setText(dateFormat.format(calendar.getTime()));
-            studyDone.setEndDate(dateFormat.format(calendar.getTime()));
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        if (adapterView.getId() == R.id.spinner_academic_level_study_done){
-            studyDone.setAcademicLevel((String) spinnerAcademicLevel.getSelectedItem());
-            studyDone.setAcademicLevelPos(pos);
-            return;
-        }
-        if (adapterView.getId() == R.id.spinner_state_study_done){
-            studyDone.setState((String) spinnerState.getSelectedItem());
-            studyDone.setStatePos(pos);
-            return;
-        }
-        if (adapterView.getId() == R.id.spinner_title_study_done){
-            studyDone.setTitle((String) spinnerTitle.getSelectedItem());
-            studyDone.setTitlePos(pos);
-            return;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }

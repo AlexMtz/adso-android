@@ -8,7 +8,7 @@ import io.realm.annotations.Required;
  * Created by Me on 13/03/2018.
  */
 
-public class StudiesDone extends RealmObject {
+public class StudyDone extends RealmObject {
     @PrimaryKey
     private int id;
     private String academicLevel;
