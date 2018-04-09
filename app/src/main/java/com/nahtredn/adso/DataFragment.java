@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.nahtredn.entities.DataItem;
-import com.nahtredn.entities.Knowledge;
-import com.nahtredn.helpers.DataAdapter;
+import com.nahtredn.adso.adapters.DataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

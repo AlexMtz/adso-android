@@ -1,7 +1,6 @@
-package com.nahtredn.adso;
+package com.nahtredn.adso.fragments;
 
 import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +9,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.nahtredn.adso.R;
 import com.nahtredn.entities.Address;
 import com.nahtredn.entities.Vacancy;
-import com.nahtredn.helpers.VacancyAdapter;
+import com.nahtredn.adso.adapters.VacancyAdapter;
+import com.nahtredn.utilities.Messenger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +63,7 @@ public class VacancyFragment extends Fragment {
         mVacancyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                Toast.makeText(getActivity().getApplicationContext(),"vacancy pressed",Toast.LENGTH_SHORT).show();
-                /*Client client = mVacancyAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), ClientDetailActivity.class);
-                intent.putExtra("client_id", client.getId());
-                getActivity().startActivity(intent);*/
+                Messenger.with(getActivity()).showMessage("Vacancy pressed");
             }
         });
 
@@ -96,12 +93,6 @@ public class VacancyFragment extends Fragment {
         vacancies.add(v2);
         vacancies.add(v2);
         vacancies.add(v2);
-        /*Realm.init(getContext());
-        final Realm realm = Realm.getDefaultInstance();
-        RealmQuery<Client> query = realm.where(Client.class);
-        // Execute the query:
-        RealmResults<Client> result = query.findAll();
-        return result;*/
         return vacancies;
     }
 }

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.VacancyFragment">
+    tools:context="com.nahtredn.adso.fragments.VacancyFragment">
 
     <ListView
         android:id="@+id/work_experience_list"

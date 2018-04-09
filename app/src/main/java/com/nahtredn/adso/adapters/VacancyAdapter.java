@@ -1,4 +1,4 @@
-package com.nahtredn.helpers;
+package com.nahtredn.adso.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
