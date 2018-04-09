@@ -19,9 +19,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,32 +30,37 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmQuery;
-import io.realm.RealmResults;
-
+/**
+ * Clase que maneja los eventos del Activity General
+ */
 public class GeneralActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
+    // Variables que hacen referencia a los inputs del activity
     private EditText inputName, inputLastName, inputMiddleName, inputBirthDate, inputAge, inputPhone,
             inputEmail, inputStreet, inputColony, inputZipCode;
+
+    // Variables que hacen referencia a las etiquetas de los inputs
     private TextInputLayout layoutInputName, layoutInputLastName,
             layoutInputBirthDate, layoutInputPhone, layoutInputEmail;
 
-    private RadioGroup radioGroupGenre, radioGroupLivinWith, radioGroupCivilStatus;
-
-    private InterstitialAd mInterstitialAd;
+    // Variables que hacen referencia a los spinners del activity
     private Spinner spnStates, spnMunicipality;
 
+    // Variables que hacen referencia a los grupos de RadioButtons del activity
+    private RadioGroup radioGroupGenre, radioGroupLivinWith, radioGroupCivilStatus;
+
+    // Variable que hace referencia al anuncio de publicidad
+    private InterstitialAd mInterstitialAd;
+
+    // Variable que almacena la fecha actual
     private Calendar calendar = Calendar.getInstance();
 
+    // Variables de apoyo para almacenar la selección de estado y municipio
     private String state, municipality;
 
     @Override
@@ -114,6 +116,10 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    /**
+     * Método que carga la información general previamente guardada
+     * @param general corresponde al objeto que contiene la información previamente guardada
+     */
     private void loadData(General general){
         inputName.setText(general.getName());
         inputLastName.setText(general.getLastName());
@@ -135,6 +141,10 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         civilStatus.setChecked(true);
     }
 
+    /**
+     * Método que muestra el Datepicker cuando se hace clic en el botón de la fecha de nacimiento
+     * @param view corresponde al botón que hizo clic
+     */
     public void onClicBirthDate(View view){
         calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(GeneralActivity.this,
@@ -145,8 +155,12 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         datePickerDialog.show();
     }
 
+    /**
+     * Método que permite guardar la información general en la base de datos
+     * @param view corresponde al botón del cual se generó el clic
+     * @throws ParseException ocurre cuando una fecha no es válida
+     */
     public void onClicSaveGeneralActivity(View view) throws ParseException {
-
         if (!Validator.with(this).validateText(inputName, layoutInputName)) {
             return;
         }
@@ -250,6 +264,10 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Método que crea un anuncio Interstitial
+     * @return un anuncio interstitial
+     */
     private InterstitialAd newInterstitialAd() {
         InterstitialAd interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(getString(R.string.interstitial_ad_unit_id));
@@ -268,6 +286,9 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         return interstitialAd;
     }
 
+    /**
+     * Método que muestra en pantalla un anuncio Interstitial
+     */
     private void showInterstitial() {
         if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
@@ -276,12 +297,18 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         }
     }
 
+    /**
+     * Método que realiza una petición de un anuncio Interstitial
+     */
     private void loadInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
                 .setRequestAgent("android_studio:ad_template").build();
         mInterstitialAd.loadAd(adRequest);
     }
 
+    /**
+     * Método que recarga un anuncio Interstitial
+     */
     private void reloadInterstitial() {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
@@ -314,8 +341,6 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, monthOfYear);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-        //set birth date
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
         inputBirthDate.setText(dateFormat.format(calendar.getTime()));
 
