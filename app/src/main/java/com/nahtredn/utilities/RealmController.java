@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 
 import com.nahtredn.entities.CurrentStudy;
+import com.nahtredn.entities.Documentation;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
 import com.nahtredn.entities.StudyDone;
@@ -170,6 +171,21 @@ public class RealmController {
         return result;
     }
 
+    /**
+     * Método que busca un registro de tipo Documentation en la base de datos a partir de su identificador.
+     * @return un objeto de tipo Documentation
+     */
+    public Documentation find(Documentation documentation){
+        Documentation result = null;
+        Realm realm = io.realm.Realm.getDefaultInstance();
+        try{
+            result = realm.where(documentation.getClass()).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
+    }
+
     // ********************* SAVE OPERATIONS ****************************
 
     /**
@@ -322,6 +338,36 @@ public class RealmController {
         return result;
     }
 
+    /**
+     * Método que guarda un objeto Documentation en la base de datos.
+     * @param documentation corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
+     */
+    public boolean save(Documentation documentation) {
+        boolean result = true;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            if (documentation.getId() == -1) {
+                Number currentIdNum = realm.where(documentation.getClass()).max("id");
+                if (currentIdNum == null) {
+                    documentation.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    documentation.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(documentation);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
+        }
+        return result;
+    }
+
     // ********************* DELETE OPERATIONS ****************************
     /**
      * Método que permite eliminar un objeto de tipo WorkExperience de la base de datos.
@@ -408,6 +454,25 @@ public class RealmController {
     public boolean delete(StudyDone studyDone, int id){
         Realm realm = Realm.getDefaultInstance();
         StudyDone result = realm.where(studyDone.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
+    /**
+     * Método que permite eliminar un objeto de tipo Documentation de la base de datos.
+     * @param documentation corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(Documentation documentation, int id){
+        Realm realm = Realm.getDefaultInstance();
+        Documentation result = realm.where(documentation.getClass()).equalTo("id", id).findFirst();
         realm.beginTransaction();
         try {
             result.deleteFromRealm();
