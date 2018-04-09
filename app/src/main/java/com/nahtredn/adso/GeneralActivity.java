@@ -8,6 +8,9 @@ import com.nahtredn.entities.Address;
 import com.nahtredn.entities.General;
 import com.nahtredn.helpers.ArrayStates;
 import com.nahtredn.helpers.RadioButtons;
+import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.RealmController;
+import com.nahtredn.utilities.Validator;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -45,21 +49,17 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
     private EditText inputName, inputLastName, inputMiddleName, inputBirthDate, inputAge, inputPhone,
             inputEmail, inputStreet, inputColony, inputZipCode;
-    private TextInputLayout layoutInputName, layoutInputLastName, layoutInputMiddleName,
-            layoutInputBirthDate, layoutInputAge, layoutInputPhone, layoutInputEmail,
-            layoutInputStreet, layoutInputColony, layoutInputZipCode;
+    private TextInputLayout layoutInputName, layoutInputLastName,
+            layoutInputBirthDate, layoutInputPhone, layoutInputEmail;
 
     private RadioGroup radioGroupGenre, radioGroupLivinWith, radioGroupCivilStatus;
 
     private InterstitialAd mInterstitialAd;
-    private AdView mAdView;
     private Spinner spnStates, spnMunicipality;
 
     private Calendar calendar = Calendar.getInstance();
 
-    private General tmpGeneral;
-    private General general;
-    private Address address;
+    private String state, municipality;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,6 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
-
-        Realm.init(this);
 
         inputName = findViewById(R.id.input_name_general);
         inputLastName = findViewById(R.id.input_last_name_general);
@@ -87,14 +85,9 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
         layoutInputName = findViewById(R.id.layout_input_name_general);
         layoutInputLastName = findViewById(R.id.layout_input_last_name_general);
-        layoutInputMiddleName = findViewById(R.id.layout_input_middle_name_general);
         layoutInputBirthDate = findViewById(R.id.layout_input_birth_date_general);
-        layoutInputAge = findViewById(R.id.layout_input_age_general);
         layoutInputPhone = findViewById(R.id.layout_input_phone_general);
         layoutInputEmail = findViewById(R.id.layout_input_email_general);
-        layoutInputStreet = findViewById(R.id.layout_input_street_general);
-        layoutInputColony = findViewById(R.id.layout_input_colony_general);
-        layoutInputZipCode = findViewById(R.id.layout_input_zip_code_general);
 
         radioGroupGenre = findViewById(R.id.radio_group_genre_general);
         radioGroupLivinWith = findViewById(R.id.radio_group_living_with_general);
@@ -102,7 +95,7 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
         reloadInterstitial();
 
-        mAdView = findViewById(R.id.adViewGeneral);
+        AdView mAdView = findViewById(R.id.adViewGeneral);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -111,19 +104,13 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         spnMunicipality = findViewById(R.id.spinner_municipality_activity_general);
         spnMunicipality.setOnItemSelectedListener(this);
 
-        loadGeneral();
-        general = new General();
-        address = new Address();
-        if (tmpGeneral != null){
-            loadData(tmpGeneral);
-            general.setId(tmpGeneral.getId());
-            general.setBirthDate(tmpGeneral.getBirthDate());
-            general.setGenre(tmpGeneral.getGenre());
-            general.setLivingWith(tmpGeneral.getLivingWith());
-            general.setCivilStatus(tmpGeneral.getCivilStatus());
-            address.setState(tmpGeneral.getAddress().getState());
-            address.setMunicipality(tmpGeneral.getAddress().getMunicipality());
+        General general = RealmController.with(this).find(new General());
+        if (general != null){
+            loadData(general);
+            state = general.getAddress().getState();
+            municipality = general.getAddress().getMunicipality();
         }
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
@@ -158,114 +145,82 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         datePickerDialog.show();
     }
 
-    public void onClicSaveGeneralActivity(View view){
+    public void onClicSaveGeneralActivity(View view) throws ParseException {
 
-        if (!validateText(inputName, layoutInputName)) {
+        if (!Validator.with(this).validateText(inputName, layoutInputName)) {
             return;
         }
 
-        if (!validateText(inputLastName, layoutInputLastName)) {
+        if (!Validator.with(this).validateText(inputLastName, layoutInputLastName)) {
             return;
         }
 
-        if (!validateText(inputBirthDate, layoutInputBirthDate)) {
+        if (!Validator.with(this).validateText(inputBirthDate, layoutInputBirthDate)) {
             return;
         }
 
-        if (!validateText(inputPhone, layoutInputPhone)) {
+        if (!Validator.with(this).validateText(inputPhone, layoutInputPhone)) {
             return;
         }
 
-        if (!validateEmail()) {
+        if (!Validator.with(this).validateEmail(inputEmail, layoutInputEmail)) {
             return;
         }
 
         if (radioGroupGenre.getCheckedRadioButtonId() == -1){
-            showMessage(getString(R.string.error_genre_field));
+            Messenger.with(this).showMessage(getString(R.string.error_genre_field));
             return;
         }
 
         if (radioGroupLivinWith.getCheckedRadioButtonId() == -1){
-            showMessage(getString(R.string.error_livin_with));
+            Messenger.with(this).showMessage(getString(R.string.error_livin_with));
             return;
         }
 
         if (radioGroupCivilStatus.getCheckedRadioButtonId() == -1){
-            showMessage(getString(R.string.error_civil_status));
+            Messenger.with(this).showMessage(getString(R.string.error_civil_status));
             return;
         }
 
-        if (address.getState() == null){
-            showMessage(getString(R.string.error_state_general));
+        if (state == null){
+            Messenger.with(this).showMessage(getString(R.string.error_state_general));
             return;
         }
 
-        if (address.getMunicipality() == null){
-            showMessage(getString(R.string.error_municipality_general));
+        if (municipality == null){
+            Messenger.with(this).showMessage(getString(R.string.error_municipality_general));
             return;
         }
 
-        general.setName(inputName.getText().toString());
-        general.setLastName(inputLastName.getText().toString());
-        general.setMiddleName(inputMiddleName.getText().toString());
-        general.setPhone(inputPhone.getText().toString());
-        general.setEmail(inputEmail.getText().toString());
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        General general = new General();
+        general.setName(inputName.getText().toString().trim());
+        general.setLastName(inputLastName.getText().toString().trim());
+        general.setMiddleName(inputMiddleName.getText().toString().trim());
+        general.setBirthDate(dateFormat.parse(inputBirthDate.getText().toString()));
+        general.setAge(Integer.parseInt(inputAge.getText().toString()));
+        general.setGenre(((RadioButton) findViewById(radioGroupGenre.getCheckedRadioButtonId())).getText().toString());
+        general.setLivingWith(((RadioButton) findViewById(radioGroupLivinWith.getCheckedRadioButtonId())).getText().toString());
+        general.setCivilStatus(((RadioButton) findViewById(radioGroupCivilStatus.getCheckedRadioButtonId())).getText().toString());
+        general.setPhone(inputPhone.getText().toString().trim());
+        general.setEmail(inputEmail.getText().toString().trim());
+
+        Address address = new Address();
         address.setStreet(inputStreet.getText().toString());
         address.setColony(inputColony.getText().toString());
         address.setZipCode(inputZipCode.getText().toString());
+        address.setState(state);
+        address.setMunicipality(municipality);
         general.setAddress(address);
-        saveGeneral(general);
+
+        if (RealmController.with().save(general)){
+            Messenger.with(this.getApplication()).showSuccessMessage();
+            this.finish();
+        } else {
+            Messenger.with(this.getApplication()).showFailMessage();
+        }
 
         showInterstitial();
-    }
-
-    private void saveGeneral(final General tmpGeneral) {
-        Realm.init(getApplicationContext());
-        final Realm realm = Realm.getDefaultInstance();
-
-        try {
-            realm.beginTransaction();
-            Number currentIdNum = realm.where(General.class).max("id");
-            if (currentIdNum == null) {
-                int nextId = 1;
-                tmpGeneral.setId(nextId);
-            }
-            realm.copyToRealmOrUpdate(tmpGeneral);
-            realm.commitTransaction();
-            showMessage(getString(R.string.success_save));
-            // this.finish();
-        } catch (Exception e) {
-            realm.cancelTransaction();
-            showMessage(getString(R.string.error_save));
-            Log.w("GeneralActivity", "Error: " + e.getMessage());
-        } finally {
-            realm.close();
-        }
-    }
-
-    private void loadGeneral(){
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                tmpGeneral = realm.where(General.class).findFirst();;
-            }
-        });
-    }
-
-    public void onClicRadioButtonGenreGeneral(View view){
-        RadioButton radioButton = (RadioButton) view;
-        general.setGenre(radioButton.getText().toString());
-    }
-
-    public void onClicRadioButtonLivingWithGeneral(View view){
-        RadioButton radioButton = (RadioButton) view;
-        general.setLivingWith(radioButton.getText().toString());
-    }
-
-    public void onClicRadioButtonCivilStatusGeneral(View view){
-        RadioButton radioButton = (RadioButton) view;
-        general.setCivilStatus(radioButton.getText().toString());
     }
 
     @Override
@@ -334,65 +289,24 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
-        if (pos == 0){
-            return;
-        }
-        if (adapterView.getId() == R.id.spinner_states_activity_general) {
-            String state = (String) adapterView.getItemAtPosition(pos);
-            ArrayAdapter<CharSequence> adapterMunicipality = ArrayAdapter.createFromResource(this,
-                    new ArrayStates().getArray(pos), android.R.layout.simple_spinner_item);
-            adapterMunicipality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spnMunicipality.setAdapter(adapterMunicipality);
-            address.setState(state);
-        }
+        if (pos != 0){
+            if (adapterView.getId() == R.id.spinner_states_activity_general) {
+                state = (String) spnStates.getSelectedItem();
+                ArrayAdapter<CharSequence> adapterMunicipality = ArrayAdapter.createFromResource(this,
+                        new ArrayStates().getArray(pos), android.R.layout.simple_spinner_item);
+                adapterMunicipality.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spnMunicipality.setAdapter(adapterMunicipality);
+            }
 
-        if (adapterView.getId() == R.id.spinner_municipality_activity_general){
-            String municipality = (String) adapterView.getItemAtPosition(pos);
-            address.setMunicipality(municipality);
+            if (adapterView.getId() == R.id.spinner_municipality_activity_general){
+                municipality = (String) spnMunicipality.getSelectedItem();
+            }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
-    private void showMessage(String message){
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-    }
-
-    private boolean validateText(EditText editText, TextInputLayout textInputLayout) {
-        if (editText.getText().toString().trim().isEmpty()) {
-            textInputLayout.setError(getString(R.string.error_field_required));
-            requestFocus(editText);
-            return false;
-        } else {
-            textInputLayout.setErrorEnabled(false);
-        }
-        return true;
-    }
-
-    private boolean validateEmail() {
-        String email = inputEmail.getText().toString().trim();
-
-        if (email.isEmpty() || !isValidEmail(email)) {
-            layoutInputEmail.setError(getString(R.string.error_email_activity_general));
-            requestFocus(inputEmail);
-            return false;
-        } else {
-            layoutInputEmail.setErrorEnabled(false);
-        }
-        return true;
-    }
-
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
     }
 
     @Override
@@ -404,15 +318,12 @@ public class GeneralActivity extends AppCompatActivity implements AdapterView.On
         //set birth date
         DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
         inputBirthDate.setText(dateFormat.format(calendar.getTime()));
-        general.setBirthDate(calendar.getTime());
 
-        //set age
         Calendar today = Calendar.getInstance();
         int age = today.get(Calendar.YEAR) - calendar.get(Calendar.YEAR);
         if (today.get(Calendar.DAY_OF_YEAR) < calendar.get(Calendar.DAY_OF_YEAR)){
             age--;
         }
         inputAge.setText(age + "");
-        general.setAge(age);
     }
 }

@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -91,7 +92,7 @@ public class Validator {
         return true;
     }
 
-    public boolean isValidCURP(String curp) {
+    private boolean isValidCURP(String curp) {
         String regex =
                 "[A-Z]{1}[AEIOU]{1}[A-Z]{2}[0-9]{2}" +
                         "(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])" +
@@ -111,5 +112,22 @@ public class Validator {
         if (view.requestFocus()) {
             act.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    public boolean validateEmail(EditText inputEmail, TextInputLayout layoutInputEmail) {
+        String email = inputEmail.getText().toString().trim();
+
+        if (email.isEmpty() || !isValidEmail(email)) {
+            layoutInputEmail.setError(context.getString(R.string.error_email_activity_general));
+            requestFocus(inputEmail);
+            return false;
+        } else {
+            layoutInputEmail.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private static boolean isValidEmail(String email) {
+        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.nahtredn.entities.CurrentStudy;
 import com.nahtredn.entities.Documentation;
+import com.nahtredn.entities.General;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
 import com.nahtredn.entities.StudyDone;
@@ -189,6 +190,24 @@ public class RealmController {
         return result[0];
     }
 
+    /**
+     * Método que busca un registro de tipo Documentation en la base de datos a partir de su identificador.
+     * @param general corresponde a la clase en la cual se reliazará la búsqueda
+     * @return un objeto de tipo General
+     */
+    public General find(General general){
+        final General[] result = {null};
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                result[0] = realm.where(General.class).findFirst();;
+            }
+        });
+        return result[0];
+    }
+
     // ********************* SAVE OPERATIONS ****************************
 
     /**
@@ -361,6 +380,36 @@ public class RealmController {
                 }
             }
             realm.copyToRealmOrUpdate(documentation);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
+        }
+        return result;
+    }
+
+    /**
+     * Método que guarda un objeto General en la base de datos.
+     * @param general corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
+     */
+    public boolean save(General general) {
+        boolean result = true;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            if (general.getId() == -1) {
+                Number currentIdNum = realm.where(general.getClass()).max("id");
+                if (currentIdNum == null) {
+                    general.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    general.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(general);
             realm.commitTransaction();
         } catch (Exception e) {
             realm.cancelTransaction();
