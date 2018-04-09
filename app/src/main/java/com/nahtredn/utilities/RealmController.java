@@ -94,7 +94,7 @@ public class RealmController {
      */
     public Knowledge find(Knowledge knowledge, int id){
         Knowledge result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
+        Realm realm = Realm.getDefaultInstance();
         try{
             result = realm.where(knowledge.getClass()).equalTo("id", id).findFirst();
         }finally {
@@ -111,7 +111,7 @@ public class RealmController {
      */
     public WorkExperience find(WorkExperience workExperience ,int id){
         WorkExperience result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
+        Realm realm = Realm.getDefaultInstance();
         try{
             result = realm.where(workExperience.getClass()).equalTo("id", id).findFirst();
         }finally {
@@ -128,7 +128,7 @@ public class RealmController {
      */
     public Reference find(Reference reference, int id){
         Reference result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
+        Realm realm = Realm.getDefaultInstance();
         try{
             result = realm.where(reference.getClass()).equalTo("id", id).findFirst();
         }finally {
@@ -145,7 +145,7 @@ public class RealmController {
      */
     public CurrentStudy find(CurrentStudy currentStudy, int id){
         CurrentStudy result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
+        Realm realm = Realm.getDefaultInstance();
         try{
             result = realm.where(currentStudy.getClass()).equalTo("id", id).findFirst();
         }finally {
@@ -162,7 +162,7 @@ public class RealmController {
      */
     public StudyDone find(StudyDone studyDone, int id){
         StudyDone result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
+        Realm realm = Realm.getDefaultInstance();
         try{
             result = realm.where(studyDone.getClass()).equalTo("id", id).findFirst();
         }finally {
@@ -173,17 +173,20 @@ public class RealmController {
 
     /**
      * Método que busca un registro de tipo Documentation en la base de datos a partir de su identificador.
+     * @param documentation corresponde a la clase en la cual se reliazará la búsqueda
      * @return un objeto de tipo Documentation
      */
     public Documentation find(Documentation documentation){
-        Documentation result = null;
-        Realm realm = io.realm.Realm.getDefaultInstance();
-        try{
-            result = realm.where(documentation.getClass()).findFirst();
-        }finally {
-            realm.close();
-        }
-        return result;
+        final Documentation[] result = {null};
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                result[0] = realm.where(Documentation.class).findFirst();;
+            }
+        });
+        return result[0];
     }
 
     // ********************* SAVE OPERATIONS ****************************

@@ -15,12 +15,16 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import io.realm.Realm;
 
 public class DocumentationActivity extends AppCompatActivity {
 
@@ -56,10 +60,9 @@ public class DocumentationActivity extends AppCompatActivity {
         inputRFC = findViewById(R.id.input_rfc_documentation);
 
         // Se identifica si se creará un nuevo objeto o se modificará otro
-        Documentation documentation = RealmController.with().find(new Documentation());
+        Documentation documentation = RealmController.with(this).find(new Documentation());
         if (documentation != null){
             loadData(documentation);
-            this.id = documentation.getId();
         }
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
