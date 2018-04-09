@@ -1,4 +1,4 @@
-package com.nahtredn.adapters.fragments;
+package com.nahtredn.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;

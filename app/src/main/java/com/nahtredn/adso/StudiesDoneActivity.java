@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.nahtredn.adapters.fragments.StudyDoneFragment;
+import com.nahtredn.fragments.StudyDoneFragment;
 
 public class StudiesDoneActivity extends AppCompatActivity {
 

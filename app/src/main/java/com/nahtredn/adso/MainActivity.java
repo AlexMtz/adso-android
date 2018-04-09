@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.nahtredn.adapters.fragments.VacancyFragment;
+import com.nahtredn.fragments.VacancyFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

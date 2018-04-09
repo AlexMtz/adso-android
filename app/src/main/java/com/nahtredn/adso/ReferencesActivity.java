@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.nahtredn.adapters.fragments.ReferenceFragment;
+import com.nahtredn.fragments.ReferenceFragment;
 
 public class ReferencesActivity extends AppCompatActivity {
 

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.nahtredn.adapters.fragments.WorkExperienceFragment;
+import com.nahtredn.fragments.WorkExperienceFragment;
 
 public class WorkExperiencesActivity extends AppCompatActivity {
 
