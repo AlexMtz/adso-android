@@ -46,9 +46,9 @@ public class VacancyAdapter extends ArrayAdapter<Vacancy> {
         Vacancy vacancy = getItem(position);
 
         // Setup.
-        name.setText(vacancy.getName());
+        name.setText(vacancy.getJobTitle());
         companyName.setText(vacancy.getCompanyName());
-        place.setText(vacancy.getAddress().getPlace());
+        place.setText(vacancy.getPlace());
         salary.setText(vacancy.getSalary());
 
         return convertView;

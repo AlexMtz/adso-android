@@ -8,25 +8,25 @@ import java.util.Date;
 
 public class Vacancy {
     private String id;
-    private String name;
     private String companyName;
-    private String companyId;
-    private String salary;
-    private Address address;
-    private String status;
-    private Date added;
-    private String tags[];
-    private String benefits;
-    private String knowledgement[];
-    private String skills[];
-    private String schedule;
-    private String responsabilities[];
+    private String companyEmail;
+    private String companyPhone;
+    private String rhEmail;
+    private String rhPhone;
+    private String street;
+    private String colony;
+    private String numExt;
+    private String municipality;
+    private String state;
+    private String jobTitle;
+    private String hoursWork;
     private String description;
+    private String benefits;
+    private String skills;
+    private String knowledges;
+    private String salary;
 
-    public Vacancy(String name, String companyName, String salary) {
-        this.name = name;
-        this.companyName = companyName;
-        this.salary = salary;
+    public Vacancy() {
     }
 
     public String getId() {
@@ -37,14 +37,6 @@ public class Vacancy {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getCompanyName() {
         return companyName;
     }
@@ -53,52 +45,100 @@ public class Vacancy {
         this.companyName = companyName;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public String getCompanyEmail() {
+        return companyEmail;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
     }
 
-    public String getSalary() {
-        return salary;
+    public String getCompanyPhone() {
+        return companyPhone;
     }
 
-    public void setSalary(String salary) {
-        this.salary = salary;
+    public void setCompanyPhone(String companyPhone) {
+        this.companyPhone = companyPhone;
     }
 
-    public Address getAddress() {
-        return address;
+    public String getRhEmail() {
+        return rhEmail;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setRhEmail(String rhEmail) {
+        this.rhEmail = rhEmail;
     }
 
-    public String getStatus() {
-        return status;
+    public String getRhPhone() {
+        return rhPhone;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRhPhone(String rhPhone) {
+        this.rhPhone = rhPhone;
     }
 
-    public Date getAdded() {
-        return added;
+    public String getStreet() {
+        return street;
     }
 
-    public void setAdded(Date added) {
-        this.added = added;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public String[] getTags() {
-        return tags;
+    public String getColony() {
+        return colony;
     }
 
-    public void setTags(String[] tags) {
-        this.tags = tags;
+    public void setColony(String colony) {
+        this.colony = colony;
+    }
+
+    public String getNumExt() {
+        return numExt;
+    }
+
+    public void setNumExt(String numExt) {
+        this.numExt = numExt;
+    }
+
+    public String getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getHoursWork() {
+        return hoursWork;
+    }
+
+    public void setHoursWork(String hoursWork) {
+        this.hoursWork = hoursWork;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getBenefits() {
@@ -109,43 +149,31 @@ public class Vacancy {
         this.benefits = benefits;
     }
 
-    public String[] getKnowledgement() {
-        return knowledgement;
-    }
-
-    public void setKnowledgement(String[] knowledgement) {
-        this.knowledgement = knowledgement;
-    }
-
-    public String[] getSkills() {
+    public String getSkills() {
         return skills;
     }
 
-    public void setSkills(String[] skills) {
+    public void setSkills(String skills) {
         this.skills = skills;
     }
 
-    public String getSchedule() {
-        return schedule;
+    public String getKnowledges() {
+        return knowledges;
     }
 
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+    public void setKnowledges(String knowledges) {
+        this.knowledges = knowledges;
     }
 
-    public String[] getResponsabilities() {
-        return responsabilities;
+    public String getSalary() {
+        return salary;
     }
 
-    public void setResponsabilities(String[] responsabilities) {
-        this.responsabilities = responsabilities;
+    public void setSalary(String salary) {
+        this.salary = salary;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public String getPlace(){
+        return municipality + ", " + state;
     }
 }

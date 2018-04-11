@@ -182,12 +182,12 @@ public class VacancyFragment extends Fragment {
                 for(int i=0; i < jArray.length(); i++) {
 
                     JSONObject jObject = jArray.getJSONObject(i);
-                    Vacancy vacancy = new Vacancy(jObject.getString("job_title"),
-                            jObject.getString("company"),
-                            jObject.getString("salary"));
+                    Vacancy vacancy = new Vacancy();
+                    vacancy.setJobTitle(jObject.getString("job_title"));
+                    vacancy.setCompanyName(jObject.getString("company"));
                     vacancy.setSalary(jObject.getString("salary"));
-                    Address address = new Address(jObject.getString("municipality"), jObject.getString("state"));
-                    vacancy.setAddress(address);
+                    vacancy.setMunicipality(jObject.getString("municipality"));
+                    vacancy.setState(jObject.getString("state"));
                     vacancies.add(vacancy);
                     Log.w("VacancyFragment", "vacancy fetched: " + jObject.getString("job_title"));
 
