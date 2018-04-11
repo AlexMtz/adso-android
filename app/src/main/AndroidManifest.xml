@@ -98,7 +98,10 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ReferenceActivity"
-            android:label="@string/title_activity_reference"></activity>
+            android:label="@string/title_activity_reference" />
+        <activity
+            android:name=".VacancyActivity"
+            android:label="@string/title_activity_vacancy"></activity>
     </application>
 
 </manifest>

@@ -181,6 +181,9 @@
     </array>
     <string name="error_type_meet">Selecciona una opción de tiempo</string>
 
+    <!-- Vacancy Activity -->
+    <string name="title_activity_vacancy">Vacante</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

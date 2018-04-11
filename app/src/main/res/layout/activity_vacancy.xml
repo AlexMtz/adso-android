@@ -1,0 +1,147 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_activity"
+    tools:context="com.nahtredn.adso.VacancyActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/adViewVacancy"
+        android:padding="@dimen/fab_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/textHeader"
+                android:text="Sobre la Vacante"
+                android:id="@+id/vacancy_title"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:text="Empleado de mostrador"
+                android:id="@+id/job_title_vacancy"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:text="$$$"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:text="8 horas"
+                    android:layout_alignParentEnd="true"/>
+
+            </RelativeLayout>
+
+            <TextView
+                style="@style/textCommon"
+                android:text="Guadalupe, Zacatecas"
+                android:id="@+id/place_vacancy"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="Descripción" />
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Oportunidad para crecer en la cadena de oxxo en la oportunidad"
+                android:id="@+id/description_vacancy"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="Habilidades" />
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Amplio conocimiento en ventas"
+                android:id="@+id/skills_vacancy"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="Conocimientos" />
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Manejo de paquetería Office"
+                android:id="@+id/knowledgments_vacancy"/>
+
+            <TextView
+                style="@style/textHeader"
+                android:text="Sobre RH" />
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Calle de la libertad, num 15"
+                android:id="@+id/street_num_vacancy"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="colonia la madriguera, 98678"
+                android:id="@+id/colony_zipcode_vacancy"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Guadalupe Zacatecas"
+                android:id="@+id/place_rh_vacancy"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="4921245766"
+                android:id="@+id/phone_rh_vacancy"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="reclutamiento@rh.com"
+                android:id="@+id/email_rh_vacancy"/>
+
+            <TextView
+                style="@style/textHeader"
+                android:text="Sobre la empresa"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="Nombre SA de CV"
+                android:id="@+id/company_name_vacancy"/>
+
+            <TextView
+                style="@style/textCommon"
+                android:textAlignment="textStart"
+                android:text="email@company.com"
+                android:id="@+id/email_company_vacancy"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adViewVacancy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"/>
+
+</RelativeLayout>

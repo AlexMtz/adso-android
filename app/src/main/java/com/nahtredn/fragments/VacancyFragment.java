@@ -2,6 +2,7 @@ package com.nahtredn.fragments;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.internal.gmsg.HttpClient;
 import com.nahtredn.adso.R;
+import com.nahtredn.adso.VacancyActivity;
 import com.nahtredn.entities.Address;
 import com.nahtredn.entities.Vacancy;
 import com.nahtredn.adapters.VacancyAdapter;
@@ -214,7 +216,8 @@ public class VacancyFragment extends Fragment {
             mVacancyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    Messenger.with(getActivity()).showMessage("Vacancy pressed");
+                    Intent intent = new Intent(getActivity(), VacancyActivity.class);
+                    startActivity(intent);
                 }
             });
         }
