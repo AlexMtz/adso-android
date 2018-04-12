@@ -7,4 +7,5 @@
     android:id="@+id/vacancies_main_container"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.nahtredn.adso.MainActivity"
-    tools:showIn="@layout/app_bar_main"/>
+    tools:showIn="@layout/app_bar_main"
+    android:background="@color/background_activity"/>
