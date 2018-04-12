@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ADSO</string>
+    <string name="app_name">J2W</string>
 
     <!-- Main activity -->
     <string name="title_main_activity">Vacantes</string>
@@ -183,6 +183,11 @@
 
     <!-- Vacancy Activity -->
     <string name="title_activity_vacancy">Vacante</string>
+
+    <!-- Company data -->
+    <string name="company_name">Jamp2Work</string>
+    <string name="company_email">info@jamp2work.com</string>
+    <string name="version_app">v0.1</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
