@@ -228,6 +228,7 @@
     <string name="error_load_data">Error al cargar los datos</string>
     <string name="success_delete">Eliminado correctamente</string>
     <string name="error_delete">Error al tratar de eliminar el elemento</string>
+    <string name="image_description">La imagen no se ha podido cargar</string>
 
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>

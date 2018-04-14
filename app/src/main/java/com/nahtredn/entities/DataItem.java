@@ -6,12 +6,14 @@ package com.nahtredn.entities;
 
 public class DataItem {
 
+    private int idImage;
     private String title;
     private String description;
 
-    public DataItem(String title, String description) {
+    public DataItem(String title, String description, int idImage) {
         this.title = title;
         this.description = description;
+        this.idImage = idImage;
     }
 
     public String getTitle() {
@@ -28,5 +30,13 @@ public class DataItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getIdImage() {
+        return idImage;
+    }
+
+    public void setIdImage(int idImage) {
+        this.idImage = idImage;
     }
 }

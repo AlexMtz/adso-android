@@ -1,4 +1,4 @@
-package com.nahtredn.adso;
+package com.nahtredn.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.nahtredn.adso.CurrentStudiesActivity;
+import com.nahtredn.adso.DocumentationActivity;
+import com.nahtredn.adso.GeneralActivity;
+import com.nahtredn.adso.KnowledgeActivity;
+import com.nahtredn.adso.PhotoActivity;
+import com.nahtredn.adso.R;
+import com.nahtredn.adso.ReferencesActivity;
+import com.nahtredn.adso.StudiesDoneActivity;
+import com.nahtredn.adso.WorkExperiencesActivity;
 import com.nahtredn.entities.DataItem;
 import com.nahtredn.adapters.DataAdapter;
 
@@ -113,14 +122,14 @@ public class DataFragment extends Fragment {
 
     private List<DataItem> getData(){
         ArrayList<DataItem> dataItems = new ArrayList<>();
-        dataItems.add(new DataItem("Foto","Es la imagen con la que los reclutadores te podrán identificar."));
-        dataItems.add(new DataItem("Generales","Tu nombre, apellidos, edad y domicnilio serán necesarios"));
-        dataItems.add(new DataItem("Documentación","CURP, RFC y quizás licencia de conducir no pueden faltar"));
-        dataItems.add(new DataItem("Estudios Realizados","Platicanos que tanto te has preparado"));
-        dataItems.add(new DataItem("Estudios Actuales","Platicanos si aún te estás preparando"));
-        dataItems.add(new DataItem("Conocimientos y Habilidades","Todo lo que te gusta y has aprendido a hacer"));
-        dataItems.add(new DataItem("Experiencia Laboral","¿Antes has trabajado?"));
-        dataItems.add(new DataItem("Referencias","¿A quién podemos preguntar por tí?"));
+        dataItems.add(new DataItem("Foto","Es la imagen con la que los reclutadores te podrán identificar.", R.drawable.ic_camera));
+        dataItems.add(new DataItem("Generales","Tu nombre, apellidos, edad y domicnilio serán necesarios", R.drawable.ic_identify));
+        dataItems.add(new DataItem("Documentación","CURP, RFC y quizás licencia de conducir no pueden faltar", R.drawable.ic_folder));
+        dataItems.add(new DataItem("Estudios Realizados","Platicanos que tanto te has preparado", R.drawable.ic_diploma));
+        dataItems.add(new DataItem("Estudios Actuales","Platicanos si aún te estás preparando", R.drawable.ic_backpack));
+        dataItems.add(new DataItem("Conocimientos y Habilidades","Todo lo que te gusta y has aprendido a hacer", R.drawable.ic_idea));
+        dataItems.add(new DataItem("Experiencia Laboral","¿Antes has trabajado?", R.drawable.ic_job));
+        dataItems.add(new DataItem("Referencias","¿A quién podemos preguntar por tí?", R.drawable.ic_reference));
         return dataItems;
     }
 }

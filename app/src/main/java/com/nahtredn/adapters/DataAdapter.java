@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nahtredn.adso.R;
@@ -39,6 +40,7 @@ public class DataAdapter extends ArrayAdapter<DataItem> {
         // Referencias UI.
         TextView title = convertView.findViewById(R.id.title_data);
         TextView description = convertView.findViewById(R.id.brief_description_data);
+        ImageView imageView = convertView.findViewById(R.id.image_data);
 
         // Cliente actual.
         DataItem dataItem = getItem(position);
@@ -46,6 +48,7 @@ public class DataAdapter extends ArrayAdapter<DataItem> {
         // Setup.
         title.setText(dataItem.getTitle());
         description.setText(dataItem.getDescription());
+        imageView.setImageResource(dataItem.getIdImage());
         return convertView;
     }
 }

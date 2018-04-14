@@ -6,11 +6,20 @@
     android:orientation="vertical"
     android:padding="@dimen/fab_margin">
 
+    <ImageView
+        android:contentDescription="@string/image_description"
+        android:layout_alignParentStart="true"
+        android:id="@+id/image_study_done"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:src="@drawable/ic_study_done_item"
+        android:layout_marginEnd="10dip"/>
+
     <TextView
+        android:layout_toEndOf="@id/image_study_done"
         android:id="@+id/academic_level_study_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="Ingeniero de Software" />
 
@@ -29,7 +38,6 @@
         android:layout_alignParentEnd="true"
         android:layout_above="@id/institute_study_done"
         tools:text="10/06/2016"
-        android:textSize="15sp"
-        android:textStyle="bold"/>
+        android:textSize="13sp"/>
 
 </RelativeLayout>
