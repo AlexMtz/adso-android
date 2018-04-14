@@ -3,32 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.SkillDetailActivity"
-    android:background="@color/background_activity">
+    tools:context="com.nahtredn.adso.SkillDetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="10dp"
         android:layout_above="@id/adViewSkillsDetails">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_input_knowledge">
+                android:orientation="vertical"
+                android:background="@drawable/section">
 
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/title_knowledge"
-                    android:inputType="textCapWords"
-                    android:id="@+id/input_knowledge"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_input_knowledge">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        style="@style/commonInput"
+                        android:hint="@string/title_knowledge"
+                        android:inputType="textCapWords"
+                        android:id="@+id/input_knowledge"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <Button
                 android:onClick="onClicSaveKnowledge"

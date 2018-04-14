@@ -2,188 +2,196 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_activity"
     tools:context="com.nahtredn.adso.CurrentStudyActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/adViewCurrentStudy"
-        android:padding="@dimen/fab_margin">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_input_name_course_current_study"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/input_name_course_current_study"
-                    style="@style/commonInput"
-                    android:hint="@string/course_studies_done"
-                    android:inputType="textCapWords" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_input_institute_current_study"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/input_institute_current_study"
-                    style="@style/commonInput"
-                    android:hint="@string/institute_studies_done"
-                    android:inputType="textCapWords"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/level_academic_studies_done" />
-
-            <Spinner
-                style="@style/commonSpinner"
-                android:entries="@array/array_academic"
-                android:id="@+id/spinner_academic_level_current_study">
-            </Spinner>
-
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/grade" />
-
-            <Spinner
-                style="@style/commonSpinner"
-                android:entries="@array/array_grade"
-                android:id="@+id/spinner_grade_current_study">
-            </Spinner>
-
-            <Spinner
-                style="@style/commonSpinner"
-                android:entries="@array/array_modality"
-                android:id="@+id/spinner_modality_current_study">
-            </Spinner>
-
-            <TextView
-                style="@style/textHeader"
-                android:text="@string/title_schedule" />
-
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/schedule_days" />
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/checkbox_monday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/monday" />
-
-                <CheckBox
-                    android:id="@+id/checkbox_tuesday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/tuesday" />
-
-                <CheckBox
-                    android:id="@+id/checkbox_wenesday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/wednesday" />
-
-                <CheckBox
-                    android:id="@+id/checkbox_thursday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/thursday" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/checkbox_friday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/friday" />
-
-                <CheckBox
-                    android:id="@+id/checkbox_saturday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/saturday" />
-
-                <CheckBox
-                    android:id="@+id/checkbox_sunday_current_study"
-                    style="@style/commonRadioButton"
-                    android:text="@string/sunday" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_date_start_current_study"
-                    style="@style/timePickerButton"
-                    android:contentDescription="datepicker"
-                    android:onClick="onClicTime"/>
-
+                android:orientation="vertical"
+                android:background="@drawable/section">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/layout_input_date_start_current_study"
+                    android:id="@+id/layout_input_name_course_current_study"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_toStartOf="@+id/btn_date_start_current_study">
+                    android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/input_time_start_current_study"
+                        android:id="@+id/input_name_course_current_study"
                         style="@style/commonInput"
-                        android:enabled="false"
-                        android:hint="@string/schedule_hour_start"
-                        android:inputType="date" />
+                        android:hint="@string/course_studies_done"
+                        android:inputType="textCapWords" />
 
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_date_end_current_study"
-                    style="@style/timePickerButton"
-                    android:contentDescription="Datepicker"
-                    android:onClick="onClicTime" />
-
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/layout_input_date_end_current_study"
+                    android:id="@+id/layout_input_institute_current_study"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_toStartOf="@+id/btn_date_end_current_study">
+                    android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/input_time_end_current_study"
+                        android:id="@+id/input_institute_current_study"
                         style="@style/commonInput"
-                        android:enabled="false"
-                        android:hint="@string/schedule_hour_end"
-                        android:inputType="date"/>
+                        android:hint="@string/institute_studies_done"
+                        android:inputType="textCapWords"/>
 
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/level_academic_studies_done" />
+
+                <Spinner
+                    style="@style/commonSpinner"
+                    android:entries="@array/array_academic"
+                    android:id="@+id/spinner_academic_level_current_study">
+                </Spinner>
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/grade" />
+
+                <Spinner
+                    style="@style/commonSpinner"
+                    android:entries="@array/array_grade"
+                    android:id="@+id/spinner_grade_current_study">
+                </Spinner>
+
+                <Spinner
+                    style="@style/commonSpinner"
+                    android:entries="@array/array_modality"
+                    android:id="@+id/spinner_modality_current_study">
+                </Spinner>
+
+                <TextView
+                    style="@style/textHeader"
+                    android:text="@string/title_schedule" />
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/schedule_days" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_monday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/monday" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_tuesday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/tuesday" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_wenesday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/wednesday" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_thursday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/thursday" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_friday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/friday" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_saturday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/saturday" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_sunday_current_study"
+                        style="@style/commonRadioButton"
+                        android:text="@string/sunday" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_date_start_current_study"
+                        style="@style/timePickerButton"
+                        android:contentDescription="datepicker"
+                        android:onClick="onClicTime"/>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/layout_input_date_start_current_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_toStartOf="@+id/btn_date_start_current_study">
+
+                        <EditText
+                            android:id="@+id/input_time_start_current_study"
+                            style="@style/commonInput"
+                            android:enabled="false"
+                            android:hint="@string/schedule_hour_start"
+                            android:inputType="date" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_date_end_current_study"
+                        style="@style/timePickerButton"
+                        android:contentDescription="Datepicker"
+                        android:onClick="onClicTime" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/layout_input_date_end_current_study"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_toStartOf="@+id/btn_date_end_current_study">
+
+                        <EditText
+                            android:id="@+id/input_time_end_current_study"
+                            style="@style/commonInput"
+                            android:enabled="false"
+                            android:hint="@string/schedule_hour_end"
+                            android:inputType="date"/>
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_save_documentation"

@@ -3,60 +3,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_activity"
     tools:context="com.nahtredn.adso.DocumentationActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/adViewDocumentation"
-        android:padding="@dimen/fab_margin">
+        android:padding="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_input_drive_license_documentation"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/section">
 
-                <EditText
-                    android:id="@+id/input_drive_license_documentation"
-                    style="@style/commonInput"
-                    android:hint="@string/driver_license_documentation"
-                    android:inputType="textCapCharacters" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layout_input_drive_license_documentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/input_drive_license_documentation"
+                        style="@style/commonInput"
+                        android:hint="@string/driver_license_documentation"
+                        android:inputType="textCapCharacters" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_input_curp_documentation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/input_curp_documentation"
-                    style="@style/commonInput"
-                    android:hint="@string/curp_documentation"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="18" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layout_input_curp_documentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/input_curp_documentation"
+                        style="@style/commonInput"
+                        android:hint="@string/curp_documentation"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="18" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/layout_input_rfc_documentation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/input_rfc_documentation"
-                    style="@style/commonInput"
-                    android:hint="@string/rfc_documentation"
-                    android:inputType="textCapCharacters"
-                    android:maxLength="13" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/layout_input_rfc_documentation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </android.support.design.widget.TextInputLayout>
+                    <EditText
+                        android:id="@+id/input_rfc_documentation"
+                        style="@style/commonInput"
+                        android:hint="@string/rfc_documentation"
+                        android:inputType="textCapCharacters"
+                        android:maxLength="13" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_save_documentation"

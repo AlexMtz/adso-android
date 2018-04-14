@@ -2,72 +2,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nahtredn.adso.ReferenceActivity"
-    android:background="@color/background_activity">
+    tools:context="com.nahtredn.adso.ReferenceActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/common_padding"
-        android:layout_above="@id/adViewReference"
-        android:layout_margin="@dimen/fab_margin">
+        android:layout_above="@id/adViewReference">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <TextView
-                android:text="@string/header_basic_data_activity_general"
-                style="@style/textHeader"/>
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_input_name_reference">
+                android:orientation="vertical"
+                android:background="@drawable/section">
 
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/name_reference"
-                    android:inputType="textCapWords"
-                    android:id="@+id/input_name_reference"/>
+                <TextView
+                    android:text="@string/header_basic_data_activity_general"
+                    style="@style/textHeader"/>
 
-            </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_input_name_reference">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout_input_job_title_reference">
+                    <EditText
+                        style="@style/commonInput"
+                        android:hint="@string/name_reference"
+                        android:inputType="textCapWords"
+                        android:id="@+id/input_name_reference"/>
 
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/job_title_reference"
-                    android:inputType="textCapWords"
-                    android:id="@+id/input_job_title_reference"/>
+                </android.support.design.widget.TextInputLayout>
 
-            </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_input_job_title_reference">
 
-            <TextView
-                android:text="@string/time_of_meeting"
-                style="@style/textSubtitle"/>
+                    <EditText
+                        style="@style/commonInput"
+                        android:hint="@string/job_title_reference"
+                        android:inputType="textCapWords"
+                        android:id="@+id/input_job_title_reference"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout_input_time_meeting">
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/helper_time_meeting"
-                    android:inputType="number"
-                    android:id="@+id/input_time_meeting"/>
+                <TextView
+                    android:text="@string/time_of_meeting"
+                    style="@style/textSubtitle"/>
 
-            </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_input_time_meeting">
 
-            <Spinner
-                style="@style/commonSpinner"
-                android:id="@+id/spinner_type_time_meeting"
-                android:entries="@array/type_time_meeting_options"/>
+                    <EditText
+                        style="@style/commonInput"
+                        android:hint="@string/helper_time_meeting"
+                        android:inputType="number"
+                        android:id="@+id/input_time_meeting"/>
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    style="@style/commonSpinner"
+                    android:id="@+id/spinner_type_time_meeting"
+                    android:entries="@array/type_time_meeting_options"/>
+
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/section"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin">
 
             <TextView
                 android:text="@string/header_address_data_activity_general"
@@ -93,6 +108,14 @@
                 android:id="@+id/spinner_municipality_reference"
                 android:entries="@array/common_municipality"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/section">
+
             <TextView
                 android:text="@string/header_contact_data_activity_general"
                 style="@style/textHeader"/>
@@ -109,6 +132,8 @@
                     android:id="@+id/input_phone_reference"/>
 
             </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
 
             <Button
                 android:onClick="onClicSaveReference"

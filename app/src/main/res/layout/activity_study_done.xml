@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/background_activity"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,124 +7,133 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
+        android:layout_margin="10dp"
         android:layout_above="@id/adViewStudyDone">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/level_academic_studies_done"/>
-
-            <Spinner
-                android:entries="@array/array_academic"
-                style="@style/commonSpinner"
-                android:id="@+id/spinner_academic_level_study_done"/>
-
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/layout_name_course_study_done">
+                android:orientation="vertical"
+                android:background="@drawable/section">
 
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/course_studies_done"
-                    android:inputType="textCapWords"
-                    android:id="@+id/input_name_course_study_done"/>
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/level_academic_studies_done"/>
 
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout_institute_study_done">
-
-                <EditText
-                    style="@style/commonInput"
-                    android:hint="@string/institute_studies_done"
-                    android:inputType="textCapWords"
-                    android:id="@+id/input_institute_study_done"/>
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/subheader_state_activity_general"/>
-
-            <Spinner
-                style="@style/commonSpinner"
-                android:entries="@array/states"
-                android:id="@+id/spinner_state_study_done"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_date_start_study_done"
-                    style="@style/datePickerButton"
-                    android:contentDescription="@string/start_date_studies_done"
-                    android:onClick="onClicDateStudyDone"/>
-
+                <Spinner
+                    android:entries="@array/array_academic"
+                    style="@style/commonSpinner"
+                    android:id="@+id/spinner_academic_level_study_done"/>
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_toStartOf="@+id/btn_date_start_study_done"
-                    android:id="@+id/layout_input_start_date_study_done">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_name_course_study_done">
 
                     <EditText
-                        android:id="@+id/input_date_start_study_done"
                         style="@style/commonInput"
-                        android:enabled="false"
-                        android:inputType="date"
-                        android:hint="@string/start_date_studies_done"/>
+                        android:hint="@string/course_studies_done"
+                        android:inputType="textCapWords"
+                        android:id="@+id/input_name_course_study_done"/>
 
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/btn_date_end_study_done"
-                    style="@style/datePickerButton"
-                    android:contentDescription="@string/end_date_studies_done"
-                    android:onClick="onClicDateStudyDone"/>
-
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/fab_margin"
-                    android:layout_toStartOf="@+id/btn_date_end_study_done"
-                    android:id="@+id/layout_input_end_date_study_done">
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layout_institute_study_done">
 
                     <EditText
-                        android:id="@+id/input_date_end_study_done"
                         style="@style/commonInput"
-                        android:enabled="false"
-                        android:inputType="date"
-                        android:hint="@string/end_date_studies_done"/>
+                        android:hint="@string/institute_studies_done"
+                        android:inputType="textCapWords"
+                        android:id="@+id/input_institute_study_done"/>
 
                 </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
 
-            <TextView
-                style="@style/textSubtitle"
-                android:text="@string/title_recived_studies_done"/>
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/subheader_state_activity_general"/>
 
-            <Spinner
-                android:entries="@array/array_title_recived"
-                style="@style/commonSpinner"
-                android:id="@+id/spinner_title_study_done"/>
+                <Spinner
+                    style="@style/commonSpinner"
+                    android:entries="@array/states"
+                    android:id="@+id/spinner_state_study_done"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_date_start_study_done"
+                        style="@style/datePickerButton"
+                        android:contentDescription="@string/start_date_studies_done"
+                        android:onClick="onClicDateStudyDone"/>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_toStartOf="@+id/btn_date_start_study_done"
+                        android:id="@+id/layout_input_start_date_study_done">
+
+                        <EditText
+                            android:id="@+id/input_date_start_study_done"
+                            style="@style/commonInput"
+                            android:enabled="false"
+                            android:inputType="date"
+                            android:hint="@string/start_date_studies_done"/>
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/btn_date_end_study_done"
+                        style="@style/datePickerButton"
+                        android:contentDescription="@string/end_date_studies_done"
+                        android:onClick="onClicDateStudyDone"/>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/fab_margin"
+                        android:layout_toStartOf="@+id/btn_date_end_study_done"
+                        android:id="@+id/layout_input_end_date_study_done">
+
+                        <EditText
+                            android:id="@+id/input_date_end_study_done"
+                            style="@style/commonInput"
+                            android:enabled="false"
+                            android:inputType="date"
+                            android:hint="@string/end_date_studies_done"/>
+
+                    </android.support.design.widget.TextInputLayout>
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/title_recived_studies_done"/>
+
+                <Spinner
+                    android:entries="@array/array_title_recived"
+                    style="@style/commonSpinner"
+                    android:id="@+id/spinner_title_study_done"/>
+
+            </LinearLayout>
 
             <Button
                 style="@style/commonButton"
