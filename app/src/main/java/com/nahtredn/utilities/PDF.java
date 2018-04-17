@@ -110,14 +110,6 @@ public class PDF {
         return prefs.getString("photo", null);
     }
 
-    private void saveFilePath(String fileName) {
-        SharedPreferences prefs = context.getSharedPreferences("filePreferences", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("filePath", fileName);
-        editor.apply();
-        editor.clear();
-    }
-
     private void drawLine(PdfContentByte canvas, int startX, int startY, int endX, int endY) {
         canvas.saveState();
         canvas.setLineWidth(1f);
@@ -254,6 +246,7 @@ public class PDF {
 
         int bordeTemp = 565;
         drawTitle(canvas, "ESTUDIOS REALIZADOS", 30, bordeTemp);
+        bordeTemp = bordeTemp - 10;
         int startBorder = bordeTemp - 5, endBorder;
         List<StudyDone> studyDones = RealmController.with(context).findAllStudiesDone();
         for (StudyDone studyDone : studyDones){
@@ -287,7 +280,7 @@ public class PDF {
         bordeTemp -= 30;
 
         drawTitle(canvas, "ESTUDIOS ACTUALES", 30, bordeTemp);
-
+        bordeTemp = bordeTemp - 10;
         startBorder = bordeTemp -5;
         List<CurrentStudy> currentStudies = RealmController.with(context).findAllCurrentStudies();
 
@@ -347,7 +340,7 @@ public class PDF {
         File fichero = null;
         if (ruta != null)
             fichero = new File(ruta, nombreArchivo);
-        saveFilePath(fichero.getPath());
+        RealmController.with(context).save(PreferencesProperties.PATH_FILE.toString(),fichero.getPath());
         return fichero;
     }
 

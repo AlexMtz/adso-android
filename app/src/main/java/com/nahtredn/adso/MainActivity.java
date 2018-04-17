@@ -17,7 +17,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.lowagie.text.DocumentException;
 import com.nahtredn.fragments.VacancyFragment;
+import com.nahtredn.utilities.Messenger;
 import com.nahtredn.utilities.PDF;
+import com.nahtredn.utilities.PreferencesProperties;
+import com.nahtredn.utilities.RealmController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -117,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_download) {
             try {
                 PDF.with(getApplication()).generaSolicitud();
-                Toast.makeText(getApplicationContext(),"Guardada en:\nDISPOSITIVO/ADSO/SOLICITUDES",Toast.LENGTH_LONG).show();
+                Messenger.with(this).showMessage("Descargada en: " + RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
             } catch (FileNotFoundException fe){
                 Toast.makeText(getApplicationContext(), "Error: La foto de perfil no se ha encontrado", Toast.LENGTH_LONG).show();
             } catch (DocumentException de){
