@@ -3,6 +3,7 @@ package com.nahtredn.utilities;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 
 import com.nahtredn.entities.CurrentStudy;
@@ -42,6 +43,19 @@ public class RealmController {
     public static RealmController with(){
         if (instance == null){
             instance = new RealmController();
+        }
+        return instance;
+    }
+
+    /**
+     * Método que devuelve una instancia del Controller, si aún no existe, la crea.
+     * @param contexto párametro que permite inicializar el Context del Controller
+     * @return una instancia del Controller
+     */
+    public static RealmController with(Context contexto){
+        if (instance == null){
+            instance = new RealmController();
+            context = contexto;
         }
         return instance;
     }
@@ -208,7 +222,25 @@ public class RealmController {
         return result[0];
     }
 
+    public String find(String property){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences",Context.MODE_PRIVATE);
+        return prefs.getString(property, null);
+    }
+
     // ********************* SAVE OPERATIONS ****************************
+
+    /**
+     * Método que guarda una preferencia en el sistema.
+     * @param property corresponde a la propiedad que se guardará.
+     * @param value corresponde al valor de la propiedad que se guardará
+     */
+    public void save(String property, String value){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(property, value);
+        editor.apply();
+        editor.clear();
+    }
 
     /**
      * Método que guarda un objeto Knowledge en la base de datos.

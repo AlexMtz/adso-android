@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.nahtredn.adso.ProfileActivity"
+    tools:showIn="@layout/activity_profile"
+    android:padding="5dp">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/section"
+            android:orientation="vertical"
+            android:layout_marginBottom="@dimen/fab_margin">
+
+            <TextView
+                style="@style/textHeader"
+                android:text="@string/about_account"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_name_profile">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/username"
+                    android:inputType="textCapWords"
+                    android:enabled="false"
+                    android:id="@+id/input_username_profile"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_current_password_profile">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/current_password"
+                    android:inputType="textPassword"
+                    android:id="@+id/input_current_password_profile"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_new_password_profile">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/new_password"
+                    android:inputType="textPassword"
+                    android:id="@+id/input_new_password_profile"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layout_input_password_repeat_profile">
+
+                <EditText
+                    style="@style/commonInput"
+                    android:hint="@string/repeat_password"
+                    android:inputType="textPassword"
+                    android:id="@+id/input_password_repeat_profile"/>
+
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/section"
+            android:layout_marginBottom="@dimen/fab_margin">
+
+            <TextView
+                style="@style/textHeader"
+                android:text="@string/about_vacancies"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/update_each"/>
+
+            <Spinner
+                android:entries="@array/update_vacancies_options"
+                style="@style/commonSpinner"
+                android:id="@+id/spinner_update_vacancies_profile"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/delete_each"/>
+
+            <Spinner
+                android:entries="@array/delete_vacancies_options"
+                style="@style/commonSpinner"
+                android:id="@+id/spinner_delete_vacancies_profile"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/section">
+
+            <TextView
+                style="@style/textHeader"
+                android:text="@string/about_document"/>
+
+            <TextView
+                style="@style/textSubtitle"
+                android:text="@string/background_color"/>
+
+            <RadioGroup
+                android:id="@+id/radio_group_background_color_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <RadioButton
+                    android:id="@+id/beige_color"
+                    style="@style/commonRadioButton"
+                    android:text="@string/beige_color" />
+
+                <RadioButton
+                    android:id="@+id/white_color"
+                    style="@style/commonRadioButton"
+                    android:text="@string/white_color" />
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            style="@style/commonButton"
+            android:text="@string/save_action"
+            android:onClick="savePreferences"/>
+
+    </LinearLayout>
+</ScrollView>

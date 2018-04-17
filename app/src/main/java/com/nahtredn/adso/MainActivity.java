@@ -8,12 +8,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.lowagie.text.DocumentException;
 import com.nahtredn.fragments.VacancyFragment;
+import com.nahtredn.utilities.PDF;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -105,6 +112,45 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), DataActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
+        }
+
+        if (id == R.id.nav_download) {
+            try {
+                PDF.with(getApplication()).generaSolicitud();
+                Toast.makeText(getApplicationContext(),"Guardada en:\nDISPOSITIVO/ADSO/SOLICITUDES",Toast.LENGTH_LONG).show();
+            } catch (FileNotFoundException fe){
+                Toast.makeText(getApplicationContext(), "Error: La foto de perfil no se ha encontrado", Toast.LENGTH_LONG).show();
+            } catch (DocumentException de){
+                Toast.makeText(getApplicationContext(), "Error: No se ha podido generar la solicitud, intentalo más tarde",
+                        Toast.LENGTH_LONG).show();
+            } catch (NullPointerException npe){
+                Toast.makeText(getApplicationContext(), "Error: Hay datos incompletos", Toast.LENGTH_LONG).show();
+                Log.w("Main", "Error: " + npe.getMessage());
+            } catch (IOException ioe){
+                Toast.makeText(getApplicationContext(), "Error: No se ha podido escribir el archivo", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (id == R.id.nav_preview) {
+
+        }
+
+        if (id == R.id.nav_share) {
+
+        }
+
+        if (id == R.id.nav_profile) {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
+        }
+
+        if (id == R.id.nav_close_sesion) {
+
+        }
+
+        if (id == R.id.nav_exit) {
+            this.finish();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

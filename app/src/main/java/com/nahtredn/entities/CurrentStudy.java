@@ -121,4 +121,12 @@ public class CurrentStudy extends RealmObject {
     public String getSchedule(){
         return this.getStartTime() + " - " + this.getEndTime();
     }
+
+    public String getFullSchedule(){
+        return this.days + " (" + this.getStartTime() + " - " + this.getEndTime() + ")";
+    }
+
+    public String getFullDegree(){
+        return this.grade + " " + this.modality;
+    }
 }

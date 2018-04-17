@@ -52,7 +52,7 @@ public class PhotoActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        AdView mAdView = findViewById(R.id.adViewPhoto);
+        AdView mAdView = findViewById(R.id.adViewPhotoProfile);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
@@ -231,7 +231,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     public String saveImageFile(Bitmap bitmap) {
-        FileOutputStream out = null;
+        FileOutputStream out;
         String filename = getFilename();
         try {
             out = new FileOutputStream(filename);

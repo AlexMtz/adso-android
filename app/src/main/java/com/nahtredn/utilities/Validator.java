@@ -130,4 +130,9 @@ public class Validator {
     private static boolean isValidEmail(String email) {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
+
+    public void setErrorMessage(EditText editText, TextInputLayout textInputLayout, String error){
+        textInputLayout.setError(error);
+        requestFocus(editText);
+    }
 }

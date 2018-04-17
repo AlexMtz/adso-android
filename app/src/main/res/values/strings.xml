@@ -184,6 +184,34 @@
     <!-- Vacancy Activity -->
     <string name="title_activity_vacancy">Vacante</string>
 
+    <!-- Profile Activity -->
+    <string name="title_activity_profile">Perfil</string>
+    <string name="about_account">Acerca de tu cuenta</string>
+    <string name="username">Nombre de usuario:</string>
+    <string name="current_password">Contraseña actual:*</string>
+    <string name="new_password">Nueva contraseña:*</string>
+    <string name="repeat_password">Repite contraseña:*</string>
+    <string name="about_vacancies">Acerca de las vacantes</string>
+    <string name="update_each">Actualizar cada que pase:*</string>
+    <array name="update_vacancies_options">
+        <item>Selecciona una opción</item>
+        <item>Nunca</item>
+        <item>1 día</item>
+        <item>3 días</item>
+        <item>1 semana</item>
+    </array>
+    <string name="delete_each">Eliminar cada que pase:*</string>
+    <array name="delete_vacancies_options">
+        <item>Selecciona una opción</item>
+        <item>1 semana</item>
+        <item>2 semanas</item>
+        <item>1 mes</item>
+    </array>
+    <string name="about_document">Acerca de la solicitud</string>
+    <string name="background_color">Color de fondo:*</string>
+    <string name="beige_color">Beige</string>
+    <string name="white_color">Blanco</string>
+
     <!-- Company data -->
     <string name="company_name">Jamp2Work</string>
     <string name="company_email">info@jamp2work.com</string>
@@ -219,6 +247,8 @@
     <string name="help_skills_activity">Agrega tus habilidades y conocimientos para destacar entre los solicitantes, entre más
         tengas, mayor oportunidad tendrás. Ser honesto y claro es muy importante. No olvides que los campos marcados
         con un * son obligatorios.</string>
+    <string name="help_profile_activity">Selecciona las opciones que más te convengan en las siguientes configuraciones.
+        \nTambién puedes cambiar tu contraseña cuando lo desees.</string>
 
     <!-- Common text -->
     <string name="save_action">Guardar</string>

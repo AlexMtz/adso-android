@@ -32,6 +32,10 @@ public class RadioButtons {
                 return R.id.radio_button_widower_general;
             case "Unión libre":
                 return R.id.radio_button_free_union_general;
+            case "Beige":
+                return R.id.beige_color;
+            case "Blanco":
+                return R.id.white_color;
         }
         return -1;
     }
