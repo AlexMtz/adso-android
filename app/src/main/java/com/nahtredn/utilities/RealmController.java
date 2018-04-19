@@ -709,4 +709,16 @@ public class RealmController {
         RealmResults<Vacancy> result = query.findAll();
         return result;
     }
+
+    /**
+     * Método que permite buscar todos los objetos de tipo Reference guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<WorkExperience> findAllExperiences(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<WorkExperience> query = realm.where(WorkExperience.class);
+        RealmResults<WorkExperience> result = query.findAll();
+        return result;
+    }
 }

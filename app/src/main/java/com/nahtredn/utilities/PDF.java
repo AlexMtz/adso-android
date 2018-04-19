@@ -24,12 +24,15 @@ import com.lowagie.text.pdf.PdfWriter;
 import com.nahtredn.entities.CurrentStudy;
 import com.nahtredn.entities.Documentation;
 import com.nahtredn.entities.General;
+import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.StudyDone;
+import com.nahtredn.entities.WorkExperience;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -149,6 +152,13 @@ public class PDF {
             startBorder = startBorder - 25;
             drawLine(canvas,23,startBorder,560,startBorder);
         }
+    }
+
+    private void drawLinesForKnowledges(PdfContentByte canvas, int startBorder, int endBorder){
+        drawLine(canvas,23,startBorder,560,startBorder);
+        drawLine(canvas,23,endBorder,560,endBorder);
+        drawLine(canvas,23,startBorder,23,endBorder);
+        drawLine(canvas,560,startBorder,560,endBorder);
     }
 
     private void drawLabel(PdfContentByte canvas, String text, int x, int y) {
@@ -332,8 +342,98 @@ public class PDF {
             drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{115},currentStudies.size());
         }
 
+        bordeTemp -= 30;
+
+        drawTitle(canvas, "CONOCIMIENTOS Y HABILIDADES", 30, bordeTemp);
+        bordeTemp = bordeTemp - 10;
+        startBorder = bordeTemp -5;
+        List<Knowledge> knowledges = RealmController.with(context).findAllKnowledges();
+
+        bordeTemp = bordeTemp - 15;
+        drawLabel(canvas, "Conocimientos y habilidades:", 30, bordeTemp);
+
+        if (!knowledges.isEmpty()){
+            for (String s: makeParagraph(knowledges)){
+                bordeTemp = bordeTemp - 10;
+
+                drawText(canvas, s, 30, bordeTemp);
+                // bordeTemp = bordeTemp - 15;
+            }
+
+            endBorder = bordeTemp - 5;
+            drawLinesForKnowledges(canvas, startBorder, endBorder);
+        }
+
+        bordeTemp -= 30;
+
+        drawTitle(canvas, "EXPERIENCIA", 30, bordeTemp);
+        bordeTemp = bordeTemp - 10;
+        startBorder = bordeTemp -5;
+        List<WorkExperience> experiences = RealmController.with(context).findAllExperiences();
+
+        if (!experiences.isEmpty()){
+            for (WorkExperience experience : experiences){
+                bordeTemp = bordeTemp - 15;
+                drawLabel(canvas, "Tipo de experiencia:", 30, bordeTemp);
+                drawLabel(canvas, "Empresa o institución:", 150, bordeTemp);
+                drawLabel(canvas, "Puesto:", 370, bordeTemp);
+
+                bordeTemp = bordeTemp - 10;
+
+                drawText(canvas, experience.getTypeExperience(), 30, bordeTemp);
+                drawText(canvas, experience.getInstitute(), 150, bordeTemp);
+                drawText(canvas, experience.getJobTitle(), 370, bordeTemp);
+
+                drawLine(canvas,365,startBorder,365,bordeTemp - 5);
+
+                bordeTemp = bordeTemp - 15;
+
+                drawLabel(canvas, "Fechas:", 30, bordeTemp);
+                drawLabel(canvas, "Duración:", 150, bordeTemp);
+
+                bordeTemp = bordeTemp - 10;
+
+                drawText(canvas, experience.getDates(), 30, bordeTemp);
+                drawText(canvas, experience.getDuration(), 150, bordeTemp);
+            }
+
+            endBorder = bordeTemp - 5;
+
+            drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{145},experiences.size());
+        }
+
         pdf.close();
         return true;
+    }
+
+    private List<String> makeParagraph(List<Knowledge> knowledges){
+        List<String> paragraph = new ArrayList<>();
+        int count = 0;
+        StringBuffer text = new StringBuffer();
+        for (Knowledge k : knowledges){
+            if (k.getTitle().split(" ").length > 1){
+                for (String s : k.getTitle().split(" ")){
+                    text.append(s).append(" ");
+                    count += s.length() + 1;
+                    if (count > 85) {
+                        paragraph.add(text.toString());
+                        text = new StringBuffer();
+                        count = 0;
+                    }
+                }
+                text = new StringBuffer(text.toString().trim());
+                text.append(", ");
+            } else {
+                text.append(k.getTitle()).append(", ");
+                count += k.getTitle().length() + 2;
+                if (count > 85) {
+                    paragraph.add(text.toString());
+                    text = new StringBuffer();
+                    count = 0;
+                }
+            }
+        }
+        return paragraph;
     }
 
     private boolean canWriteOnExternalStorage(){

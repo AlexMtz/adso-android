@@ -1,6 +1,8 @@
 package com.nahtredn.entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -74,5 +76,26 @@ public class WorkExperience extends RealmObject {
 
     public void setEndJob(Date endJob) {
         this.endJob = endJob;
+    }
+
+    public String getDates(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+        return dateFormat.format(startJob) + " - " + dateFormat.format(endJob);
+    }
+
+    public String getDuration(){
+        long diffInMillies = endJob.getTime() - startJob.getTime();
+        long days = TimeUnit.MILLISECONDS.toDays(diffInMillies);
+        return convertDays((int) days);
+    }
+
+    private String convertDays(int days){
+        StringBuffer st = new StringBuffer();
+        int years = days / 360;
+        if (years > 0) st.append(years).append(" años, ");
+        days = days - (years * 360);
+        int month = days / 30;
+        if (month > 0) st.append(month).append(" meses ");
+        return st.toString();
     }
 }
