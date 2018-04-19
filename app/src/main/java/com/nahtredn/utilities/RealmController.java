@@ -12,6 +12,7 @@ import com.nahtredn.entities.General;
 import com.nahtredn.entities.Knowledge;
 import com.nahtredn.entities.Reference;
 import com.nahtredn.entities.StudyDone;
+import com.nahtredn.entities.Vacancy;
 import com.nahtredn.entities.WorkExperience;
 
 import java.util.List;
@@ -220,6 +221,23 @@ public class RealmController {
             }
         });
         return result[0];
+    }
+
+    /**
+     * Método que busca un registro de tipo StudyDone en la base de datos a partir de su identificador.
+     * @param vacancy corresponde a la clase en la cual se reliazará la búsqueda
+     * @param id corresponde al valor identificador del registro a buscar
+     * @return  un objeto de tipo CurrentStudy
+     */
+    public Vacancy find(Vacancy vacancy, int id){
+        Vacancy result = null;
+        Realm realm = Realm.getDefaultInstance();
+        try{
+            result = realm.where(vacancy.getClass()).equalTo("id", id).findFirst();
+        }finally {
+            realm.close();
+        }
+        return result;
     }
 
     public String find(String property){
@@ -452,6 +470,36 @@ public class RealmController {
         return result;
     }
 
+    /**
+     * Método que guarda un objeto StudyDone en la base de datos.
+     * @param vacancy corresponde al objeto que se va a guardar.
+     * @return un valor booleano que indica si se pudo guardar o no el objeto.
+     */
+    public boolean save(Vacancy vacancy) {
+        boolean result = true;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            if (vacancy.getId() == -1) {
+                Number currentIdNum = realm.where(vacancy.getClass()).max("id");
+                if (currentIdNum == null) {
+                    vacancy.setId(1);
+                } else {
+                    int nextId = currentIdNum.intValue() + 1;
+                    vacancy.setId(nextId);
+                }
+            }
+            realm.copyToRealmOrUpdate(vacancy);
+            realm.commitTransaction();
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            result = false;
+        } finally {
+            realm.close();
+        }
+        return result;
+    }
+
     // ********************* DELETE OPERATIONS ****************************
     /**
      * Método que permite eliminar un objeto de tipo WorkExperience de la base de datos.
@@ -567,6 +615,39 @@ public class RealmController {
         }
     }
 
+    /**
+     * Método que permite eliminar un objeto de tipo Knowledge de la base de datos.
+     * @param vacancy corresponde a la tabla en la cual el objeto esta guardado
+     * @param id corresponde al identificador del objeto a eliminar
+     * @return un valor booleano que indica si se pudo eliminar o no
+     */
+    public boolean delete(Vacancy vacancy, int id){
+        Realm realm = Realm.getDefaultInstance();
+        Vacancy result = realm.where(vacancy.getClass()).equalTo("id", id).findFirst();
+        realm.beginTransaction();
+        try {
+            result.deleteFromRealm();
+            realm.commitTransaction();
+            return true;
+        } catch (NullPointerException npe){
+            return false;
+        }
+    }
+
+    public boolean deleteAllVacancies(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmQuery<Vacancy> query = realm.where(Vacancy.class);
+                RealmResults<Vacancy> result = query.findAll();
+                result.deleteAllFromRealm();
+            }
+        });
+        return true;
+    }
+
+
     //*********************** FIND ALL OPERATIONS *******************************
 
     /**
@@ -614,6 +695,18 @@ public class RealmController {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<StudyDone> query = realm.where(StudyDone.class);
         RealmResults<StudyDone> result = query.findAll();
+        return result;
+    }
+
+    /**
+     * Método que permite buscar todos los objetos de tipo Reference guardados.
+     * @return una lista con los objetos encontrados
+     */
+    public List<Vacancy> findAllVacancies(){
+        Realm.init(context);
+        Realm realm = Realm.getDefaultInstance();
+        RealmQuery<Vacancy> query = realm.where(Vacancy.class);
+        RealmResults<Vacancy> result = query.findAll();
         return result;
     }
 }

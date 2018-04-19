@@ -32,6 +32,11 @@
                     style="@style/textCommon"
                     android:text="Empleado de mostrador" />
 
+                <TextView
+                    android:id="@+id/type_job_vacancy"
+                    style="@style/textCommon"
+                    android:text="Vacante laboral" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -74,17 +79,24 @@
                 <TextView
                     android:id="@+id/skills_vacancy"
                     style="@style/textCommon"
-                    android:text="Amplio conocimiento en ventas"
                     android:textAlignment="textStart" />
 
                 <TextView
                     style="@style/textSubtitle"
-                    android:text="Conocimientos" />
+                    android:text="Conocimientos"/>
 
                 <TextView
                     android:id="@+id/knowledgments_vacancy"
                     style="@style/textCommon"
-                    android:text="Manejo de paquetería Office"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="Beneficios"/>
+
+                <TextView
+                    android:id="@+id/benefits_vacancy"
+                    style="@style/textCommon"
                     android:textAlignment="textStart" />
 
             </LinearLayout>

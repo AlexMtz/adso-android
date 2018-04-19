@@ -1,7 +1,9 @@
 package com.nahtredn.adso;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,25 +14,44 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.lowagie.text.DocumentException;
+import com.nahtredn.adapters.VacancyAdapter;
+import com.nahtredn.entities.Vacancy;
 import com.nahtredn.fragments.VacancyFragment;
 import com.nahtredn.utilities.Messenger;
 import com.nahtredn.utilities.PDF;
 import com.nahtredn.utilities.PreferencesProperties;
 import com.nahtredn.utilities.RealmController;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private AdView mAdView;
+    private ProgressDialog pDialog;
+    private String result;
+    private VacancyFragment vacancyFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +62,6 @@ public class MainActivity extends AppCompatActivity
             toolbar.setTitle(getString(R.string.title_main_activity));
             setSupportActionBar(toolbar);
         }
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        VacancyFragment vacancyFragment = (VacancyFragment)
+        vacancyFragment = (VacancyFragment)
                 getSupportFragmentManager().findFragmentById(R.id.vacancies_main_container);
 
         if (vacancyFragment == null) {
@@ -87,7 +99,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -95,7 +106,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_search) {
+        if (id == R.id.action_download) {
+            new FetchVacants().execute("https://naht-redn-dev.cloud.tyk.io/vacancies/availables");
             return true;
         }
 
@@ -114,33 +126,14 @@ public class MainActivity extends AppCompatActivity
             getApplicationContext().startActivity(intent);
         }
 
-        if (id == R.id.nav_download) {
-            if (PDF.with(getApplication()).generaSolicitud()) {
-                Messenger.with(this).showMessage("Descargada en la carpeta: " + getApplicationContext().getFilesDir());
-            } else {
-                Messenger.with(this).showFailMessage();
-            }
-        }
-
         if (id == R.id.nav_preview) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            File f = new File(RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
-            if (f.exists()) {
-                intent.setDataAndType(Uri.fromFile(f), "application/pdf");
-                startActivity(Intent.createChooser(intent, "Visualizar mediante"));
-            } else {
-                Messenger.with(this).showMessage("File not found");
-            }
+            GeneratePdf task = new GeneratePdf(2);
+            task.execute();
         }
 
         if (id == R.id.nav_share) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            File f = new File(RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
-            if (f.exists()) {
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + f.getAbsolutePath()));
-                intent.setType("application/pdf");
-                startActivity(Intent.createChooser(intent, "Compartir mediante"));
-            }
+            GeneratePdf task = new GeneratePdf(1);
+            task.execute();
         }
 
         if (id == R.id.nav_profile) {
@@ -160,5 +153,125 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    class GeneratePdf extends AsyncTask<String, String, String> {
+        private int action;
+
+        public GeneratePdf(int action) {
+            this.action = action;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Generando solicitud...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+                PDF.with(getApplication()).generaSolicitud();
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String file_url) {
+            pDialog.dismiss();
+            File f = new File(RealmController.with(getApplication()).find(PreferencesProperties.PATH_FILE.toString()));
+            if (f.exists()){
+                if (action == 1){
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + f.getAbsolutePath()));
+                    intent.setType("application/pdf");
+                    startActivity(Intent.createChooser(intent, "Compartir mediante"));
+                }
+
+                if (action == 2){
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+                    startActivity(Intent.createChooser(intent, "Visualizar mediante"));
+                }
+            }
+        }
+
+    }
+
+    class FetchVacants extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            RealmController.with(MainActivity.this).deleteAllVacancies();
+            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog.setMessage("Descargando nuevas vacantes...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+                URL url = new URL(f_url[0]);
+                URLConnection conection = url.openConnection();
+                conection.setConnectTimeout(5000);
+                conection.connect();
+                InputStream input = new BufferedInputStream(url.openStream());
+                try {
+                    BufferedReader bReader = new BufferedReader(new InputStreamReader(input, "utf-8"), 8);
+                    StringBuilder sBuilder = new StringBuilder();
+                    String line = null;
+                    while ((line = bReader.readLine()) != null) {
+                        sBuilder.append(line + "\n");
+                    }
+                    input.close();
+                    result = sBuilder.toString();
+                } catch (Exception e) {
+                    Log.e("MainActivity", "Error converting result " + e.toString());
+                }
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String file_url) {
+            try {
+                JSONArray jArray = new JSONArray(result);
+                for(int i=0; i < jArray.length(); i++) {
+
+                    JSONObject jObject = jArray.getJSONObject(i);
+                    Vacancy vacancy = new Vacancy();
+                    vacancy.setJobTitle(jObject.getString("job_title"));
+                    vacancy.setCompanyName(jObject.getString("company"));
+                    vacancy.setSalary(jObject.getString("salary"));
+                    vacancy.setMunicipality(jObject.getString("municipality"));
+                    vacancy.setState(jObject.getString("state"));
+                    vacancy.setId(-1);
+                    Log.w("Vacante ", "título: " + vacancy.getJobTitle() + " " + vacancy.getId());
+                    RealmController.with(MainActivity.this).save(vacancy);
+                }
+            } catch (JSONException e) {
+                Messenger.with(MainActivity.this).showMessage("Error al consultar las vacantes en el servidor");
+                Log.e("JSONException", "Error: " + e.toString());
+            } catch (NullPointerException npe) {
+                Messenger.with(MainActivity.this).showMessage("No se encontró ningúna vacante");
+                Log.e("NullPointerException", "Error: " + npe.toString());
+            }
+            vacancyFragment.onResume();
+            pDialog.dismiss();
+        }
+
     }
 }

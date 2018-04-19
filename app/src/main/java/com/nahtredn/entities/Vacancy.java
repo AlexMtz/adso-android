@@ -1,14 +1,13 @@
 package com.nahtredn.entities;
 
-import java.util.Date;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by Me on 10/03/2018.
- */
-
-public class Vacancy {
-    private String id;
+public class Vacancy extends RealmObject {
+    @PrimaryKey
+    private int id;
     private String companyName;
+    private String typeVacancy;
     private String companyEmail;
     private String companyPhone;
     private String rhEmail;
@@ -29,11 +28,11 @@ public class Vacancy {
     public Vacancy() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,6 +42,14 @@ public class Vacancy {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getTypeVacancy() {
+        return typeVacancy;
+    }
+
+    public void setTypeVacancy(String typeVacancy) {
+        this.typeVacancy = typeVacancy;
     }
 
     public String getCompanyEmail() {
