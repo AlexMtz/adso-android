@@ -13,7 +13,7 @@
             <item
                 android:id="@+id/nav_preview"
                 android:icon="@drawable/ic_preview_black"
-                android:title="Previsualizar" />
+                android:title="Visualizar" />
             <item
                 android:id="@+id/nav_download"
                 android:icon="@drawable/ic_file_download"

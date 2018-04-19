@@ -1,6 +1,7 @@
 package com.nahtredn.adso;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import com.nahtredn.utilities.PDF;
 import com.nahtredn.utilities.PreferencesProperties;
 import com.nahtredn.utilities.RealmController;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -92,12 +94,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_search) {
             return true;
         }
@@ -118,28 +115,32 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_download) {
-            try {
-                PDF.with(getApplication()).generaSolicitud();
-                Messenger.with(this).showMessage("Descargada en: " + RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
-            } catch (FileNotFoundException fe){
-                Toast.makeText(getApplicationContext(), "Error: La foto de perfil no se ha encontrado", Toast.LENGTH_LONG).show();
-            } catch (DocumentException de){
-                Toast.makeText(getApplicationContext(), "Error: No se ha podido generar la solicitud, intentalo más tarde",
-                        Toast.LENGTH_LONG).show();
-            } catch (NullPointerException npe){
-                Toast.makeText(getApplicationContext(), "Error: Hay datos incompletos", Toast.LENGTH_LONG).show();
-                Log.w("Main", "Error: " + npe.getMessage());
-            } catch (IOException ioe){
-                Toast.makeText(getApplicationContext(), "Error: No se ha podido escribir el archivo", Toast.LENGTH_LONG).show();
+            if (PDF.with(getApplication()).generaSolicitud()) {
+                Messenger.with(this).showMessage("Descargada en la carpeta: " + getApplicationContext().getFilesDir());
+            } else {
+                Messenger.with(this).showFailMessage();
             }
         }
 
         if (id == R.id.nav_preview) {
-
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            File f = new File(RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
+            if (f.exists()) {
+                intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+                startActivity(Intent.createChooser(intent, "Visualizar mediante"));
+            } else {
+                Messenger.with(this).showMessage("File not found");
+            }
         }
 
         if (id == R.id.nav_share) {
-
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            File f = new File(RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
+            if (f.exists()) {
+                intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + f.getAbsolutePath()));
+                intent.setType("application/pdf");
+                startActivity(Intent.createChooser(intent, "Compartir mediante"));
+            }
         }
 
         if (id == R.id.nav_profile) {

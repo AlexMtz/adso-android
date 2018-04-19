@@ -1,5 +1,7 @@
 package com.nahtredn.adso;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +11,10 @@ import android.view.MenuItem;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.nahtredn.fragments.DataFragment;
+import com.nahtredn.utilities.PreferencesProperties;
+import com.nahtredn.utilities.RealmController;
+
+import java.io.File;
 
 public class DataActivity extends AppCompatActivity {
 
@@ -71,7 +77,12 @@ public class DataActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_preview) {
-            return true;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            File f = new File(RealmController.with(this).find(PreferencesProperties.PATH_FILE.toString()));
+            if (f.exists()) {
+                intent.setDataAndType(Uri.fromFile(f), "application/pdf");
+                startActivity(Intent.createChooser(intent, "Visualizar mediante"));
+            }
         }
 
         return super.onOptionsItemSelected(item);

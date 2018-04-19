@@ -1,9 +1,13 @@
 package com.nahtredn.utilities;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -31,8 +35,7 @@ import java.util.List;
 
 public class PDF {
 
-    private static final String RUTA_DOCUMENTO = Environment.getExternalStorageDirectory() + "/j2w/solicitudes";
-    private static final String NOMBRE_BASE_DOCUMENTO = "adso_";
+    private static final String RUTA_DOCUMENTO = Environment.getRootDirectory() + "/j2w/solicitudes";
 
     private Font times_font = new Font(FontFactory.getFont(BaseFont.TIMES_ROMAN, 10));
     private BaseFont times_campo = times_font.getCalculatedBaseFont(false);
@@ -172,12 +175,15 @@ public class PDF {
         canvas.endText();
     }
 
-    public void generaSolicitud()
-            throws DocumentException, FileNotFoundException, NullPointerException, IOException {
+    public boolean generaSolicitud(){
         General general = RealmController.with(context).find(new General());
         String nombreArchivo = general.getName().toLowerCase().replace(" ", "_") + ".pdf";
         Document pdf = new Document();
         File f = crearFichero(nombreArchivo);
+        if (f == null){
+            return false;
+        }
+        // File f = new File(context.getFilesDir(), nombreArchivo);
         Rectangle rTemp = pdf.getPageSize();
         Rectangle rPageTemp = new Rectangle(rTemp.getWidth(), rTemp.getHeight());
         String color = RealmController.with(context).find(PreferencesProperties.BACKGROUND_DOCUMENT.toString());
@@ -185,8 +191,20 @@ public class PDF {
             rPageTemp.setBackgroundColor(new harmony.java.awt.Color(252, 243, 207));
         }
         pdf.setPageSize(rPageTemp);
-        FileOutputStream ficheroPdf = new FileOutputStream(f.getAbsolutePath());
-        PdfWriter writer = PdfWriter.getInstance(pdf, ficheroPdf);
+        FileOutputStream ficheroPdf = null;
+        try {
+            ficheroPdf = new FileOutputStream(f.getAbsolutePath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        PdfWriter writer = null;
+        try {
+            writer = PdfWriter.getInstance(pdf, ficheroPdf);
+        } catch (DocumentException e) {
+            Log.w("Error: ", e.getCause());
+            e.printStackTrace();
+            return false;
+        }
         pdf.open();
         PdfContentByte canvas = writer.getDirectContent();
         drawFooter(canvas);
@@ -315,8 +333,12 @@ public class PDF {
         }
 
         pdf.close();
+        return true;
     }
 
+    private boolean canWriteOnExternalStorage(){
+        return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+    }
 
     private void drawFooter(PdfContentByte canvas) {
         canvas.setRGBColorFill(0, 0, 0);
@@ -336,27 +358,11 @@ public class PDF {
     }
 
     private File crearFichero(String nombreArchivo) {
-        File ruta = generaDirectorio();
-        File fichero = null;
-        if (ruta != null)
-            fichero = new File(ruta, nombreArchivo);
-        RealmController.with(context).save(PreferencesProperties.PATH_FILE.toString(),fichero.getPath());
-        return fichero;
-    }
-
-    private File generaDirectorio() {
-        File ruta = null;
-        if (Environment.MEDIA_MOUNTED.equals(Environment
-                .getExternalStorageState())) {
-            ruta = new File(RUTA_DOCUMENTO);
-            if (ruta != null) {
-                if (!ruta.mkdirs()) {
-                    if (!ruta.exists()) {
-                        return null;
-                    }
-                }
-            }
+        File f = null;
+        if(canWriteOnExternalStorage()){
+            f = new File(Environment.getExternalStorageDirectory(), nombreArchivo);
+            RealmController.with(context).save(PreferencesProperties.PATH_FILE.toString(), f.getPath());
         }
-        return ruta;
+        return f;
     }
 }

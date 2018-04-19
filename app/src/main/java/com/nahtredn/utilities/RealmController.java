@@ -224,7 +224,7 @@ public class RealmController {
 
     public String find(String property){
         SharedPreferences prefs = context.getSharedPreferences("J2WPreferences",Context.MODE_PRIVATE);
-        return prefs.getString(property, null);
+        return prefs.getString(property, "");
     }
 
     // ********************* SAVE OPERATIONS ****************************
