@@ -25,7 +25,7 @@
                 <TextView
                     android:id="@+id/vacancy_title"
                     style="@style/textHeader"
-                    android:text="Sobre la Vacante" />
+                    android:text="@string/about_vacancies" />
 
                 <TextView
                     android:id="@+id/job_title_vacancy"
@@ -34,6 +34,11 @@
 
                 <TextView
                     android:id="@+id/type_job_vacancy"
+                    style="@style/textCommon"
+                    android:text="Vacante laboral" />
+
+                <TextView
+                    android:id="@+id/company_vacancy"
                     style="@style/textCommon"
                     android:text="Vacante laboral" />
 
@@ -46,12 +51,14 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
                         android:text="$$$"
+                        android:id="@+id/salary_vacancy_activity"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
+                        android:id="@+id/hours_vacancy"
                         android:text="8 horas"
                         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
@@ -64,7 +71,7 @@
 
                 <TextView
                     style="@style/textSubtitle"
-                    android:text="Descripción" />
+                    android:text="@string/description_vacancy" />
 
                 <TextView
                     android:id="@+id/description_vacancy"
@@ -74,7 +81,7 @@
 
                 <TextView
                     style="@style/textSubtitle"
-                    android:text="Habilidades" />
+                    android:text="@string/skills_vacancy" />
 
                 <TextView
                     android:id="@+id/skills_vacancy"
@@ -83,7 +90,7 @@
 
                 <TextView
                     style="@style/textSubtitle"
-                    android:text="Conocimientos"/>
+                    android:text="@string/knowledge_vacancy"/>
 
                 <TextView
                     android:id="@+id/knowledgments_vacancy"
@@ -92,10 +99,19 @@
 
                 <TextView
                     style="@style/textSubtitle"
-                    android:text="Beneficios"/>
+                    android:text="@string/benefits_vacancy"/>
 
                 <TextView
                     android:id="@+id/benefits_vacancy"
+                    style="@style/textCommon"
+                    android:textAlignment="textStart" />
+
+                <TextView
+                    style="@style/textSubtitle"
+                    android:text="@string/experience_vacancy"/>
+
+                <TextView
+                    android:id="@+id/experience_vacancy"
                     style="@style/textCommon"
                     android:textAlignment="textStart" />
 
@@ -111,64 +127,21 @@
 
                 <TextView
                     style="@style/textHeader"
-                    android:text="Sobre RH" />
+                    android:text="@string/contact_data" />
 
                 <TextView
-                    android:id="@+id/street_num_vacancy"
+                    android:id="@+id/email_vacancy"
                     style="@style/textCommon"
-                    android:text="Calle de la libertad, num 15"
+                    android:text="email@empresa.com"
                     android:textAlignment="textStart" />
 
                 <TextView
-                    android:id="@+id/colony_zipcode_vacancy"
+                    android:id="@+id/phone_vacancy"
                     style="@style/textCommon"
-                    android:text="colonia la madriguera, 98678"
-                    android:textAlignment="textStart" />
-
-                <TextView
-                    android:id="@+id/place_rh_vacancy"
-                    style="@style/textCommon"
-                    android:text="Guadalupe Zacatecas"
-                    android:textAlignment="textStart" />
-
-                <TextView
-                    android:id="@+id/phone_rh_vacancy"
-                    style="@style/textCommon"
-                    android:text="4921245766"
-                    android:textAlignment="textStart" />
-
-                <TextView
-                    android:id="@+id/email_rh_vacancy"
-                    style="@style/textCommon"
-                    android:text="reclutamiento@rh.com"
+                    android:text="4921214688"
                     android:textAlignment="textStart" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/section"
-                android:orientation="vertical">
-
-                <TextView
-                    style="@style/textHeader"
-                    android:text="Sobre la empresa" />
-
-                <TextView
-                    android:id="@+id/company_name_vacancy"
-                    style="@style/textCommon"
-                    android:text="Nombre SA de CV"
-                    android:textAlignment="textStart" />
-
-                <TextView
-                    android:id="@+id/email_company_vacancy"
-                    style="@style/textCommon"
-                    android:text="email@company.com"
-                    android:textAlignment="textStart" />
-
-            </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
 

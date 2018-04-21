@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nahtredn.adso.LoginActivity"
+    android:padding="@dimen/fab_margin"
+    android:orientation="vertical"
+    android:background="@color/background_activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_logo"
+            android:contentDescription="@string/app_name"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_input_username_login">
+
+            <EditText
+                style="@style/commonInput"
+                android:hint="Nombre de usuario"
+                android:inputType="text"
+                android:id="@+id/input_username_login"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/layout_input_password_login">
+
+            <EditText
+                style="@style/commonInput"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:id="@+id/input_password_login"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_sing_in"
+            style="@style/commonButton"
+            android:text="Entrar"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/fab_margin"
+            android:onClick="singIn"/>
+
+        <TextView android:id="@+id/link_signup"
+            style="@style/textCommon"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginBottom="24dp"
+            android:text="No tienes cuenta? Crea una"
+            android:gravity="center"
+            android:onClick="singIn"/>
+
+
+        <TextView android:id="@+id/link_restart"
+            style="@style/textCommon"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginTop="50dp"
+            android:text="Olvidaste tu contraseña?"
+            android:gravity="center"
+            android:onClick="singIn"/>
+
+    </LinearLayout>
+
+</ScrollView>

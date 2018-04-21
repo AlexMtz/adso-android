@@ -245,6 +245,11 @@ public class RealmController {
         return prefs.getString(property, "");
     }
 
+    public int findInt(String property){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences",Context.MODE_PRIVATE);
+        return prefs.getInt(property, 0);
+    }
+
     // ********************* SAVE OPERATIONS ****************************
 
     /**
@@ -256,6 +261,22 @@ public class RealmController {
         SharedPreferences prefs = context.getSharedPreferences("J2WPreferences", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(property, value);
+        editor.apply();
+        editor.clear();
+    }
+
+    public void save(String property, int value){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(property, value);
+        editor.apply();
+        editor.clear();
+    }
+
+    public void save(String property, boolean value){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(property, value);
         editor.apply();
         editor.clear();
     }
@@ -720,5 +741,10 @@ public class RealmController {
         RealmQuery<WorkExperience> query = realm.where(WorkExperience.class);
         RealmResults<WorkExperience> result = query.findAll();
         return result;
+    }
+
+    public boolean isLogged(){
+        SharedPreferences prefs = context.getSharedPreferences("J2WPreferences",Context.MODE_PRIVATE);
+        return prefs.getBoolean(PreferencesProperties.IS_LOGGED.toString(), false);
     }
 }

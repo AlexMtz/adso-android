@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText inputUsername, inputCurrentPassword, inputNewPassword, inputNewPasswordRepeat;
     private TextInputLayout layoutCurrentPassword, layoutNewPassword, layoutNewPasswordRepeat;
 
-    private Spinner spinnerUpdateVacancies, spinnerDeleteVacancies;
+    // private Spinner spinnerUpdateVacancies, spinnerDeleteVacancies;
     private RadioGroup backgroundDocument;
 
     @Override
@@ -52,8 +52,8 @@ public class ProfileActivity extends AppCompatActivity {
         inputNewPasswordRepeat = findViewById(R.id.input_password_repeat_profile);
         layoutNewPasswordRepeat = findViewById(R.id.layout_input_password_repeat_profile);
 
-        spinnerUpdateVacancies = findViewById(R.id.spinner_update_vacancies_profile);
-        spinnerDeleteVacancies = findViewById(R.id.spinner_delete_vacancies_profile);
+        // spinnerUpdateVacancies = findViewById(R.id.spinner_update_vacancies_profile);
+        // spinnerDeleteVacancies = findViewById(R.id.spinner_delete_vacancies_profile);
 
         backgroundDocument = findViewById(R.id.radio_group_background_color_profile);
 
@@ -63,12 +63,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void loadData(){
         inputUsername.setText(RealmController.with(this).find(PreferencesProperties.USERNAME.toString()));
-        String updateOption = RealmController.with(this).find(PreferencesProperties.UPDATE_VACANCIES_OPTION.toString());
-        spinnerUpdateVacancies.setSelection(updateOption != null ? Integer.parseInt(updateOption) : 0);
-        String deleteOption = RealmController.with(this).find(PreferencesProperties.DELETE_VACANCIES_OPTION.toString());
-        spinnerDeleteVacancies.setSelection(deleteOption != null ? Integer.parseInt(deleteOption) : 0);
+        // spinnerUpdateVacancies.setSelection(RealmController.with(this).findInt(PreferencesProperties.UPDATE_VACANCIES_OPTION.toString()));
+        // spinnerDeleteVacancies.setSelection(RealmController.with(this).findInt(PreferencesProperties.DELETE_VACANCIES_OPTION.toString()));
         String colorOption = RealmController.with(this).find(PreferencesProperties.BACKGROUND_DOCUMENT.toString());
-        if (colorOption != null){
+        if (colorOption != null && !colorOption.equals("")){
             RadioButtons radioButtons = new RadioButtons();
             RadioButton backgroundDocument = findViewById(radioButtons.getIdRadioButtonBy(colorOption));
             backgroundDocument.setChecked(true);
@@ -134,25 +132,18 @@ public class ProfileActivity extends AppCompatActivity {
             Messenger.with(this).showMessage("Contraseña actualizada");
         }
 
-        if (spinnerDeleteVacancies.getSelectedItemPosition() == 0) {
-            return;
-        }
-
-        if (spinnerUpdateVacancies.getSelectedItemPosition() == 0) {
-            return;
-        }
-
         if (backgroundDocument.getCheckedRadioButtonId() == -1) {
             Messenger.with(this).showMessage("Por favor selecciona un color de fondo");
             return;
         }
 
-        RealmController.with(this).save(PreferencesProperties.UPDATE_VACANCIES.toString(), (String) spinnerUpdateVacancies.getSelectedItem());
-        RealmController.with(this).save(PreferencesProperties.UPDATE_VACANCIES_OPTION.toString(), "" + spinnerUpdateVacancies.getSelectedItemPosition());
-        RealmController.with(this).save(PreferencesProperties.DELETE_VACANCIES.toString(), (String) spinnerDeleteVacancies.getSelectedItem());
-        RealmController.with(this).save(PreferencesProperties.DELETE_VACANCIES_OPTION.toString(), "" + spinnerDeleteVacancies.getSelectedItemPosition());
+        // RealmController.with(this).save(PreferencesProperties.UPDATE_VACANCIES.toString(), (String) spinnerUpdateVacancies.getSelectedItem());
+        // RealmController.with(this).save(PreferencesProperties.UPDATE_VACANCIES_OPTION.toString(), spinnerUpdateVacancies.getSelectedItemPosition());
+        // RealmController.with(this).save(PreferencesProperties.DELETE_VACANCIES.toString(), (String) spinnerDeleteVacancies.getSelectedItem());
+        // RealmController.with(this).save(PreferencesProperties.DELETE_VACANCIES_OPTION.toString(), spinnerDeleteVacancies.getSelectedItemPosition());
         RealmController.with(this).save(PreferencesProperties.BACKGROUND_DOCUMENT.toString(), ((RadioButton) findViewById(backgroundDocument.getCheckedRadioButtonId())).getText().toString());
         Messenger.with(this).showSuccessMessage();
+        this.finish();
     }
 
 }

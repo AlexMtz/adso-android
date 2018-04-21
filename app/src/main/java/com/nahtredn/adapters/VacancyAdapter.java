@@ -37,18 +37,18 @@ public class VacancyAdapter extends ArrayAdapter<Vacancy> {
         }
 
         // Referencias UI.
-        TextView name = (TextView) convertView.findViewById(R.id.name_vacancy);
-        TextView companyName = (TextView) convertView.findViewById(R.id.company_name_vacancy);
-        TextView place = (TextView) convertView.findViewById(R.id.place_vacancy);
-        TextView salary = (TextView) convertView.findViewById(R.id.salary_vacancy);
+        TextView name = convertView.findViewById(R.id.name_vacancy);
+        TextView companyName = convertView.findViewById(R.id.company_name_vacancy);
+        TextView place = convertView.findViewById(R.id.place_vacancy);
+        TextView salary = convertView.findViewById(R.id.salary_vacancy);
 
         // Cliente actual.
         Vacancy vacancy = getItem(position);
 
         // Setup.
         name.setText(vacancy.getJobTitle());
-        companyName.setText(vacancy.getCompanyName());
-        place.setText(vacancy.getPlace());
+        companyName.setText(vacancy.getCompany());
+        place.setText(vacancy.getLocation());
         salary.setText(vacancy.getSalary());
 
         return convertView;

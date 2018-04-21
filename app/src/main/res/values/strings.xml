@@ -183,6 +183,13 @@
 
     <!-- Vacancy Activity -->
     <string name="title_activity_vacancy">Vacante</string>
+    <string name="about_vacancy">Acerca de la vacante</string>
+    <string name="contact_data">Datos de contacto</string>
+    <string name="description_vacancy">Descripción</string>
+    <string name="skills_vacancy">Habilidades</string>
+    <string name="knowledge_vacancy">Conocimientos</string>
+    <string name="benefits_vacancy">Beneficios</string>
+    <string name="experience_vacancy">Experiencia</string>
 
     <!-- Profile Activity -->
     <string name="title_activity_profile">Perfil</string>
@@ -259,6 +266,8 @@
     <string name="success_delete">Eliminado correctamente</string>
     <string name="error_delete">Error al tratar de eliminar el elemento</string>
     <string name="image_description">La imagen no se ha podido cargar</string>
+    <string name="action_call">Llamar</string>
+    <string name="action_send">Enviar</string>
 
 
     <string name="interstitial_ad_sample">Interstitial Ad Sample</string>

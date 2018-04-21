@@ -57,6 +57,13 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (!RealmController.with(this).isLogged()){
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getApplicationContext().startActivity(intent);
+        }
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null){
             toolbar.setTitle(getString(R.string.title_main_activity));
@@ -143,7 +150,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_close_sesion) {
-
+            RealmController.with(this).save(PreferencesProperties.IS_LOGGED.toString(), false);
+            this.finish();
         }
 
         if (id == R.id.nav_exit) {
@@ -165,7 +173,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(MainActivity.this, ProgressDialog.THEME_HOLO_DARK);
             pDialog.setMessage("Generando solicitud...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -211,7 +219,7 @@ public class MainActivity extends AppCompatActivity
         protected void onPreExecute() {
             super.onPreExecute();
             RealmController.with(MainActivity.this).deleteAllVacancies();
-            pDialog = new ProgressDialog(MainActivity.this);
+            pDialog = new ProgressDialog(MainActivity.this, ProgressDialog.THEME_HOLO_DARK);
             pDialog.setMessage("Descargando nuevas vacantes...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -253,13 +261,21 @@ public class MainActivity extends AppCompatActivity
 
                     JSONObject jObject = jArray.getJSONObject(i);
                     Vacancy vacancy = new Vacancy();
+                    vacancy.setId(jObject.getInt("id"));
                     vacancy.setJobTitle(jObject.getString("job_title"));
-                    vacancy.setCompanyName(jObject.getString("company"));
+                    vacancy.setType(jObject.getString("type_job"));
+                    vacancy.setCompany(jObject.getString("company"));
                     vacancy.setSalary(jObject.getString("salary"));
-                    vacancy.setMunicipality(jObject.getString("municipality"));
-                    vacancy.setState(jObject.getString("state"));
-                    vacancy.setId(-1);
-                    Log.w("Vacante ", "título: " + vacancy.getJobTitle() + " " + vacancy.getId());
+                    vacancy.setWorkingDay(jObject.getString("work_day"));
+                    vacancy.setLocation(jObject.getString("location"));
+                    vacancy.setDescription(jObject.getString("description"));
+                    vacancy.setSkills(jObject.getString("skills"));
+                    vacancy.setKnowledgments(jObject.getString("knowledge"));
+                    vacancy.setBenefits(jObject.getString("benefits"));
+                    vacancy.setExperience(jObject.getString("experience"));
+                    vacancy.setEmail(jObject.getString("email"));
+                    vacancy.setPhone(jObject.getString("phone"));
+
                     RealmController.with(MainActivity.this).save(vacancy);
                 }
             } catch (JSONException e) {

@@ -6,24 +6,19 @@ import io.realm.annotations.PrimaryKey;
 public class Vacancy extends RealmObject {
     @PrimaryKey
     private int id;
-    private String companyName;
-    private String typeVacancy;
-    private String companyEmail;
-    private String companyPhone;
-    private String rhEmail;
-    private String rhPhone;
-    private String street;
-    private String colony;
-    private String numExt;
-    private String municipality;
-    private String state;
+    private String company;
     private String jobTitle;
-    private String hoursWork;
-    private String description;
-    private String benefits;
-    private String skills;
-    private String knowledges;
+    private String type;
     private String salary;
+    private String workingDay;
+    private String location;
+    private String description;
+    private String skills;
+    private String knowledgments;
+    private String benefits;
+    private String experience;
+    private String email;
+    private String phone;
 
     public Vacancy() {
     }
@@ -36,92 +31,12 @@ public class Vacancy extends RealmObject {
         this.id = id;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getCompany() {
+        return company;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getTypeVacancy() {
-        return typeVacancy;
-    }
-
-    public void setTypeVacancy(String typeVacancy) {
-        this.typeVacancy = typeVacancy;
-    }
-
-    public String getCompanyEmail() {
-        return companyEmail;
-    }
-
-    public void setCompanyEmail(String companyEmail) {
-        this.companyEmail = companyEmail;
-    }
-
-    public String getCompanyPhone() {
-        return companyPhone;
-    }
-
-    public void setCompanyPhone(String companyPhone) {
-        this.companyPhone = companyPhone;
-    }
-
-    public String getRhEmail() {
-        return rhEmail;
-    }
-
-    public void setRhEmail(String rhEmail) {
-        this.rhEmail = rhEmail;
-    }
-
-    public String getRhPhone() {
-        return rhPhone;
-    }
-
-    public void setRhPhone(String rhPhone) {
-        this.rhPhone = rhPhone;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getColony() {
-        return colony;
-    }
-
-    public void setColony(String colony) {
-        this.colony = colony;
-    }
-
-    public String getNumExt() {
-        return numExt;
-    }
-
-    public void setNumExt(String numExt) {
-        this.numExt = numExt;
-    }
-
-    public String getMunicipality() {
-        return municipality;
-    }
-
-    public void setMunicipality(String municipality) {
-        this.municipality = municipality;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
+    public void setCompany(String company) {
+        this.company = company;
     }
 
     public String getJobTitle() {
@@ -132,44 +47,12 @@ public class Vacancy extends RealmObject {
         this.jobTitle = jobTitle;
     }
 
-    public String getHoursWork() {
-        return hoursWork;
+    public String getType() {
+        return type;
     }
 
-    public void setHoursWork(String hoursWork) {
-        this.hoursWork = hoursWork;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getBenefits() {
-        return benefits;
-    }
-
-    public void setBenefits(String benefits) {
-        this.benefits = benefits;
-    }
-
-    public String getSkills() {
-        return skills;
-    }
-
-    public void setSkills(String skills) {
-        this.skills = skills;
-    }
-
-    public String getKnowledges() {
-        return knowledges;
-    }
-
-    public void setKnowledges(String knowledges) {
-        this.knowledges = knowledges;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getSalary() {
@@ -180,7 +63,75 @@ public class Vacancy extends RealmObject {
         this.salary = salary;
     }
 
-    public String getPlace(){
-        return municipality + ", " + state;
+    public String getWorkingDay() {
+        return workingDay;
+    }
+
+    public void setWorkingDay(String workingDay) {
+        this.workingDay = workingDay;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String skills) {
+        this.skills = skills;
+    }
+
+    public String getKnowledgments() {
+        return knowledgments;
+    }
+
+    public void setKnowledgments(String knowledgments) {
+        this.knowledgments = knowledgments;
+    }
+
+    public String getBenefits() {
+        return benefits;
+    }
+
+    public void setBenefits(String benefits) {
+        this.benefits = benefits;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.nahtredn.adso.R;
 
@@ -134,5 +135,18 @@ public class Validator {
     public void setErrorMessage(EditText editText, TextInputLayout textInputLayout, String error){
         textInputLayout.setError(error);
         requestFocus(editText);
+    }
+
+    public boolean isValidUsername(EditText editText, TextInputLayout textInputLayout){
+        if (editText.getText().toString().contains(" ")){
+            setErrorMessage(editText, textInputLayout, "Debe ser sin espacios");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean validateText(TextView editText){
+        return !editText.getText().toString().trim().isEmpty();
     }
 }

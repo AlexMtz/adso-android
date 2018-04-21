@@ -15,5 +15,6 @@ public enum PreferencesProperties {
     LAST_UPDATE,
     LAST_DELETE,
     PATH_PHOTO,
-    PATH_FILE
+    PATH_FILE,
+    IS_LOGGED
 }

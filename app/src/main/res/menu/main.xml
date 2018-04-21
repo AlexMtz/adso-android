@@ -5,6 +5,6 @@
         android:id="@+id/action_download"
         android:orderInCategory="100"
         android:title="Descargar"
-        android:icon="@drawable/ic_file_download"
+        android:icon="@drawable/ic_sync"
         app:showAsAction="ifRoom" />
 </menu>
