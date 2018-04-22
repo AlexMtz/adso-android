@@ -25,6 +25,7 @@ import com.nahtredn.entities.CurrentStudy;
 import com.nahtredn.entities.Documentation;
 import com.nahtredn.entities.General;
 import com.nahtredn.entities.Knowledge;
+import com.nahtredn.entities.Reference;
 import com.nahtredn.entities.StudyDone;
 import com.nahtredn.entities.WorkExperience;
 
@@ -185,15 +186,18 @@ public class PDF {
         canvas.endText();
     }
 
-    public boolean generaSolicitud(){
+    public String generaSolicitud(){
         General general = RealmController.with(context).find(new General());
+
+        if (general == null){
+            return "Error: aún no se han ingresado los datos generales";
+        }
         String nombreArchivo = general.getName().toLowerCase().replace(" ", "_") + ".pdf";
         Document pdf = new Document();
         File f = crearFichero(nombreArchivo);
         if (f == null){
-            return false;
+            return "Error: no se ha podido crear el archivo de la solicitud";
         }
-        // File f = new File(context.getFilesDir(), nombreArchivo);
         Rectangle rTemp = pdf.getPageSize();
         Rectangle rPageTemp = new Rectangle(rTemp.getWidth(), rTemp.getHeight());
         String color = RealmController.with(context).find(PreferencesProperties.BACKGROUND_DOCUMENT.toString());
@@ -205,15 +209,13 @@ public class PDF {
         try {
             ficheroPdf = new FileOutputStream(f.getAbsolutePath());
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return "Error: template de solicitud no encontrado";
         }
         PdfWriter writer = null;
         try {
             writer = PdfWriter.getInstance(pdf, ficheroPdf);
         } catch (DocumentException e) {
-            Log.w("Error: ", e.getCause());
-            e.printStackTrace();
-            return false;
+            return "Error: plugin pdf no disponible";
         }
         pdf.open();
         PdfContentByte canvas = writer.getDirectContent();
@@ -261,149 +263,155 @@ public class PDF {
         drawLabel(canvas, "Correo electrónico:", 100, 625);
         drawText(canvas, general.getEmail(), 100, 615);
         drawLabel(canvas, "Licencia de Manejo:", 330, 625);
-        Documentation documentation = RealmController.with(context).find(new Documentation());
-        drawText(canvas, documentation.getDriverLicense(), 330, 615);
         drawLabel(canvas, "CURP:", 410, 625);
-        drawText(canvas, documentation.getCurp(), 410, 615);
         drawLabel(canvas, "RFC:", 30, 600);
-        drawText(canvas, documentation.getRfc(), 30, 590);
         drawLines(canvas, new int[]{325,405,23,23,23,23,560,140}, new int[]{635,635,610,635,585,635,635,610},
                 new int[]{325,405,560,560,140,23,560,140}, new int[]{610,610,610,635,585,585,610,585});
 
-        // Draw aditional data
+        Documentation documentation = RealmController.with(context).find(new Documentation());
+        if (documentation != null){
+            drawText(canvas, documentation.getDriverLicense(), 330, 615);
+            drawText(canvas, documentation.getCurp(), 410, 615);
+            drawText(canvas, documentation.getRfc(), 30, 590);
+        }
 
         int bordeTemp = 565;
-        drawTitle(canvas, "ESTUDIOS REALIZADOS", 30, bordeTemp);
-        bordeTemp = bordeTemp - 10;
-        int startBorder = bordeTemp - 5, endBorder;
         List<StudyDone> studyDones = RealmController.with(context).findAllStudiesDone();
-        for (StudyDone studyDone : studyDones){
-            bordeTemp = bordeTemp - 15;
-            drawLabel(canvas, "Nivel académico:", 30, bordeTemp);
-            drawLabel(canvas, "Nombre del curso:", 120, bordeTemp);
-            drawLabel(canvas, "Escuela o institución:", 320, bordeTemp);
+        int startBorder = bordeTemp - 5, endBorder;
 
+        if (!studyDones.isEmpty()){
+            drawTitle(canvas, "ESTUDIOS REALIZADOS", 30, bordeTemp);
             bordeTemp = bordeTemp - 10;
 
-            drawText(canvas, studyDone.getAcademicLevel(), 30, bordeTemp);
-            drawText(canvas, studyDone.getCourseName(), 120, bordeTemp);
-            drawText(canvas, studyDone.getInstitute(), 320, bordeTemp);
-
-            bordeTemp = bordeTemp - 15;
-
-            drawLabel(canvas, "Título obtenido:", 30, bordeTemp);
-            drawLabel(canvas, "Fecha:", 120, bordeTemp);
-            drawLabel(canvas, "Estado:", 320, bordeTemp);
-
-            bordeTemp = bordeTemp - 10;
-
-            drawText(canvas, studyDone.getTitle(), 30, bordeTemp);
-            drawText(canvas, studyDone.getStartDate() + " - " + studyDone.getEndDate(), 120, bordeTemp);
-            drawText(canvas, studyDone.getState(), 320, bordeTemp);
+            for (StudyDone studyDone : studyDones){
+                bordeTemp = bordeTemp - 15;
+                drawLabel(canvas, "Nivel académico:", 30, bordeTemp);
+                drawLabel(canvas, "Nombre del curso:", 120, bordeTemp);
+                drawLabel(canvas, "Escuela o institución:", 320, bordeTemp);
+                bordeTemp = bordeTemp - 10;
+                drawText(canvas, studyDone.getAcademicLevel(), 30, bordeTemp);
+                drawText(canvas, studyDone.getCourseName(), 120, bordeTemp);
+                drawText(canvas, studyDone.getInstitute(), 320, bordeTemp);
+                bordeTemp = bordeTemp - 15;
+                drawLabel(canvas, "Título obtenido:", 30, bordeTemp);
+                drawLabel(canvas, "Fecha:", 120, bordeTemp);
+                drawLabel(canvas, "Estado:", 320, bordeTemp);
+                bordeTemp = bordeTemp - 10;
+                drawText(canvas, studyDone.getTitle(), 30, bordeTemp);
+                drawText(canvas, studyDone.getStartDate() + " - " + studyDone.getEndDate(), 120, bordeTemp);
+                drawText(canvas, studyDone.getState(), 320, bordeTemp);
+            }
+            endBorder = bordeTemp - 5;
+            drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{115,315},studyDones.size());
+            bordeTemp -= 30;
         }
-        endBorder = bordeTemp - 5;
 
-        drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{115,315},studyDones.size());
-
-        bordeTemp -= 30;
-
-        drawTitle(canvas, "ESTUDIOS ACTUALES", 30, bordeTemp);
-        bordeTemp = bordeTemp - 10;
-        startBorder = bordeTemp -5;
         List<CurrentStudy> currentStudies = RealmController.with(context).findAllCurrentStudies();
 
         if (!currentStudies.isEmpty()){
+            drawTitle(canvas, "ESTUDIOS ACTUALES", 30, bordeTemp);
+            bordeTemp = bordeTemp - 10;
+            startBorder = bordeTemp -5;
+
             for (CurrentStudy currentStudy : currentStudies){
                 bordeTemp = bordeTemp - 15;
                 drawLabel(canvas, "Nivel académico:", 30, bordeTemp);
                 drawLabel(canvas, "Nombre del curso:", 120, bordeTemp);
                 drawLabel(canvas, "Escuela o institución:", 320, bordeTemp);
-
                 bordeTemp = bordeTemp - 10;
-
                 drawText(canvas, currentStudy.getAcademicLevel(), 30, bordeTemp);
                 drawText(canvas, currentStudy.getCourseName(), 120, bordeTemp);
                 drawText(canvas, currentStudy.getInstitute(), 320, bordeTemp);
                 drawLine(canvas,315,startBorder,315,bordeTemp - 5);
-
                 bordeTemp = bordeTemp - 15;
-
                 drawLabel(canvas, "Grado:", 30, bordeTemp);
                 drawLabel(canvas, "Horario:", 120, bordeTemp);
-
                 bordeTemp = bordeTemp - 10;
-
                 drawText(canvas, currentStudy.getFullDegree(), 30, bordeTemp);
                 drawText(canvas, currentStudy.getFullSchedule(), 120, bordeTemp);
             }
-
             endBorder = bordeTemp - 5;
-
             drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{115},currentStudies.size());
         }
 
-        bordeTemp -= 30;
-
-        drawTitle(canvas, "CONOCIMIENTOS Y HABILIDADES", 30, bordeTemp);
-        bordeTemp = bordeTemp - 10;
-        startBorder = bordeTemp -5;
         List<Knowledge> knowledges = RealmController.with(context).findAllKnowledges();
 
-        bordeTemp = bordeTemp - 15;
-        drawLabel(canvas, "Conocimientos y habilidades:", 30, bordeTemp);
-
         if (!knowledges.isEmpty()){
+            bordeTemp -= 30;
+            drawTitle(canvas, "CONOCIMIENTOS Y HABILIDADES", 30, bordeTemp);
+            bordeTemp = bordeTemp - 10;
+            startBorder = bordeTemp -5;
+            bordeTemp = bordeTemp - 15;
+            drawLabel(canvas, "Conocimientos y habilidades:", 30, bordeTemp);
+
             for (String s: makeParagraph(knowledges)){
                 bordeTemp = bordeTemp - 10;
-
                 drawText(canvas, s, 30, bordeTemp);
-                // bordeTemp = bordeTemp - 15;
             }
 
             endBorder = bordeTemp - 5;
             drawLinesForKnowledges(canvas, startBorder, endBorder);
         }
 
-        bordeTemp -= 30;
-
-        drawTitle(canvas, "EXPERIENCIA", 30, bordeTemp);
-        bordeTemp = bordeTemp - 10;
-        startBorder = bordeTemp -5;
         List<WorkExperience> experiences = RealmController.with(context).findAllExperiences();
 
         if (!experiences.isEmpty()){
+            bordeTemp -= 30;
+
+            drawTitle(canvas, "EXPERIENCIA", 30, bordeTemp);
+            bordeTemp = bordeTemp - 10;
+            startBorder = bordeTemp -5;
+
             for (WorkExperience experience : experiences){
                 bordeTemp = bordeTemp - 15;
                 drawLabel(canvas, "Tipo de experiencia:", 30, bordeTemp);
                 drawLabel(canvas, "Empresa o institución:", 150, bordeTemp);
                 drawLabel(canvas, "Puesto:", 370, bordeTemp);
-
                 bordeTemp = bordeTemp - 10;
-
                 drawText(canvas, experience.getTypeExperience(), 30, bordeTemp);
                 drawText(canvas, experience.getInstitute(), 150, bordeTemp);
                 drawText(canvas, experience.getJobTitle(), 370, bordeTemp);
-
                 drawLine(canvas,365,startBorder,365,bordeTemp - 5);
-
                 bordeTemp = bordeTemp - 15;
-
                 drawLabel(canvas, "Fechas:", 30, bordeTemp);
                 drawLabel(canvas, "Duración:", 150, bordeTemp);
-
                 bordeTemp = bordeTemp - 10;
-
                 drawText(canvas, experience.getDates(), 30, bordeTemp);
                 drawText(canvas, experience.getDuration(), 150, bordeTemp);
             }
-
             endBorder = bordeTemp - 5;
-
             drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{145},experiences.size());
         }
 
+        List<Reference> references = RealmController.with(context).findAllReferences();
+
+        if (!references.isEmpty()){
+            bordeTemp -= 30;
+            drawTitle(canvas, "REFERENCIAS", 30, bordeTemp);
+            bordeTemp = bordeTemp - 10;
+            startBorder = bordeTemp -5;
+
+            for (Reference reference : references){
+                bordeTemp = bordeTemp - 15;
+                drawLabel(canvas, "Nombre:", 30, bordeTemp);
+                drawLabel(canvas, "Ocupación:", 200, bordeTemp);
+                drawLabel(canvas, "Tiempo de conocerlo:", 370, bordeTemp);
+                bordeTemp = bordeTemp - 10;
+                drawText(canvas, reference.getName(), 30, bordeTemp);
+                drawText(canvas, reference.getJobTitle(), 200, bordeTemp);
+                drawText(canvas, reference.getTimeToMeet(), 370, bordeTemp);
+                drawLine(canvas,365,startBorder,365,bordeTemp - 5);
+                bordeTemp = bordeTemp - 15;
+                drawLabel(canvas, "Número de teléfono:", 30, bordeTemp);
+                bordeTemp = bordeTemp - 10;
+                drawText(canvas, reference.getPhone(), 30, bordeTemp);
+            }
+            endBorder = bordeTemp - 5;
+            drawLinesForStudiesDone(canvas, startBorder, endBorder, new int[]{195},experiences.size());
+        }
+
         pdf.close();
-        return true;
+        return "";
     }
 
     private List<String> makeParagraph(List<Knowledge> knowledges){
@@ -412,6 +420,7 @@ public class PDF {
         StringBuffer text = new StringBuffer();
         for (Knowledge k : knowledges){
             if (k.getTitle().split(" ").length > 1){
+                Log.w("PDF", "Inside if: " + k.getTitle());
                 for (String s : k.getTitle().split(" ")){
                     text.append(s).append(" ");
                     count += s.length() + 1;
@@ -433,6 +442,7 @@ public class PDF {
                 }
             }
         }
+        paragraph.add(text.toString());
         return paragraph;
     }
 

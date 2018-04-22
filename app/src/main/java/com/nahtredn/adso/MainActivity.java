@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog pDialog;
     private String result;
     private VacancyFragment vacancyFragment;
+    private String errorMesage = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_download) {
-            new FetchVacants().execute("https://naht-redn-dev.cloud.tyk.io/vacancies/availables");
+            new FetchVacants().execute("https://naht-redn-dev.cloud.tyk.io/vacancies-reader/api/v1/vacancies/");
             return true;
         }
 
@@ -183,7 +184,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... f_url) {
             try {
-                PDF.with(getApplication()).generaSolicitud();
+                errorMesage = PDF.with(getApplication()).generaSolicitud();
+                if(!errorMesage.equals("")){
+                    this.cancel(true);
+                }
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage());
             }
@@ -211,6 +215,12 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            pDialog.dismiss();
+            Messenger.with(MainActivity.this).showMessage(errorMesage);
+        }
     }
 
     class FetchVacants extends AsyncTask<String, String, String> {
@@ -261,12 +271,12 @@ public class MainActivity extends AppCompatActivity
 
                     JSONObject jObject = jArray.getJSONObject(i);
                     Vacancy vacancy = new Vacancy();
-                    vacancy.setId(jObject.getInt("id"));
+                    vacancy.setId(jObject.getString("id"));
                     vacancy.setJobTitle(jObject.getString("job_title"));
-                    vacancy.setType(jObject.getString("type_job"));
+                    vacancy.setType(jObject.getString("job_type"));
                     vacancy.setCompany(jObject.getString("company"));
                     vacancy.setSalary(jObject.getString("salary"));
-                    vacancy.setWorkingDay(jObject.getString("work_day"));
+                    vacancy.setWorkingDay(jObject.getString("working_week"));
                     vacancy.setLocation(jObject.getString("location"));
                     vacancy.setDescription(jObject.getString("description"));
                     vacancy.setSkills(jObject.getString("skills"));

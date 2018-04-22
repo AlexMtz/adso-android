@@ -24,7 +24,7 @@ public class VacancyActivity extends AppCompatActivity {
     TextView jobTitle, jobType, company, salary, hours, place, description,skills, knowledge, benefits, experience,
             email, phone;
 
-    private int id;
+    private String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,8 @@ public class VacancyActivity extends AppCompatActivity {
         email = findViewById(R.id.email_vacancy);
         phone = findViewById(R.id.phone_vacancy);
 
-        this.id = getIntent().getIntExtra("vacancy_id",-1);
-        if (this.id != -1){
+        this.id = getIntent().getStringExtra("vacancy_id");
+        if (!this.id.equals("")){
             loadData(RealmController.with().find(new Vacancy(), id));
         }
     }

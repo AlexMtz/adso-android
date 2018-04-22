@@ -229,7 +229,7 @@ public class RealmController {
      * @param id corresponde al valor identificador del registro a buscar
      * @return  un objeto de tipo CurrentStudy
      */
-    public Vacancy find(Vacancy vacancy, int id){
+    public Vacancy find(Vacancy vacancy, String id){
         Vacancy result = null;
         Realm realm = Realm.getDefaultInstance();
         try{
@@ -501,15 +501,6 @@ public class RealmController {
         Realm realm = Realm.getDefaultInstance();
         try {
             realm.beginTransaction();
-            if (vacancy.getId() == -1) {
-                Number currentIdNum = realm.where(vacancy.getClass()).max("id");
-                if (currentIdNum == null) {
-                    vacancy.setId(1);
-                } else {
-                    int nextId = currentIdNum.intValue() + 1;
-                    vacancy.setId(nextId);
-                }
-            }
             realm.copyToRealmOrUpdate(vacancy);
             realm.commitTransaction();
         } catch (Exception e) {

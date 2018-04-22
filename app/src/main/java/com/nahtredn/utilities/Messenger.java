@@ -50,6 +50,13 @@ public class Messenger {
         return instance;
     }
 
+    public static Messenger with(Context context){
+        if (instance == null){
+            instance = new Messenger(context);
+        }
+        return instance;
+    }
+
     /**
      * Método que muestra un mensaje a partir de un String.
      * @param message corresponde al mensaje que se desea mostrar
