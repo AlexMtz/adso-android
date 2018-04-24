@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... f_url) {
             canLogin = true;
 
-            if (RealmController.with(LoginActivity.this).find(PreferencesProperties.USERNAME.toString()) == null) {
+            if (RealmController.with(LoginActivity.this).find(PreferencesProperties.USERNAME.toString()).equals("")) {
                 canLogin = false;
                 message = "Aún no se ha creado una cuenta";
                 return null;

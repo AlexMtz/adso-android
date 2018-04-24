@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getApplicationContext().startActivity(intent);
+            this.finish();
         }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
