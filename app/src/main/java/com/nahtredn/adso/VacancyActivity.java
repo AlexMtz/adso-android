@@ -5,18 +5,28 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.nahtredn.entities.Vacancy;
+import com.nahtredn.utilities.Messenger;
+import com.nahtredn.utilities.PDF;
+import com.nahtredn.utilities.PreferencesProperties;
 import com.nahtredn.utilities.RealmController;
 import com.nahtredn.utilities.Validator;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class VacancyActivity extends AppCompatActivity {
 
@@ -24,7 +34,9 @@ public class VacancyActivity extends AppCompatActivity {
     TextView jobTitle, jobType, company, salary, hours, place, description,skills, knowledge, benefits, experience,
             email, phone;
 
-    private String id;
+    private String errorMesage = "";
+
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +70,8 @@ public class VacancyActivity extends AppCompatActivity {
         email = findViewById(R.id.email_vacancy);
         phone = findViewById(R.id.phone_vacancy);
 
-        this.id = getIntent().getStringExtra("vacancy_id");
-        if (!this.id.equals("")){
+        String id = getIntent().getStringExtra("vacancy_id");
+        if (!id.equals("")){
             loadData(RealmController.with().find(new Vacancy(), id));
         }
     }
@@ -99,15 +111,8 @@ public class VacancyActivity extends AppCompatActivity {
         if (id == R.id.action_send) {
             if (!TextUtils.isEmpty(email.getText().toString()) && Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
                 //
-            }
-            return true;
-        }
-
-        if (id == R.id.action_call){
-            if (Validator.with(this).validateText(phone)){
-                if (Patterns.PHONE.matcher(phone.getText().toString()).matches()){
-                    // make a call
-                }
+                GeneratePdf task = new GeneratePdf(1);
+                task.execute();
             }
             return true;
         }
@@ -153,5 +158,61 @@ public class VacancyActivity extends AppCompatActivity {
     private void goToNextLevel() {
         mInterstitialAd = newInterstitialAd();
         loadInterstitial();
+    }
+
+    class GeneratePdf extends AsyncTask<String, String, String> {
+        private int action;
+
+        public GeneratePdf(int action) {
+            this.action = action;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(VacancyActivity.this, ProgressDialog.THEME_HOLO_DARK);
+            pDialog.setMessage("Generando solicitud...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... f_url) {
+            try {
+                errorMesage = PDF.with(getApplication()).generaSolicitud();
+                if(!errorMesage.equals("")){
+                    this.cancel(true);
+                }
+            } catch (Exception e) {
+                Log.e("Error: ", e.getMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String file_url) {
+            pDialog.dismiss();
+            File f = new File(RealmController.with(getApplication()).find(PreferencesProperties.PATH_FILE.toString()));
+            if (f.exists()){
+                if (action == 1){
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + f.getAbsolutePath()));
+                    intent.putExtra(Intent.EXTRA_EMAIL  , new String[]{email.getText().toString()});
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "SOLICITUD DE EMPLEO");
+                    intent.putExtra(Intent.EXTRA_TEXT   , "solicitud de empleo digital, una oportunidad");
+                    intent.setType("application/pdf");
+                    startActivity(Intent.createChooser(intent, "Selecciona una app de emails..."));
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            pDialog.dismiss();
+            Messenger.with(VacancyActivity.this).showMessage(errorMesage);
+        }
     }
 }
